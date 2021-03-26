@@ -1,0 +1,32 @@
+# FRONTEND
+
+# dependencies
+/frontend/node_modules
+
+# misc
+/frontend/.DS_Store
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+
+#############################
+
+# BACKEND
+
+# dependencies
+/backend/node_modules
+
+# misc
+/backend/.env
+/backend/.env.local
+/backend/.env.development.local
+/backend/.env.test.local
+/backend/.env.production.local/backend
+/backend/npm-debug.log*
+/backend/yarn-debug.log*
+/backend/yarn-error.log*
