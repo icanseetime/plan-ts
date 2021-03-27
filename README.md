@@ -42,10 +42,10 @@
 └───📁routes          // Endpoints and routes for API
 |   └───📁plants      // /api/plants
 |   └───📁users       // /api/users
-|   └─📄index.js       // /api
+|   └───📄index.js    // /api
 |
-| 📄.env
-| 📄.env.local
-| 📄server.js
-| 📄test.rest
+└─📄.env               // Environment variables
+└─📄.env.local         // Local environment variables
+└─📄server.js          // Main server setup
+└─📄test.rest          // Test file for testing API endpoints
 ```
