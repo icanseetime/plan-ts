@@ -12,10 +12,21 @@ const User = new mongoose.Schema({
         type: String,
         required: true
     },
+    name: {
+        first: {
+            type: String,
+            required: true
+        },
+        last: {
+            type: String,
+            required: true
+        }
+    },
     role: {
         type: String,
         enum: ['admin', 'gardener']
-    }
+    },
+    timestamps: true
 })
 
 // Middleware
