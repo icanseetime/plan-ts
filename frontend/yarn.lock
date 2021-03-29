@@ -1209,6 +1209,11 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@imgjeits/prettier-config@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@imgjeits/prettier-config/-/prettier-config-1.0.0.tgz#d0bc385e16fc01918bb816d7ecbf66d2c01986e6"
+  integrity sha512-BmF3FfcfHx1R11uqave9c8jumUQUkuI+4qZ5OyPvJW38Gd1bmBUBgsjU2wr72pVclWN1LV6cytEidZIwXjN1dQ==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"

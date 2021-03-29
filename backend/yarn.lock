@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@imgjeits/prettier-config@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@imgjeits/prettier-config/-/prettier-config-1.0.0.tgz#d0bc385e16fc01918bb816d7ecbf66d2c01986e6"
+  integrity sha512-BmF3FfcfHx1R11uqave9c8jumUQUkuI+4qZ5OyPvJW38Gd1bmBUBgsjU2wr72pVclWN1LV6cytEidZIwXjN1dQ==
+
 "@mapbox/node-pre-gyp@^1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.1.tgz#1b23a8decb5e6356b04770d586067d2bff2703dd"
