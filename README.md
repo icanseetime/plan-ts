@@ -14,7 +14,8 @@
 └───📂src
     └───📂assets      // Images, extra files
     └───📂components  // All components in the app
-    └───📂pages       // Components that represent distinc pages
+    |   └───📂forms   // Components related to forms
+    └───📂pages       // Components that represent distinct pages
     └───📂routes      // Authorization and routes for frontend
     └───📂utils       // Scripts, functions, etc.
     |
@@ -42,10 +43,10 @@
 └───📁routes          // Endpoints and routes for API
 |   └───📁plants      // /api/plants
 |   └───📁users       // /api/users
-|   └───📄index.js    // /api
+|   └─📄index.js      // /api
 |
-└─📄.env               // Environment variables
-└─📄.env.local         // Local environment variables
-└─📄server.js          // Main server setup
-└─📄test.rest          // Test file for testing API endpoints
+└─📄.env              // Environment variables
+└─📄.env.local        // Local environment variables
+└─📄server.js         // Main server setup
+└─📄test.rest         // Test file for testing API endpoints
 ```
