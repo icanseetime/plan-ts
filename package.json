@@ -1,0 +1,14 @@
+{
+  "name": "plan-ts",
+  "version": "1.0.0",
+  "description": "Full-stack application for organizing plants",
+  "main": "/frontend/index.js",
+  "repository": "https://github.com/imgjeits/plan-ts.git",
+  "author": "Group 3",
+  "license": "MIT",
+  "scripts": {
+    "full-install": "cd backend && npm install && cd ../frontend && npm install",
+    "full-build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "heroku-postbuild": "npm run full-install && npm run full-build"
+  }
+}
