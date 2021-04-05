@@ -5,21 +5,21 @@ const mongoose = require('mongoose')
 const Location = new mongoose.Schema({
     building: {
         type: String,
-        required: true,
+        required: true
     },
     floor: {
         type: Number,
         enum: [1, 2, 3, 4],
-        required: true,
+        required: true
     },
     room: {
         type: String,
-        required: true,
+        required: true
     },
     map_url: {
         type: String,
-        required: false,
-    },
+        required: false
+    }
 })
 
 // Export

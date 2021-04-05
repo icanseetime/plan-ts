@@ -64,8 +64,9 @@ const Plant = new mongoose.Schema(
                 }
             }
         }
-    }
-}, { timestamps: true } )
+    },
+    { timestamps: true }
+)
 
 // Export
 module.exports = mongoose.model('Plant', Plant)

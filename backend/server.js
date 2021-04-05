@@ -29,7 +29,7 @@ mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useFindAndModify: false,
+    useFindAndModify: false
 })
 const db = mongoose.connection
 db.on('error', (error) => console.error('❌ Database connection\n', error)) // TODO: remove all emojis at the end of project
