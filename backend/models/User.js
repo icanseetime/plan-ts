@@ -26,7 +26,10 @@ const User = new mongoose.Schema({
         type: String,
         enum: ['manager', 'gardener']
     },
-    timestamps: true
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 })
 
 // Middleware

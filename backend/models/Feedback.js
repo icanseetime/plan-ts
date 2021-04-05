@@ -18,7 +18,10 @@ const Feedback = new mongoose.Schema({
         type: String,
         required: true
     },
-    timestamps: true
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 })
 
 // Export

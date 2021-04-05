@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const Plant = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     place: {
         type: Number,
@@ -63,7 +63,10 @@ const Plant = new mongoose.Schema({
             }
         }
     },
-    timestamps: true
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 })
 
 // Export

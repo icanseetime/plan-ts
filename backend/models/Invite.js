@@ -9,7 +9,10 @@ const Invite = new mongoose.Schema({
     invited_by: {
         type: Object //TODO: check if this is correct type of _id
     },
-    timestamps: true
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 })
 
 // Export
