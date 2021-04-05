@@ -13,6 +13,9 @@
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+/frontend/yarn.lock
+/frontend/package-lock.json
+
 
 #############################
 
@@ -30,6 +33,8 @@
 /backend/npm-debug.log*
 /backend/yarn-debug.log*
 /backend/yarn-error.log*
+/backend/yarn.lock
+/backend/package-lock.json
 
 #############################
 
