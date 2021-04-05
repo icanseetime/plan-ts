@@ -1,12 +1,14 @@
 // Packages
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+
+// Database schemas
 const User = require('../../models/User')
 
 // --------------------------- EXAM -----------------------------
 // GET: Log in user (anyone)
 const loginUser = async (req, res, next) => {
-    passport.authenticate('local', async (err, user, info) => {
+    passport.authenticate('login', async (err, user, info) => {
         try {
             if (err || !user) {
                 const error = err ? new Error(err) : new Error(info.error)

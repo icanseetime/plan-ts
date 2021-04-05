@@ -6,10 +6,10 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
-// const passport = require('passport')
+const passport = require('passport')
 
 // // For later (authorization & documentation)
-// require('./auth/auth')
+require('./auth/auth')
 // const swagger = require('swagger-ui-express')
 // const yaml = require('yamljs')
 
@@ -22,7 +22,7 @@ const plantsRouter = require('./routes/plants')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
-// app.use(passport.initialize())
+app.use(passport.initialize())
 
 // Database connection
 mongoose.connect(process.env.DATABASE_URL, {
