@@ -6,9 +6,9 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
+// const passport = require('passport')
 
 // // For later (authorization & documentation)
-// const passport = require('passport')
 // require('./auth/auth')
 // const swagger = require('swagger-ui-express')
 // const yaml = require('yamljs')
@@ -29,10 +29,10 @@ mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
 })
 const db = mongoose.connection
-db.on('error', error => console.error('❌ Database connection\n', error))
+db.on('error', (error) => console.error('❌ Database connection\n', error)) // TODO: remove all emojis at the end of project
 db.on('open', () => console.log('✅ Database connection'))
 
 // // Documentation
@@ -51,4 +51,6 @@ app.use((err, req, res, next) => {
 })
 
 // Server
-app.listen(process.env.PORT || 5000, () => console.log(`✅ Server running [👂:${process.env.PORT}]`))
+app.listen(process.env.PORT || 5000, () =>
+    console.log(`✅ Server running [👂:${process.env.PORT}]`)
+)

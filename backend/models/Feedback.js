@@ -17,12 +17,8 @@ const Feedback = new mongoose.Schema({
     message_body: {
         type: String,
         required: true
-    },
-    timestamps: {
-        createdAt: 'created_at',
-        updatedAt: 'updated_at'
     }
-})
+}, { timestamps: true })
 
 // Export
 module.exports = mongoose.model('Feedback', Feedback)

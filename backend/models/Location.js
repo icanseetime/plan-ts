@@ -1,20 +1,25 @@
+// TODO: delete this schema? Not needed, I think
 const mongoose = require('mongoose')
 
 // Schema
 const Location = new mongoose.Schema({
     building: {
         type: String,
-        required: true
+        required: true,
     },
     floor: {
         type: Number,
         enum: [1, 2, 3, 4],
-        required: true
+        required: true,
     },
     room: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
+    map_url: {
+        type: String,
+        required: false,
+    },
 })
 
 // Export

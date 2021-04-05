@@ -25,12 +25,8 @@ const User = new mongoose.Schema({
     role: {
         type: String,
         enum: ['manager', 'gardener']
-    },
-    timestamps: {
-        createdAt: 'created_at',
-        updatedAt: 'updated_at'
     }
-})
+}, { timestamps: true } )
 
 // Middleware
 User.pre('save', async function () {
