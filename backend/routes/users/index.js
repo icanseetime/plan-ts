@@ -2,13 +2,14 @@
 const express = require('express')
 const router = express.Router()
 const routes = require('./routes')
+const passport = require('passport')
 
-// Test
-router.get('/', (req, res) => {
-    res.status(200).send({
-        message: `👩‍🌾 This is the top level of the user collection`
-    })
-})
+// // Test
+// router.get('/', (req, res) => {
+//     res.status(200).send({
+//         message: `👩‍🌾 This is the top level of the user collection`
+//     })
+// })
 
 // --------------------------- EXAM -----------------------------
 
@@ -16,6 +17,32 @@ router.get('/', (req, res) => {
 // Login user (send JWT if successful)
 router.get('/login', routes.loginUser)
 
-router.post('/new', routes.createUser)
+// --- Access: managers
+// See a list of users, filtered by query (no query = all users)
+router.get(
+    '/',
+    passport.authenticate('manager', { session: false }),
+    routes.listUsers
+)
+
+router.get(
+    '/:id',
+    passport.authenticate('manager', { session: false }),
+    routes.getUser
+)
+
+// Add new user
+router.post(
+    '/new',
+    passport.authenticate('manager', { session: false }),
+    routes.createUser
+)
+
+// Delete specific user by ID
+router.delete(
+    '/:id',
+    passport.authenticate('manager', { session: false }),
+    routes.deleteUser
+)
 
 module.exports = router
