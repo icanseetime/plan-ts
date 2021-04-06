@@ -18,13 +18,14 @@ const passport = require('passport')
 router.get('/login', routes.loginUser)
 
 // --- Access: managers
-// See a list of users, filtered by query (no query = all users)
+// Get a list of users, filtered by query (no query = all users)
 router.get(
     '/',
     passport.authenticate('manager', { session: false }),
     routes.listUsers
 )
 
+// Get user by ID
 router.get(
     '/:id',
     passport.authenticate('manager', { session: false }),
@@ -36,6 +37,13 @@ router.post(
     '/new',
     passport.authenticate('manager', { session: false }),
     routes.createUser
+)
+
+// Update details of specific user by ID
+router.put(
+    '/:id',
+    passport.authenticate('manager', { session: false }),
+    routes.updateUserDetails
 )
 
 // Delete specific user by ID

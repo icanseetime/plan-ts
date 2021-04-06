@@ -53,7 +53,7 @@ const listUsers = async (req, res) => {
     }
 }
 
-// GET: Get info about specific user by their ID
+// GET: Get info about specific user by their ID (manager)
 const getUser = async (req, res) => {
     try {
         // Find user (but do not return password and version no.)
@@ -105,6 +105,36 @@ const createUser = async (req, res) => {
     }
 }
 
+// PUT: Update user details (except password & ID!)
+const updateUserDetails = async (req, res) => {
+    try {
+        // Make sure request doesn't include password
+        if (!req.body.password) {
+            // Update user and get response
+            const user = await User.findByIdAndUpdate(req.params.id, req.body) // TODO: update name only works with "name.first" and "name.last" - check if there is a better solution
+            console.log(user)
+            // Check for found user
+            if (!user) {
+                res.status(404).json({
+                    error: `Could not find a user with the ID ${req.params.id}.`
+                })
+            } else {
+                res.status(201).json({
+                    message: `User with ID ${req.params.id} was successfully updated.`
+                })
+            }
+        } else {
+            res.status(403).json({
+                error: `You should not include user passwords in your request.` // TODO: include more info in this error message when "password-reset" functionality is ready
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to update the user. [${err}]`
+        })
+    }
+}
+
 // DELETE: Delete user by ID (manager)
 const deleteUser = async (req, res) => {
     try {
@@ -132,5 +162,6 @@ module.exports = {
     listUsers,
     getUser,
     createUser,
+    updateUserDetails,
     deleteUser
 }
