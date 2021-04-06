@@ -7,9 +7,15 @@
   "author": "Group 3",
   "license": "MIT",
   "scripts": {
+    "backend-start": "cd backend && npm run dev",
+    "frontend-start": "cd frontend && npm run start",
+    "full-start": "concurrently \"npm run backend-start\" \"npm run frontend-start\"",
     "full-install": "cd backend && npm install && cd ../frontend && npm install",
     "full-build": "cd backend && npm run build && cd ../frontend && npm run build",
     "heroku-postbuild": "npm run full-install && npm run full-build",
     "start": "cd frontend && npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.1"
   }
 }
