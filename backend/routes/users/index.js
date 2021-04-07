@@ -39,6 +39,13 @@ router.post(
     routes.createUser
 )
 
+// Reset user password (maybe PUT?)
+router.post(
+    '/:id/reset-password',
+    passport.authenticate('manager', { session: false }),
+    routes.resetUserPass
+)
+
 // Update details of specific user by ID
 router.put(
     '/:id',

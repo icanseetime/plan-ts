@@ -105,6 +105,25 @@ const createUser = async (req, res) => {
     }
 }
 
+// POST: Reset user password
+const resetUserPass = async (req, res) => {
+    try {
+        let existingUser = User.findById(req.params.id)
+        if (!existingUser) {
+            res.status(404).json({ error: 'User not found.' })
+        }
+
+        // TODO:
+        // - Save "password-reset" in a new database with own ID + ID of the user that is having their password reset
+        // - Create URL using the new ID as the end of the URI (get site-url som env?)
+        // - Send URL in e-mail to the user with the given ID
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to reset password of user with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 // PUT: Update user details (except password & ID!)
 const updateUserDetails = async (req, res) => {
     try {
@@ -162,6 +181,7 @@ module.exports = {
     listUsers,
     getUser,
     createUser,
+    resetUserPass,
     updateUserDetails,
     deleteUser
 }
