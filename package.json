@@ -13,8 +13,7 @@
     "full-install": "npm install && cd backend && npm install && cd ../frontend && npm install",
     "full-build": "cd backend && npm run build && cd ../frontend && npm run build",
     "heroku-install": "cd backend && npm install && cd ../frontend && npm install",
-    "heroku-postbuild": "npm run heroku-install && npm run full-build",
-    "start": "cd frontend && npm run start"
+    "heroku-postbuild": "npm run heroku-install && npm run full-build"
   },
   "devDependencies": {
     "concurrently": "^6.0.1"
