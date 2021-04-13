@@ -34,7 +34,7 @@ router.get(
 
 // Add new user
 router.post(
-    '/new',
+    '/',
     passport.authenticate('manager', { session: false }),
     routes.createUser
 )
