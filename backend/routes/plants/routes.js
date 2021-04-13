@@ -24,7 +24,7 @@ const createPlant = async (req, res) => {
         let existingPlant = await Plant.findOne({ name: req.body.name })
         if (existingPlant) {
             res.status(409).json({
-                error: `A plant with this name already exists in the database.` // TODO: check security
+                error: `A plant with this name already exists in the database.`
             })
         }
 
@@ -64,7 +64,25 @@ const createPlant = async (req, res) => {
     }
 }
 
+// GET: Get info about specific plant by their ID (manager)
+const getPlant = async (req, res) => {
+    try {
+        // Find plant
+        const plant = await Plant.findById(req.params.id)
+        if (plant) {
+            res.status(200).json(plant)
+        } else {
+            res.status(404).json({ error: 'Plant not found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while looking for plant with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 module.exports = {
     listPlants,
-    createPlant
+    createPlant,
+    getPlant
 }
