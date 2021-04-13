@@ -3,9 +3,10 @@ const express = require('express')
 const router = express.Router()
 const routes = require('./routes')
 
-// Test
-router.get('/', (req, res) => {
-    res.status(200).send({ message: `🌱 This is the top level of the plant collection` })
-})
+// Get a list of plants, filtered by query (no query = all plants)
+router.get('/', routes.listPlants)
+
+// Add new plant
+router.post('/', routes.createPlant)
 
 module.exports = router

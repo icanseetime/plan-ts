@@ -7,12 +7,21 @@ const Plant = new mongoose.Schema(
             type: String,
             required: true
         },
-        place: {
-            type: Number,
+        location: {
+            // Location - number built from building/floor/room
+            type: String,
             required: true
         },
-        pictures: [],
-        notes: {},
+        picture: {
+            type: String,
+            required: false
+            // default: no-image.png // TODO: add picture
+        },
+        notes: {
+            // Notes for gardeners
+            type: String,
+            required: false
+        },
         health: {
             water: {
                 days_between: {
@@ -29,9 +38,8 @@ const Plant = new mongoose.Schema(
                     required: true
                 },
                 due: {
-                    type: Date,
-                    required: true,
-                    default: Date.now() + this.health.water.days_between // TODO: fix this
+                    type: Date
+                    // required: true
                 }
             },
             fertilizer: {
@@ -50,8 +58,7 @@ const Plant = new mongoose.Schema(
                 },
                 due: {
                     type: Date,
-                    required: true,
-                    default: Date.now() + this.health.fertilizer.days_between // TODO: fix this
+                    required: true
                 }
             },
             light: {
