@@ -7,8 +7,14 @@ const Invite = new mongoose.Schema(
             type: String,
             required: true
         },
+        role: {
+            type: String,
+            enum: ['manager', 'gardener'],
+            required: true
+        },
         invited_by: {
-            type: Object //TODO: check if this is correct type of _id
+            type: mongoose.Schema.Types.ObjectId,
+            required: true
         }
     },
     { timestamps: true }
