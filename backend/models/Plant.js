@@ -38,8 +38,8 @@ const Plant = new mongoose.Schema(
                     required: true
                 },
                 due: {
-                    type: Date
-                    // required: true
+                    type: Date,
+                    required: true
                 }
             },
             fertilizer: {
@@ -70,7 +70,29 @@ const Plant = new mongoose.Schema(
                     required: true
                 }
             }
-        }
+        },
+        history: [
+            {
+                // TODO: fix - validation not working
+                type: {
+                    type: String,
+                    enum: ['water', 'fertilize', 'move'],
+                    required: true
+                },
+                user_id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    required: true
+                },
+                date: {
+                    type: Date,
+                    required: true
+                },
+                note: {
+                    type: String,
+                    required: false
+                }
+            }
+        ]
     },
     { timestamps: true }
 )

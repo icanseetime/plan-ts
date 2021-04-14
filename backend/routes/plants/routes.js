@@ -81,8 +81,125 @@ const getPlant = async (req, res) => {
     }
 }
 
+// PUT: Water plant
+const waterPlant = async (req, res) => {
+    try {
+        // Check if plant exists
+        const existingPlant = await Plant.findById(req.params.id)
+        if (existingPlant) {
+            // Add new log to history array
+            const plant = await Plant.findByIdAndUpdate(
+                req.params.id,
+                {
+                    // Update next due date
+                    'health.water.due':
+                        Date.now() +
+                        existingPlant.health.water.days_between * 86400000,
+                    // Add new log to history array
+                    $push: {
+                        history: {
+                            type: 'water',
+                            user_id: req.body.userID,
+                            date: Date.now()
+                        }
+                    }
+                },
+                { new: true, rawResult: true }
+            )
+            res.status(200).json({
+                message: 'Succesfully added to history.',
+                plant: plant.value
+            })
+        } else {
+            res.status(404).json({ error: 'Plant not found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to water the plant with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
+// PUT: Fertilize plant
+const fertilizePlant = async (req, res) => {
+    try {
+        // Check if plant exists
+        const existingPlant = await Plant.findById(req.params.id)
+        if (existingPlant) {
+            const plant = await Plant.findByIdAndUpdate(
+                req.params.id,
+                {
+                    // Update next due date
+                    'health.fertilizer.due':
+                        Date.now() +
+                        existingPlant.health.fertilizer.days_between * 86400000,
+                    // Add new log to history array
+                    $push: {
+                        history: {
+                            type: 'fertilize',
+                            user_id: req.body.userID,
+                            date: Date.now()
+                        }
+                    }
+                },
+                { new: true, rawResult: true }
+            )
+            res.status(200).json({
+                message: 'Succesfully added to history.',
+                plant: plant.value
+            })
+        } else {
+            res.status(404).json({ error: 'Plant not found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to fertilize the plant with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
+// PUT: Move plant
+const movePlant = async (req, res) => {
+    try {
+        // Check if plant exists
+        const existingPlant = await Plant.findById(req.params.id)
+        if (existingPlant) {
+            const plant = await Plant.findByIdAndUpdate(
+                req.params.id,
+                {
+                    // Update location
+                    location: req.body.location,
+                    // Add new log to history array
+                    $push: {
+                        history: {
+                            type: 'move',
+                            user_id: req.body.userID,
+                            date: Date.now(),
+                            note: req.body.note
+                        }
+                    }
+                },
+                { new: true, rawResult: true }
+            )
+            res.status(200).json({
+                message: 'Succesfully moved plant and added to history.',
+                plant: plant.value
+            })
+        } else {
+            res.status(404).json({ error: 'Plant not found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to water the plant with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 module.exports = {
     listPlants,
     createPlant,
-    getPlant
+    getPlant,
+    waterPlant,
+    fertilizePlant,
+    movePlant
 }

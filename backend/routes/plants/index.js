@@ -12,6 +12,26 @@ router.get('/', routes.listPlants)
 router.get('/:id', routes.getPlant)
 
 // --- Access: gardeners
+// Water plant
+router.put(
+    '/:id/water',
+    passport.authenticate('all-users', { session: false }),
+    routes.waterPlant
+)
+
+// Fertilize plant
+router.put(
+    '/:id/fertilize',
+    passport.authenticate('all-users', { session: false }),
+    routes.fertilizePlant
+)
+
+// Move plant
+router.put(
+    '/:id/move',
+    passport.authenticate('all-users', { session: false }),
+    routes.movePlant
+)
 
 // --- Access: managers
 // Add new plant
