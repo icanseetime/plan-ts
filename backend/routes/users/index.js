@@ -8,6 +8,12 @@ const passport = require('passport')
 // Login user (send JWT if successful)
 router.get('/login', routes.loginUser)
 
+// Check for invite
+router.get('/invites/:id', routes.checkInvite)
+
+// // Add new user
+router.post('/', routes.registerUser)
+
 // --- Access: gardeners
 
 // --- Access: managers
@@ -17,6 +23,13 @@ router.post(
     '/invite',
     passport.authenticate('manager', { session: false }),
     routes.inviteUser
+)
+
+// Delete invite
+router.delete(
+    '/invite',
+    passport.authenticate('manager', { session: false }),
+    routes.deleteInvite
 )
 
 // Get a list of users, filtered by query (no query = all users)
