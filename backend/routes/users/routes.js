@@ -202,6 +202,5 @@ module.exports = {
     loginUser,
     listUsers,
     getUser,
-    updateUserDetails,
     deleteUser
 }

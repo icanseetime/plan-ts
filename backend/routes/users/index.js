@@ -46,13 +46,6 @@ router.get(
     routes.getUser
 )
 
-// Update details of specific user by ID
-router.put(
-    '/:id',
-    passport.authenticate('manager', { session: false }),
-    routes.updateUserDetails
-)
-
 // Delete specific user by ID
 router.delete(
     '/:id',
