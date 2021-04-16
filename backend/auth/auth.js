@@ -90,5 +90,3 @@ passport.use(
         }
     )
 )
-
-// TODO: remember to sign JWT in login route

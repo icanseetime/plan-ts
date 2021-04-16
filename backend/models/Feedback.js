@@ -12,7 +12,7 @@ const Feedback = new mongoose.Schema(
             required: true
         },
         plant_id: {
-            type: Object, //TODO: check type
+            type: mongoose.Schema.Types.ObjectId,
             required: false
         },
         message_body: {

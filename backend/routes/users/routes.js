@@ -4,9 +4,111 @@ const jwt = require('jsonwebtoken')
 
 // Database schemas
 const User = require('../../models/User')
+const Invite = require('../../models/Invite')
 
-// --------------------------- EXAM -----------------------------
-// GET: Log in user (anyone)
+// POST: Invite new user
+const inviteUser = async (req, res) => {
+    try {
+        // Check that invite with the same e-mail doesn't exist
+        const existingInvite = await Invite.findOne({ email: req.body.email })
+        if (existingInvite) {
+            res.status(409).json({
+                error: `An invite connected to this email already exists in the database.`
+            })
+        }
+
+        // Check that user with the same e-mail doesn't exist
+        const existingUser = await User.findOne({ email: req.body.email })
+        if (existingUser) {
+            res.status(409).json({
+                error: `A user with this email already exists in the database.`
+            })
+        }
+
+        // Create invite object
+        const newInvite = new Invite({
+            email: req.body.email,
+            role: req.body.role,
+            invited_by: req.body.userID
+        })
+
+        // Save to DB and send response
+        const invite = await newInvite.save()
+        // TODO: send e-mail to invitee here
+        res.status(201).json({
+            message: 'New invite successfully created.',
+            invite: invite
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
+
+// GET: Check for invite and retrieve information //TODO: test
+const checkInvite = async (req, res) => {
+    try {
+        let existingInvite = await Invite.findOne({ _id: req.params.id })
+        if (!existingInvite) {
+            res.status(404).json({
+                error: `No invite with this ID.`
+            })
+        }
+        res.status(200).json({
+            invite: existingInvite
+        })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
+
+// DELETE: Delete invite
+const deleteInvite = async (req, res) => {
+    try {
+        await Invite.findOneAndDelete({ email: req.body.email })
+        res.send(200).json({ message: `Successfully deleted invite.` })
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
+
+// POST: Register new user
+const registerUser = async (req, res) => {
+    try {
+        // Create user object
+        const newUser = new User({
+            email: req.body.email,
+            password: req.body.password,
+            name: {
+                first: req.body.firstName,
+                last: req.body.lastName
+            },
+            role: req.body.role
+        })
+
+        // Delete/check invite
+        const deletedInvite = await Invite.findOneAndDelete({
+            email: req.body.email
+        })
+        if (!deletedInvite) {
+            res.status(409).json({
+                error: `Invite doesn't exist or was previously deleted, therefore user can not be registered at this time.`
+            })
+        }
+
+        // Save new user to DB
+        const user = await newUser.save()
+        res.status(201).json({
+            message: 'New user successfully created.',
+            user: user
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: `There was an error adding ${req.body.email} to the database. [${err}]`
+        })
+    }
+}
+
+// GET: Log in user
 const loginUser = async (req, res, next) => {
     passport.authenticate('login', async (err, user, info) => {
         try {
@@ -36,7 +138,7 @@ const loginUser = async (req, res, next) => {
     })(req, res, next)
 }
 
-// GET: See a list of users -- can be filtered by query (manager)
+// GET: See a list of users -- can be filtered by query
 const listUsers = async (req, res) => {
     try {
         // Find users (but do not return password and version no.)
@@ -66,60 +168,6 @@ const getUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: `Something went wrong while looking for user with ID ${req.params.id}. [${err}]`
-        })
-    }
-}
-
-// POST: Create new user (manager)
-const createUser = async (req, res) => {
-    try {
-        // Check that user e-mail does not exist in DB
-        let existingUser = await User.findOne({ email: req.body.email })
-        if (existingUser) {
-            res.status(409).json({
-                error: `A user with this email already exists in the database.` // TODO: check security
-            })
-        }
-
-        // Create user object
-        const newUser = new User({
-            email: req.body.email,
-            password: req.body.password,
-            name: {
-                first: req.body.firstName,
-                last: req.body.lastName
-            },
-            role: req.body.role
-        })
-
-        // Save to DB & send response to client-side
-        const user = await newUser.save()
-        res.status(201).json({
-            message: 'New user successfully created.',
-            user: user
-        })
-    } catch (err) {
-        res.status(500).json({
-            error: `There was an error adding ${req.body.email} to the database. [${err}]`
-        })
-    }
-}
-
-// POST: Reset user password
-const resetUserPass = async (req, res) => {
-    try {
-        let existingUser = User.findById(req.params.id)
-        if (!existingUser) {
-            res.status(404).json({ error: 'User not found.' })
-        }
-
-        // TODO:
-        // - Save "password-reset" in a new database with own ID + ID of the user that is having their password reset
-        // - Create URL using the new ID as the end of the URI (get site-url som env?)
-        // - Send URL in e-mail to the user with the given ID
-    } catch (err) {
-        res.status(500).json({
-            error: `Something went wrong while trying to reset password of user with ID ${req.params.id}. [${err}]`
         })
     }
 }
@@ -176,12 +224,72 @@ const deleteUser = async (req, res) => {
     }
 }
 
+// --------------------------- EXAM -----------------------------
+
+// // POST: Create new user (manager)
+// const createUser = async (req, res) => {
+//     try {
+//         // Check that user e-mail does not exist in DB
+//         let existingUser = await User.findOne({ email: req.body.email })
+//         if (existingUser) {
+//             res.status(409).json({
+//                 error: `A user with this email already exists in the database.` // TODO: check security
+//             })
+//         }
+
+//         // Create user object
+//         const newUser = new User({
+//             email: req.body.email,
+//             password: req.body.password,
+//             name: {
+//                 first: req.body.firstName,
+//                 last: req.body.lastName
+//             },
+//             role: req.body.role
+//         })
+
+//         // Save to DB and send response
+//         const user = await newUser.save()
+//         res.status(201).json({
+//             message: 'New user successfully created.',
+//             user: user
+//         })
+//     } catch (err) {
+//         res.status(500).json({
+//             error: `There was an error adding ${req.body.email} to the database. [${err}]`
+//         })
+//     }
+// }
+
+// POST: Reset user password
+const resetUserPass = async (req, res) => {
+    try {
+        let existingUser = User.findById(req.params.id)
+        if (!existingUser) {
+            res.status(404).json({ error: 'User not found.' })
+        }
+
+        // TODO:
+        // - Save "password-reset" in a new database with own ID + ID of the user that is having their password reset
+        // - Create URL using the new ID as the end of the URI (get site-url som env?)
+        // - Send URL in e-mail to the user with the given ID
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to reset password of user with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 module.exports = {
+    inviteUser,
+    checkInvite,
+    deleteInvite,
+    registerUser,
     loginUser,
     listUsers,
     getUser,
-    createUser,
-    resetUserPass,
+    // createUser,
+    // resetUserPass,
     updateUserDetails,
     deleteUser
 }
