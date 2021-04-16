@@ -60,20 +60,4 @@ router.delete(
     routes.deleteUser
 )
 
-// --------------------------- EXAM -----------------------------
-
-// // Add new user
-// router.post(
-//     '/',
-//     passport.authenticate('manager', { session: false }),
-//     routes.createUser
-// )
-
-// // Reset user password (maybe PUT?)
-// router.post(
-//     '/:id/reset-password',
-//     passport.authenticate('manager', { session: false }),
-//     routes.resetUserPass
-// )
-
 module.exports = router
