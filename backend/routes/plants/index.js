@@ -8,10 +8,24 @@ const passport = require('passport')
 // Get a list of plants, filtered by query (no query = all plants)
 router.get('/', routes.listPlants)
 
-// Get plant by ID
+// Get information about plant
 router.get('/:id', routes.getPlant)
 
 // --- Access: gardeners
+// Get notes connected to specific plant
+router.get(
+    '/:id/notes',
+    passport.authenticate('all-users', { session: false }),
+    routes.plantNotes
+)
+
+// Get history connected to specific plant
+router.get(
+    '/:id/history',
+    passport.authenticate('all-users', { session: false }),
+    routes.plantHistory
+)
+
 // Water plant
 router.put(
     '/:id/water',

@@ -4,7 +4,8 @@ const Plant = require('../../models/Plant')
 // List plants based on query (no query = all plants)
 const listPlants = async (req, res) => {
     try {
-        let plants = await Plant.find(req.query)
+        // Find plant (exclude history and notes)
+        let plants = await Plant.find(req.query).select('-history -notes')
         if (plants.length) {
             res.status(200).json(plants)
         } else {
@@ -64,7 +65,7 @@ const createPlant = async (req, res) => {
     }
 }
 
-// GET: Get info about specific plant by their ID (manager)
+// GET: Get info about specific plant by their ID
 const getPlant = async (req, res) => {
     try {
         // Find plant
@@ -77,6 +78,42 @@ const getPlant = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: `Something went wrong while looking for plant with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
+// GET: Get notes for specific plant
+const plantNotes = async (req, res) => {
+    try {
+        // Find plant
+        const plant = await Plant.findById(req.params.id).select('notes -_id')
+        // TODO: return "No notes" if there aren't any notes? Right now it just returns an empty object
+        if (plant) {
+            res.status(200).json(plant)
+        } else {
+            res.status(404).json({ error: 'Plant not found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while looking for notes connected to plant with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
+// GET: Get notes for specific plant
+const plantHistory = async (req, res) => {
+    try {
+        // Find plant
+        const plant = await Plant.findById(req.params.id).select('history -_id')
+        // TODO: return "No history" if there isn't any history? Right now it just returns an empty object
+        if (plant) {
+            res.status(200).json(plant)
+        } else {
+            res.status(404).json({ error: 'Plant not found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while looking for notes connected to plant with ID ${req.params.id}. [${err}]`
         })
     }
 }
@@ -199,6 +236,8 @@ module.exports = {
     listPlants,
     createPlant,
     getPlant,
+    plantNotes,
+    plantHistory,
     waterPlant,
     fertilizePlant,
     movePlant
