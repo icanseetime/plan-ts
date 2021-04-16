@@ -85,14 +85,18 @@ const registerUser = async (req, res) => {
             role: req.body.role
         })
 
-        // Save new user to DB and delete invite
-        const user = await newUser.save()
+        // Delete/check invite
         const deletedInvite = await Invite.findOneAndDelete({
             email: req.body.email
         })
-        console.log(user)
-        console.log(deletedInvite)
+        if (!deletedInvite) {
+            res.status(409).json({
+                error: `Invite doesn't exist or was previously deleted, therefore user can not be registered at this time.`
+            })
+        }
 
+        // Save new user to DB
+        const user = await newUser.save()
         res.status(201).json({
             message: 'New user successfully created.',
             user: user
