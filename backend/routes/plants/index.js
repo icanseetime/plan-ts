@@ -55,4 +55,11 @@ router.post(
     routes.createPlant
 )
 
+// Delete plant
+router.delete(
+    '/:id',
+    passport.authenticate('manager', { session: false }),
+    routes.deletePlant
+)
+
 module.exports = router

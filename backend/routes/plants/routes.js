@@ -232,6 +232,27 @@ const movePlant = async (req, res) => {
     }
 }
 
+const deletePlant = async (req, res) => {
+    try {
+        // Check that plant exists in DB
+        let existingPlant = await Plant.findById(req.params.id)
+        if (existingPlant) {
+            await Plant.findByIdAndDelete(req.params.id)
+            res.status(200).json({
+                message: `Plant with ID ${req.params.id} deleted successfully.`
+            })
+        } else {
+            res.status(404).json({
+                error: 'There is no plant with this ID in the database.'
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to delete the plant. [${err}]`
+        })
+    }
+}
+
 module.exports = {
     listPlants,
     createPlant,
@@ -240,5 +261,6 @@ module.exports = {
     plantHistory,
     waterPlant,
     fertilizePlant,
-    movePlant
+    movePlant,
+    deletePlant
 }
