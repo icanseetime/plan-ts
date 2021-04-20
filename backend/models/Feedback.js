@@ -7,13 +7,9 @@ const Feedback = new mongoose.Schema(
             type: String,
             required: true
         },
-        topic: {
-            type: String,
-            required: true
-        },
         plant_id: {
             type: mongoose.Schema.Types.ObjectId,
-            required: false
+            required: true
         },
         message_body: {
             type: String,

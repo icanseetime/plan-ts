@@ -20,14 +20,14 @@ router.post('/', routes.registerUser)
 
 // Invite new user
 router.post(
-    '/invite',
+    '/invites',
     passport.authenticate('manager', { session: false }),
     routes.inviteUser
 )
 
 // Delete invite
 router.delete(
-    '/invite',
+    '/invites/:id',
     passport.authenticate('manager', { session: false }),
     routes.deleteInvite
 )

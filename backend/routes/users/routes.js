@@ -40,7 +40,9 @@ const inviteUser = async (req, res) => {
             invite: invite
         })
     } catch (err) {
-        res.status(500).json(err)
+        res.status(500).json(
+            `Something went wrong while trying to create new invite. [${err}]`
+        )
     }
 }
 
@@ -57,17 +59,21 @@ const checkInvite = async (req, res) => {
             invite: existingInvite
         })
     } catch (err) {
-        res.status(500).json(err)
+        res.status(500).json(
+            `Something went wrong while looking for invite with ID ${req.params.id}. [${err}]`
+        )
     }
 }
 
 // DELETE: Delete invite
 const deleteInvite = async (req, res) => {
     try {
-        await Invite.findOneAndDelete({ email: req.body.email })
-        res.send(200).json({ message: `Successfully deleted invite.` })
+        await Invite.findByIdAndDelete(req.params.id)
+        res.status(200).json({ message: `Successfully deleted invite.` })
     } catch (err) {
-        res.status(500).json(err)
+        res.status(500).json(
+            `Something went wrong while trying to delete invite. [${err}]`
+        )
     }
 }
 
@@ -133,7 +139,9 @@ const loginUser = async (req, res, next) => {
                 })
             }
         } catch (err) {
-            res.status(500).json(err)
+            res.status(500).json(
+                `Something went wrong while trying to log in. [${err}]`
+            )
         }
     })(req, res, next)
 }

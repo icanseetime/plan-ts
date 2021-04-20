@@ -1,0 +1,806 @@
+openapi: 3.0.0
+servers:
+    # Added by API Auto Mocking Plugin
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/imgjeits/plan-ts/1.0.0
+info:
+    description: Plant care system
+    version: '1.0.0'
+    title: Plan-ts API
+    contact:
+        email: 'imgjeits@stud.ntnu.no'
+    license:
+        name: Apache #Figure out which license
+        url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+    - name: managers
+      description: Only available to users with manager role
+    - name: gardeners
+      description: Available to all authenticated users (managers, gardeners)
+    - name: self
+      description: Only available for the user that is authenticated with the same ID
+    - name: all
+      description: Available for everyone
+    - name: plants
+      description: Plant routes
+    - name: users
+      description: User routes
+    - name: invites
+      description: New user invite routes
+paths:
+    /plants:
+      get:
+            summary: Lists plants
+            tags:
+                - all
+                - plants
+            description: Get a list of plants in the system. List can be filtered by using queries. No query will return a list of all the plants.
+            operationId: listPlants
+            parameters: # TODO: add query params
+                - in: query
+                  name: location
+                  description: Search by location
+                  required: false
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: List of plants matching criteria
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Plant'
+                '404':
+                    description: Could not find any plants based on query
+                '500':
+                    description: Something went wrong on the server. Will include error message from server
+      post:
+            summary: Add new plant
+            tags:
+                - managers
+                - plants
+            description: Create a new plant and add it to the database.
+            operationId: createPlant
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                              name: 
+                                $ref: '#/components/schemas/Plant/properties/name'
+                              location:
+                                $ref: '#/components/schemas/Plant/properties/location'
+                              picture: 
+                                $ref: '#/components/schemas/Plant/properties/picture'
+                              notes: 
+                                $ref: '#/components/schemas/Plant/properties/notes'
+                              waterDaysBetween:
+                                $ref: '#/components/schemas/Plant/properties/health/properties/water/properties/days_between'
+                              waterAmount:
+                                $ref: '#/components/schemas/Plant/properties/health/properties/water/properties/amount'
+                              waterDue:
+                                $ref: '#/components/schemas/Plant/properties/health/properties/water/properties/due'
+                              fertilizerDaysBetween: 
+                                $ref: '#/components/schemas/Plant/properties/health/properties/fertilizer/properties/days_between'
+                              fertilizerAmount: 
+                                $ref: '#/components/schemas/Plant/properties/health/properties/fertilizer/properties/days_between'
+                              fertilizerDue: 
+                                $ref: '#/components/schemas/Plant/properties/health/properties/fertilizer/properties/days_between'
+                              lightAmount:
+                                $ref: '#/components/schemas/Plant/properties/health/properties/light/properties/amount'
+            responses:
+                '201':
+                    description: Successful plant creation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: "New plant successfully created."
+                                    plant:
+                                        properties:
+                                            _id:
+                                                type: string
+                                            name:
+                                                type: string
+                                            location:
+                                                type: string
+                                            picture:
+                                                type: string
+                                            health:
+                                                type: object
+                                                properties:
+                                                    water:
+                                                        type: object
+                                                        properties:
+                                                            days_between:
+                                                                type: number
+                                                            amount:
+                                                                type: number
+                                                            due:
+                                                                type: string
+                                                                format: date-time
+                                                    fertilizer:
+                                                        type: object
+                                                        properties:
+                                                            days_between:
+                                                                type: number
+                                                            amount:
+                                                                type: number
+                                                            due:
+                                                                type: string
+                                                                format: date-time
+                                                    light:
+                                                        type: object
+                                                        properties:
+                                                            amount:
+                                                                type: number
+                                            createdAt:
+                                                type: string
+                                                format: date-time
+                                            updatedAt:
+                                                type: string
+                                                format: date-time
+                                            __v:
+                                                type: number
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '500':
+                    description: Something went wrong on the server. Will include error message from server
+    /users:
+      get:
+        summary: List users
+        tags:
+         - users
+         - managers
+        description: Get a list of all users, based on query. No query will return a list of all users.
+        operationId: listUsers
+        security:
+            - bearerAuth: []        
+        responses:
+          '200':
+            description: Successful query, returns a list of users.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        $ref: '#/components/schemas/User/properties/name'
+                      _id:
+                        type: string
+                        example: '606b7b5993e1ee1504b037e1'
+                      email:
+                        $ref: '#/components/schemas/User/properties/email'
+                      role:
+                        $ref: '#/components/schemas/User/properties/role'
+                      createdAt:
+                        $ref: '#/components/schemas/User/properties/createdAt'
+                      updatedAt:
+                        $ref: '#/components/schemas/User/properties/updatedAt'
+          '401':
+              $ref: '#/components/responses/UnauthorizedError'
+          '404':
+            description: No users found.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Could not find any users."
+          '500':
+            description: Something went wrong on the server. Will include server error message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Something went wrong while trying to find users. [SERVER ERROR MESSAGE]"
+      post:
+        summary: Add new user
+        tags:
+          - users
+          - all
+        description: Register new user. Checks for existing invite. 
+        operationId: registerUser
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email: 
+                    $ref: '#/components/schemas/User/properties/email'
+                  password:
+                    $ref: '#/components/schemas/User/properties/password'
+                  name:
+                    $ref: '#/components/schemas/User/properties/name'
+                  role: 
+                    $ref: '#/components/schemas/User/properties/role'
+                  
+        responses:
+          '201':
+            description: 'Successful user registration'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "New user successfully created."
+                    user:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: "607f17edeb7f3847c8b1e842"
+                        email: 
+                          $ref: '#/components/schemas/User/properties/email'
+                        password: 
+                          $ref: '#/components/schemas/User/properties/email'
+                        name: 
+                          $ref: '#/components/schemas/User/properties/name'
+                        role: 
+                          $ref: '#/components/schemas/User/properties/role'
+                        createdAt: 
+                          $ref: '#/components/schemas/User/properties/createdAt'
+                        updatedAt: 
+                          $ref: '#/components/schemas/User/properties/updatedAt'
+                        __v: 
+                          type: number
+          '409':
+            description: No invite connected to e-mail.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Invite doesn't exist or was previously deleted, therefore user can not be registered at this time."
+          '500':
+            description: Server error.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "There was an error adding test@ntnu.no to the database. [SERVER ERROR MESSAGE]"  
+    /users/{id}:
+      get:
+        summary: Get information about specific user
+        tags:
+         - users
+         - managers
+        description: Get information about a specific user by their ID. Does not include the password or object version. 
+        operationId: getUser
+        parameters: 
+          - name: id
+            in: path
+            required: true
+            description: ObjectID of the user
+            schema:
+              type: string
+        security:
+            - bearerAuth: []        
+        responses:
+          '200':
+            description: Successful query, returns the user object.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        $ref: '#/components/schemas/User/properties/name'
+                      _id:
+                        type: string
+                        example: '606b7b5993e1ee1504b037e1'
+                      email:
+                        $ref: '#/components/schemas/User/properties/email'
+                      role:
+                        $ref: '#/components/schemas/User/properties/role'
+                      createdAt:
+                        $ref: '#/components/schemas/User/properties/createdAt'
+                      updatedAt:
+                        $ref: '#/components/schemas/User/properties/updatedAt'
+          '401':
+              $ref: '#/components/responses/UnauthorizedError'
+          '404':
+            description: Could not find the user.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "User not found."
+          '500':
+            description: Something went wrong on the server. Will include server error message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Something went wrong while looking for user with ID 606b7b5993e1ee1504b037e1.  [SERVER ERROR MESSAGE]"
+      delete:
+        summary: Delete user
+        tags:
+          - users
+          - managers
+        description: Delete specific user by their ID
+        parameters: 
+          - name: id
+            in: path
+            required: true
+            description: ObjectID of the user
+            schema:
+              type: string
+        operationId: deleteUser
+        security:
+            - bearerAuth: []        
+        responses:
+          '200':
+            description: 'Successfully deleted the user.'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "User with ID 606b7b5993e1ee1504b037e1 deleted successfully."
+          '401':
+              $ref: '#/components/responses/UnauthorizedError'
+          '404':
+            description: Could not find user.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "There is no user with this ID in the database."
+          '500':
+            description: Something went wrong on the server. Will include server error message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Something went wrong while trying to delete the user. [SERVER ERROR MESSAGE]"          
+    /users/invites:
+      post:
+        summary: Invite new user
+        tags:
+          - users
+          - invites
+          - managers
+        description: Create an invite for a new user. 
+        operationId: inviteUser
+        security:
+            - bearerAuth: []        
+        responses:
+          '201':
+            description: Successfully created new invite, returns the invite and a success message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "New invite successfully created."
+                    invite:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: '606b7b5993e1ee1504b037e1'
+                        email:
+                          $ref: '#/components/schemas/Invite/properties/email'
+                        role:
+                          $ref: '#/components/schemas/Invite/properties/role'
+                        invited_by:
+                          $ref: '#/components/schemas/Invite/properties/invited_by'
+                        createdAt:
+                          $ref: '#/components/schemas/Invite/properties/createdAt'
+                        updatedAt:
+                          $ref: '#/components/schemas/Invite/properties/updatedAt'
+                        __v:
+                          type: number
+          '401':
+              $ref: '#/components/responses/UnauthorizedError'
+          '409':
+            description: Either an invite connected to the provided e-mail already exists in the database or a user with the provided e-mail already exists in the database. Error message will provide more information.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "An invite connected to this email already exists in the database."
+          '500':
+            description: Something went wrong on the server. Will include server error message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Something went wrong while trying to create new invite. [SERVER ERROR MESSAGE]"        
+    /invites/{id}:
+      get:
+        summary: Get information about specific invite
+        tags:
+         - users
+         - invites
+         - all
+        description: Get information about a specific invite by its ID. 
+        operationId: checkInvite
+        parameters: 
+          - name: id
+            in: path
+            required: true
+            description: ObjectID of the invite
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Successful query, returns the invite object.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    invite:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: '606b7b5993e1ee1504b037e1'
+                        email:
+                          $ref: '#/components/schemas/Invite/properties/email'
+                        role:
+                          $ref: '#/components/schemas/Invite/properties/role'
+                        invited_by:
+                          $ref: '#/components/schemas/Invite/properties/invited_by'
+                        createdAt:
+                          $ref: '#/components/schemas/Invite/properties/createdAt'
+                        updatedAt:
+                          $ref: '#/components/schemas/Invite/properties/updatedAt'
+                        __v:
+                          type: number
+          '404':
+            description: Could not find the invite.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "No invite with this ID."
+          '500':
+            description: Something went wrong on the server. Will include server error message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Something went wrong while looking for invite with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]"
+      delete:
+        summary: Delete invite
+        tags:
+          - users
+          - invites
+          - managers
+        description: Delete specific invite by ID
+        parameters: 
+          - name: id
+            in: path
+            required: true
+            description: ObjectID of the invite
+            schema:
+              type: string
+        operationId: deleteInvite
+        security:
+            - bearerAuth: []        
+        responses:
+          '200':
+            description: 'Successfully deleted invite.'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "Successfully deleted invite."
+          '401':
+              $ref: '#/components/responses/UnauthorizedError'
+          '500':
+            description: Something went wrong on the server. Will include server error message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Something went wrong while trying to delete invite. [SERVER ERROR MESSAGE]" 
+    /users/login:
+      get:
+        summary: Login user
+        tags:
+         - users
+         - all
+        description: Login user and get JSON Web Token.  
+        operationId: loginUser
+        responses:
+          '200':
+            description: Successful login, returns JWT.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                      example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+          '500':
+            description: Something went wrong on the server or the login was unsuccessful. Will include server error message.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                      example: "Error: Could not find user."
+components:
+    schemas:
+        Plant:
+            description: Plants in the app
+            type: object
+            required:
+                - name
+                - location
+                - health
+            properties:
+                name:
+                    type: string
+                    example: 'Jade Plant'
+                    description: 'Should be unique'
+                location:
+                    type: string
+                    description: 'Number combined of building, floor and room'
+                    example: 11214
+                picture:
+                    type: string
+                    default: 'no-image.png'
+                    example: 'jade-plant.jpg'
+                notes:
+                    type: string
+                    description: 'Notes from managers to gardeners, not visible to un-registered users'
+                    example: 'This plant should not be moved'
+                health:
+                    type: object
+                    description: 'The plant needs'
+                    required:
+                        - water
+                        - fertilizer
+                        - light
+                    properties:
+                        water:
+                            type: object
+                            required:
+                                - days_between
+                                - amount
+                                - due
+                            properties:
+                                days_between:
+                                    type: number
+                                    minimum: 1
+                                    maximum: 365
+                                    description: 'Number indicating how many days between each time the plant needs water'
+                                amount:
+                                    type: number
+                                    minimum: 1
+                                    maximum: 3
+                                    description: "Number indicating how much water the plant needs.\n- 1: A little\n- 2: Medium\n- 3: Plenty"
+                                due:
+                                    type: string
+                                    format: date-time
+                                    description: 'Next date that the plant needs watering'
+                        fertilizer:
+                            type: object
+                            required:
+                                - days_between
+                                - amount
+                                - due
+                            properties:
+                                days_between:
+                                    type: number
+                                    minimum: 1
+                                    maximum: 365
+                                    description: 'Number indicating how many days between each time the plant needs fertilizing'
+                                amount:
+                                    type: number
+                                    minimum: 1
+                                    maximum: 3
+                                    description: "Number indicating how much fertilizer the plant needs.\n- 1: A little\n- 2: Medium\n- 3: Plenty"
+                                due:
+                                    type: string
+                                    format: date-time
+                                    description: 'Next date that the plant needs fertilizing'
+                        light:
+                            type: object
+                            required:
+                                - amount
+                            properties:
+                                amount:
+                                    type: number
+                                    minimum: 1
+                                    maximum: 5
+                                    description: "Number indicating how much light the plant needs.\n- 1: Shade\n- 2: Half-shade\n- 3: Medium light\n- 4: Bright, indirect light\n- 5: Direct sunlight"
+                history:
+                    type: array
+                    items:
+                        type: object
+                        required:
+                            - type
+                            - user_id
+                            - date
+                        properties:
+                            type:
+                                type: string
+                                enum:
+                                    - water
+                                    - fertilize
+                                    - move
+                            user_id:
+                                type: string
+                                description: 'ObjectID indicating the user that performed the task'
+                                example: '606b7b5993e1ee1504b037e1'
+                            date:
+                                type: string
+                                format: date-time
+                            note:
+                                type: string
+                                description: 'Note added by user when moving a plant'
+                createdAt:
+                     type: string
+                     format: date-time
+                     description: 'Date of plant creation. This property is created automatically'
+                updatedAt:
+                     type: string
+                     format: date-time
+                     description: 'Date the plant object was last updated. This property is created and updated automatically'
+        User:
+            type: object
+            description: Registered users of the app
+            required:
+                - email
+                - password
+                - name
+                - role
+            properties:
+                email:
+                    type: string
+                    format: email
+                    example: 'test@ntnu.no'
+                password:
+                    type: string
+                    format: password
+                    example: password1
+                name:
+                    type: object
+                    required:
+                        - first
+                        - last
+                    properties:
+                        first:
+                            type: string
+                            example: "Jane"
+                        last:
+                            type: string
+                            example: "Doe"
+                role:
+                    type: string
+                    enum:
+                        - manager
+                        - gardener
+                createdAt:
+                     type: string
+                     format: date-time
+                     description: 'Date of user creation. This property is created automatically'
+                updatedAt:
+                     type: string
+                     format: date-time
+                     description: 'Date the user object was last updated. This property is created and updated automatically'
+        Feedback:
+            type: object
+            description: Feedback sent from users of the app to the managers
+            required:
+                - name
+                - plant_id
+                - message_body
+            properties:
+                name:
+                    type: string
+                    description: 'Name of person who sends the feedback'
+                    example: 'Michael'
+                plant_id:
+                    type: string
+                    description: 'ObjectID representing the plant the feedback is about'
+                    example: '606b7b5993e1ee1504b037e1'
+                message_body:
+                    type: string
+                    description: 'The message from the user'
+        Invite:
+            description: Invites for new users
+            type: object
+            required:
+                - email
+                - role
+                - invited_by
+            properties:
+                email:
+                    type: string
+                    format: email
+                    example: 'new-user@ntnu.no'
+                role:
+                    type: string
+                    enum:
+                        - manager
+                        - gardener
+                invited_by:
+                    type: string
+                    example: '606b7b5993e1ee1504b037e1'
+                createdAt:
+                     type: string
+                     format: date-time
+                     description: 'Date of invite creation. This property is created automatically'
+                updatedAt:
+                     type: string
+                     format: date-time
+                     description: 'Date the invite object was last updated. This property is created and updated automatically'                
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    responses:
+        UnauthorizedError:
+            description: Access token is missing or invalid

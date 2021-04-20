@@ -5,7 +5,8 @@ const Plant = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         location: {
             // Location - number built from building/floor/room
@@ -14,8 +15,8 @@ const Plant = new mongoose.Schema(
         },
         picture: {
             type: String,
-            required: false
-            // default: no-image.png // TODO: add picture
+            required: false,
+            default: 'no-image.png'
         },
         notes: {
             // Notes for gardeners

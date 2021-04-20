@@ -10,8 +10,8 @@ const passport = require('passport')
 
 // // For later (authorization & documentation)
 require('./auth/auth')
-// const swagger = require('swagger-ui-express')
-// const yaml = require('yamljs')
+const swagger = require('swagger-ui-express')
+const yaml = require('yamljs')
 
 // Routers
 const apiRouter = require('./routes/index')
@@ -36,13 +36,13 @@ db.on('error', (error) => console.error('❌ Database connection\n', error)) // 
 db.on('open', () => console.log('✅ Database connection'))
 
 // // Documentation
-// const documentation = yaml.load('./docs/swagger.yaml')
+const documentation = yaml.load('./docs/swagger.yaml')
 
 // Endpoints // TODO: check if it's better to move sub-levels into main endpoint file
 app.use('/api', apiRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/plants', plantsRouter)
-// app.use('/api/docs', swagger.serve, swagger.setup(documentation))
+app.use('/api/docs', swagger.serve, swagger.setup(documentation))
 
 // Error handling
 app.use((err, req, res, next) => {
