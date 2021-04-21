@@ -113,9 +113,16 @@ const plantHistory = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({
-            error: `Something went wrong while looking for notes connected to plant with ID ${req.params.id}. [${err}]`
+            error: `Something went wrong while looking for history connected to plant with ID ${req.params.id}. [${err}]`
         })
     }
+}
+
+// PUT: Update plant //TODO: Finish building route
+const updatePlant = async (req, res) => {
+    // Check if plant exists
+    const updatedPlant = await Plant.findByIdAndUpdate(req.params.id, req.body)
+    console.log(updatedPlant)
 }
 
 // PUT: Water plant
@@ -124,7 +131,6 @@ const waterPlant = async (req, res) => {
         // Check if plant exists
         const existingPlant = await Plant.findById(req.params.id)
         if (existingPlant) {
-            // Add new log to history array
             const plant = await Plant.findByIdAndUpdate(
                 req.params.id,
                 {
@@ -227,7 +233,7 @@ const movePlant = async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({
-            error: `Something went wrong while trying to water the plant with ID ${req.params.id}. [${err}]`
+            error: `Something went wrong while trying to move the plant with ID ${req.params.id}. [${err}]`
         })
     }
 }
@@ -259,6 +265,7 @@ module.exports = {
     getPlant,
     plantNotes,
     plantHistory,
+    updatePlant,
     waterPlant,
     fertilizePlant,
     movePlant,
