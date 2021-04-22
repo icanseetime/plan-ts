@@ -17,6 +17,7 @@ const yaml = require('yamljs')
 const apiRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const plantsRouter = require('./routes/plants')
+const locationsRouter = require('./routes/locations')
 
 // Middleware
 app.use(express.json())
@@ -38,10 +39,11 @@ db.on('open', () => console.log('✅ Database connection'))
 // // Documentation
 const documentation = yaml.load('./docs/swagger.yaml')
 
-// Endpoints // TODO: check if it's better to move sub-levels into main endpoint file
+// Endpoints
 app.use('/api', apiRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/plants', plantsRouter)
+app.use('/api/locations', locationsRouter)
 app.use('/api/docs', swagger.serve, swagger.setup(documentation))
 
 // Error handling
