@@ -1,6 +1,26 @@
 const mongoose = require('mongoose')
 
-// Schema
+// Schemas
+const History = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['water', 'fertilize', 'move'],
+        required: true
+    },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    note: {
+        type: String,
+        required: false
+    }
+})
+
 const Plant = new mongoose.Schema(
     {
         name: {
@@ -72,28 +92,7 @@ const Plant = new mongoose.Schema(
                 }
             }
         },
-        history: [
-            {
-                // TODO: fix - validation not working
-                type: {
-                    type: String,
-                    enum: ['water', 'fertilize', 'move'],
-                    required: true
-                },
-                user_id: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    required: true
-                },
-                date: {
-                    type: Date,
-                    required: true
-                },
-                note: {
-                    type: String,
-                    required: false
-                }
-            }
-        ]
+        history: [History]
     },
     { timestamps: true }
 )
