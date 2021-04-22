@@ -27,6 +27,8 @@ tags:
       description: User routes
     - name: invites
       description: New user invite routes
+    - name: locations
+      description: Location routes
 paths:
     /plants:
         get:
@@ -219,7 +221,7 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while looking for plant with ID 607dde78081f316f0473f7fb. [SERVER ERROR MESSAGE].'
-        put: # TODO: finish
+        put: # TODO: finish (add responses + auth)
             summary: Update plant details [UNDER CONSTRUCTION]
             tags:
                 - plants
@@ -531,7 +533,7 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to fertilize the plant with ID 607dde78081f316f0473f7fb. [SERVER ERROR MESSAGE].'
-    /plants/{id}/move: #TODO: add req.body parameter for location
+    /plants/{id}/move:
         put:
             summary: Move plant
             tags:
@@ -548,6 +550,16 @@ paths:
                   required: true
                   schema:
                       type: string
+            requestBody:
+                description: A JSON object containing the new location room uid of the plant
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                location:
+                                    type: string
+                                    example: '1152203'
             responses:
                 '200':
                     description: Successful query
@@ -1038,6 +1050,180 @@ paths:
                                     error:
                                         type: string
                                         example: 'Error: Could not find user.'
+    /locations:
+        get:
+            summary: List all locations
+            tags:
+                - locations
+                - all
+            description: Get a list of all locations objects in the database
+            operationId: listLocations
+            responses:
+                '200':
+                    description: Successful query
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Location'
+                '404':
+                    description: Locations not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find any locations.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find locations. [SERVER ERROR MESSAGE]'
+    /locations/{uid}:
+        get:
+            summary: Get location object from room-uid
+            tags:
+                - locations
+                - all
+            description: Get an object that only contains the information related to the specific room's unique ID
+            operationId: getLocation
+            parameters:
+                - name: uid
+                  in: path
+                  required: true
+                  description: Room uid
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Successful query
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    _id:
+                                        type: string
+                                        example: '60817eea81ae2cfcbf3f33fe'
+                                    name:
+                                        $ref: '#/components/schemas/Location/properties/name'
+                                    floors:
+                                        $ref: '#/components/schemas/Location/properties/floors'
+                '404':
+                    description: No location matching query
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Location not found.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while looking for location with uid 1152206. [SERVER ERROR MESSAGE]'
+    /locations/buildings:
+        get:
+            summary: List all buildings
+            tags:
+                - locations
+                - all
+            description: Get a list of all buildings with id, building number and name
+            operationId: listBuildings
+            responses:
+                '200':
+                    description: Successful query
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        _id:
+                                            type: string
+                                            example: '60817ede81ae2cfcbf3f33fd'
+                                        building:
+                                            $ref: '#/components/schemas/Location/properties/building'
+                                        name:
+                                            $ref: '#/components/schemas/Location/properties/name'
+                '404':
+                    description: Locations not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find any locations.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find locations. [SERVER ERROR MESSAGE]'
+    /locations/buildings/{no}:
+        get:
+            summary: Get specific building object
+            tags:
+                - locations
+                - all
+            description: Get a building object based on the building number
+            operationId: getBuilding
+            parameters:
+                - name: no
+                  in: path
+                  required: true
+                  description: Building number
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Successful query
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Location'
+                '404':
+                    description: No building matching query
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Building not found.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while looking for building with no. 115. [SERVER ERROR MESSAGE]'
 components:
     schemas:
         Plant:
@@ -1246,6 +1432,44 @@ components:
                     type: string
                     format: date-time
                     description: 'Date the invite object was last updated. This property is created and updated automatically'
+        Location:
+            description: Locations where plants can be placed
+            type: object
+            required:
+                - building
+                - name
+                - floors
+            properties:
+                building:
+                    type: number
+                    example: 115
+                    description: 'Building number'
+                name:
+                    type: string
+                    example: 'Building 115'
+                    description: 'Name of building'
+                floors:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            no:
+                                type: number
+                                example: 2
+                                description: Floor number
+                            rooms:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        no:
+                                            type: number
+                                            example: 206
+                                            description: Room number
+                                        uid:
+                                            type: string
+                                            example: '1152206'
+                                            description: String built of building number, floor number and room number
     securitySchemes:
         bearerAuth:
             type: http
