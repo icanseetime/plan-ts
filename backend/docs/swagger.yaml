@@ -746,117 +746,6 @@ paths:
                                     error:
                                         type: string
                                         example: 'There was an error adding test@ntnu.no to the database. [SERVER ERROR MESSAGE]'
-    /users/{id}/manage:
-        get:
-            summary: Get information about specific user
-            tags:
-                - users
-                - managers
-            description: Get information about a specific user by their ID. Does not include the password or object version.
-            operationId: getUser
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  description: ObjectID of the user
-                  schema:
-                      type: string
-            security:
-                - bearerAuth: []
-            responses:
-                '200':
-                    description: Successful query, returns the user object.
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        name:
-                                            $ref: '#/components/schemas/User/properties/name'
-                                        _id:
-                                            type: string
-                                            example: '606b7b5993e1ee1504b037e1'
-                                        email:
-                                            $ref: '#/components/schemas/User/properties/email'
-                                        role:
-                                            $ref: '#/components/schemas/User/properties/role'
-                                        createdAt:
-                                            $ref: '#/components/schemas/User/properties/createdAt'
-                                        updatedAt:
-                                            $ref: '#/components/schemas/User/properties/updatedAt'
-                '401':
-                    $ref: '#/components/responses/UnauthorizedError'
-                '404':
-                    description: Could not find the user.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    error:
-                                        type: string
-                                        example: 'User not found.'
-                '500':
-                    description: Something went wrong on the server. Will include server error message.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    error:
-                                        type: string
-                                        example: 'Something went wrong while looking for user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
-        delete:
-            summary: Delete user
-            tags:
-                - users
-                - managers
-            description: Delete specific user by their ID
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  description: ObjectID of the user
-                  schema:
-                      type: string
-            operationId: deleteUser
-            security:
-                - bearerAuth: []
-            responses:
-                '200':
-                    description: 'Successfully deleted the user.'
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        example: 'User with ID 606b7b5993e1ee1504b037e1 deleted successfully.'
-                '401':
-                    $ref: '#/components/responses/UnauthorizedError'
-                '404':
-                    description: Could not find user.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    error:
-                                        type: string
-                                        example: 'There is no user with this ID in the database.'
-                '500':
-                    description: Something went wrong on the server. Will include server error message.
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    error:
-                                        type: string
-                                        example: 'Something went wrong while trying to delete the user. [SERVER ERROR MESSAGE]'
     /users/{id}:
         get:
             summary: Get information about own profile
@@ -1007,6 +896,187 @@ paths:
                                     message:
                                         type: string
                                         example: 'Something went wrong while trying to update user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
+    /users/{id}/manage:
+        get:
+            summary: Get information about specific user
+            tags:
+                - users
+                - managers
+            description: Get information about a specific user by their ID. Does not include the password or object version.
+            operationId: getUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Successful query, returns the user object.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        name:
+                                            $ref: '#/components/schemas/User/properties/name'
+                                        _id:
+                                            type: string
+                                            example: '606b7b5993e1ee1504b037e1'
+                                        email:
+                                            $ref: '#/components/schemas/User/properties/email'
+                                        role:
+                                            $ref: '#/components/schemas/User/properties/role'
+                                        createdAt:
+                                            $ref: '#/components/schemas/User/properties/createdAt'
+                                        updatedAt:
+                                            $ref: '#/components/schemas/User/properties/updatedAt'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: Could not find the user.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'User not found.'
+                '500':
+                    description: Something went wrong on the server. Will include server error message.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while looking for user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
+        delete:
+            summary: Delete user
+            tags:
+                - users
+                - managers
+            description: Delete specific user by their ID
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+            operationId: deleteUser
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: 'Successfully deleted the user.'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'User with ID 606b7b5993e1ee1504b037e1 deleted successfully.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: Could not find user.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'There is no user with this ID in the database.'
+                '500':
+                    description: Something went wrong on the server. Will include server error message.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to delete the user. [SERVER ERROR MESSAGE]'
+    /users/{id}/role:
+        put:
+            summary: Update user role
+            tags:
+                - users
+                - managers
+            description: Change the role of specific user
+            operationId: changeRole
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+            security:
+                - bearerAuth: []
+            requestBody:
+                description: New role of the user
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                role:
+                                    $ref: '#/components/schemas/User/properties/role'
+            responses:
+                '201':
+                    description: Successful query, returns a success message
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Successfully changed role of user with ID 60830494708e37562cc2408c.'
+                '400':
+                    description: No role included in request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'You need to include the new role in the body of your request.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: No user found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find user with ID 60830494708e37562cc2408c.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to update the user role. [SERVER ERROR MESSAGE]'
     /users/invites:
         post:
             summary: Invite new user
