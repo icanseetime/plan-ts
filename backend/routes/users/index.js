@@ -4,32 +4,25 @@ const router = express.Router()
 const routes = require('./routes')
 const passport = require('passport')
 
-// --- Access: anyone
+// Get a list of users, filtered by query (no query = all users)
+router.get(
+    '/',
+    passport.authenticate('manager', { session: false }),
+    routes.listUsers
+)
+
+// Add new user
+router.post('/', routes.registerUser)
+
 // Login user (send JWT if successful)
 router.get('/login', routes.loginUser)
 
-// Check for invite
-router.get('/invites/:id', routes.checkInvite)
-
-// // Add new user
-router.post('/', routes.registerUser)
-
-// --- Access: self
+// Get a list of invites
 router.get(
-    '/:id',
-    passport.authenticate('all-users', { session: false }),
-    routes.getSelf
+    '/invites',
+    passport.authenticate('manager', { session: false }),
+    routes.listInvites
 )
-
-router.put(
-    '/:id',
-    passport.authenticate('all-users', { session: false }),
-    routes.updateSelf
-)
-
-// --- Access: gardeners
-
-// --- Access: managers
 
 // Invite new user
 router.post(
@@ -45,11 +38,21 @@ router.delete(
     routes.deleteInvite
 )
 
-// Get a list of users, filtered by query (no query = all users)
+// Check for invite
+router.get('/invites/:id', routes.checkInvite)
+
+// Get users own profile details
 router.get(
-    '/',
-    passport.authenticate('manager', { session: false }),
-    routes.listUsers
+    '/:id',
+    passport.authenticate('all-users', { session: false }),
+    routes.getSelf
+)
+
+// Update users own profile details
+router.put(
+    '/:id',
+    passport.authenticate('all-users', { session: false }),
+    routes.updateSelf
 )
 
 // Get user by ID
@@ -59,18 +62,18 @@ router.get(
     routes.getUser
 )
 
-// Update user e-mail/role
-router.put(
-    '/:id/role',
-    passport.authenticate('manager', { session: false }),
-    routes.changeRole
-)
-
 // Delete specific user by ID
 router.delete(
     '/:id/manage',
     passport.authenticate('manager', { session: false }),
     routes.deleteUser
+)
+
+// Update user e-mail/role
+router.put(
+    '/:id/role',
+    passport.authenticate('manager', { session: false }),
+    routes.changeRole
 )
 
 module.exports = router
