@@ -223,7 +223,7 @@ const updateSelf = async (req, res) => {
             })
         }
         // Update user
-        const user = await User.findByIdAndUpdate(req.params.id, req.body)
+        const user = await User.findOneAndUpdate(req.params.id, req.body)
         // Check for found/updated user and send response to client
         if (!user) {
             res.status(404).json({
