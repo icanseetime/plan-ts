@@ -1078,6 +1078,63 @@ paths:
                                         type: string
                                         example: 'Something went wrong while trying to update the user role. [SERVER ERROR MESSAGE]'
     /users/invites:
+        get:
+            summary: List user invites
+            tags:
+                - users
+                - invites
+                - managers
+            description: List all user invites, can be filtered by query
+            operationId: listInvites
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Successfully created new invite, returns the invite and a success message.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        _id:
+                                            type: string
+                                            example: '606b7b5993e1ee1504b037e1'
+                                        email:
+                                            $ref: '#/components/schemas/Invite/properties/email'
+                                        role:
+                                            $ref: '#/components/schemas/Invite/properties/role'
+                                        invited_by:
+                                            $ref: '#/components/schemas/Invite/properties/invited_by'
+                                        createdAt:
+                                            $ref: '#/components/schemas/Invite/properties/createdAt'
+                                        updatedAt:
+                                            $ref: '#/components/schemas/Invite/properties/updatedAt'
+                                        __v:
+                                            type: number
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: No invites found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find any invites.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find invites. [SERVER ERROR MESSAGE]'
         post:
             summary: Invite new user
             tags:
@@ -1139,7 +1196,7 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to create new invite. [SERVER ERROR MESSAGE]'
-    /invites/{id}:
+    /users/invites/{id}:
         get:
             summary: Get information about specific invite
             tags:
@@ -1148,6 +1205,8 @@ paths:
                 - all
             description: Get information about a specific invite by its ID.
             operationId: checkInvite
+            security:
+                - bearerAuth: []
             parameters:
                 - name: id
                   in: path
