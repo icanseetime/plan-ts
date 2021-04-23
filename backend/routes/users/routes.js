@@ -65,6 +65,24 @@ const checkInvite = async (req, res) => {
     }
 }
 
+// GET: List invites
+const listInvites = async (req, res) => {
+    try {
+        const invites = await Invite.find(req.query)
+        if (invites) {
+            res.status(200).json(invites)
+        } else {
+            res.status(404).json({
+                error: 'Could not find any invites.'
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to find invites. [${err}]`
+        })
+    }
+}
+
 // DELETE: Delete invite
 const deleteInvite = async (req, res) => {
     try {
@@ -165,11 +183,11 @@ const listUsers = async (req, res) => {
 
 // GET: Get information about own user profile
 const getSelf = async (req, res) => {
-    // Check that the user is trying to access their own profile
-    if (req.user._id != req.params.id) {
-        res.status(400).json({ error: 'No access.' })
-    }
     try {
+        // Check that the user is trying to access their own profile
+        if (req.user._id != req.params.id) {
+            res.status(400).json({ error: 'No access.' })
+        }
         // Find user (but do not return password and version no.)
         const user = await User.findById(req.params.id).select('-password -__v')
         if (user) {
@@ -303,6 +321,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
     inviteUser,
     checkInvite,
+    listInvites,
     deleteInvite,
     registerUser,
     loginUser,
