@@ -746,7 +746,7 @@ paths:
                                     error:
                                         type: string
                                         example: 'There was an error adding test@ntnu.no to the database. [SERVER ERROR MESSAGE]'
-    /users/{id}:
+    /users/{id}/manage:
         get:
             summary: Get information about specific user
             tags:
@@ -857,6 +857,156 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to delete the user. [SERVER ERROR MESSAGE]'
+    /users/{id}:
+        get:
+            summary: Get information about own profile
+            tags:
+                - users
+                - self
+            description: User can get information about their own user profile details. Does not include the password or object version.
+            operationId: getSelf
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Successful query, returns the user object
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        name:
+                                            $ref: '#/components/schemas/User/properties/name'
+                                        _id:
+                                            type: string
+                                            example: '606b7b5993e1ee1504b037e1'
+                                        email:
+                                            $ref: '#/components/schemas/User/properties/email'
+                                        role:
+                                            $ref: '#/components/schemas/User/properties/role'
+                                        createdAt:
+                                            $ref: '#/components/schemas/User/properties/createdAt'
+                                        updatedAt:
+                                            $ref: '#/components/schemas/User/properties/updatedAt'
+                '400':
+                    description: No access. The user ID of the logged in user does not match the user ID of the profile that is being fetched
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'No access.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: Could not find the user
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'User not found.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while looking for user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
+        put:
+            summary: Update own profile
+            tags:
+                - users
+                - self
+            description: Users can update their own profile details, except for their role
+            operationId: updateSelf
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    $ref: '#/components/schemas/User/properties/email'
+                                password:
+                                    $ref: '#/components/schemas/User/properties/password'
+                                'name.first':
+                                    $ref: '#/components/schemas/User/properties/name/properties/first'
+                                'name.last':
+                                    $ref: '#/components/schemas/User/properties/name/properties/last'
+            responses:
+                '201':
+                    description: Successful query, updates the user object and returns a success message
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'User with ID 606b7b5993e1ee1504b037e1 was successfully updated.'
+                '400':
+                    description: User is trying to change another users profile, user is trying to change their own role or the request is missing update values
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        enum:
+                                            - You can not change your own user role.
+                                            - You need to include update values in a request body.
+                                            - No access.
+                                        example: 'No access.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: No user found in database
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Could not find user with ID 606b7b5993e1ee1504b037e1.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Something went wrong while trying to update user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
     /users/invites:
         post:
             summary: Invite new user
