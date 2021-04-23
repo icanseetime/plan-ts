@@ -14,6 +14,19 @@ router.get('/invites/:id', routes.checkInvite)
 // // Add new user
 router.post('/', routes.registerUser)
 
+// --- Access: self
+router.get(
+    '/:id',
+    passport.authenticate('all-users', { session: false }),
+    routes.getSelf
+)
+
+router.put(
+    '/:id',
+    passport.authenticate('all-users', { session: false }),
+    routes.updateSelf
+)
+
 // --- Access: gardeners
 
 // --- Access: managers
@@ -41,14 +54,14 @@ router.get(
 
 // Get user by ID
 router.get(
-    '/:id',
+    '/:id/manage',
     passport.authenticate('manager', { session: false }),
     routes.getUser
 )
 
 // Delete specific user by ID
 router.delete(
-    '/:id',
+    '/:id/manage',
     passport.authenticate('manager', { session: false }),
     routes.deleteUser
 )

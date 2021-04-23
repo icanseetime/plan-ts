@@ -163,6 +163,27 @@ const listUsers = async (req, res) => {
     }
 }
 
+// GET: Get information about own user profile
+const getSelf = async (req, res) => {
+    // Check that the user is trying to access their own profile
+    if (req.user._id != req.params.id) {
+        res.status(400).json({ error: 'No access.' })
+    }
+    try {
+        // Find user (but do not return password and version no.)
+        const user = await User.findById(req.params.id).select('-password -__v')
+        if (user) {
+            res.status(200).json(user)
+        } else {
+            res.status(404).json({ error: 'User not found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while looking for user with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 // GET: Get info about specific user by their ID
 const getUser = async (req, res) => {
     try {
@@ -176,6 +197,46 @@ const getUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: `Something went wrong while looking for user with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
+// PUT: Update own user profile details
+const updateSelf = async (req, res) => {
+    try {
+        // Check that the user is changing their own profile
+        if (req.user._id != req.params.id) {
+            res.status(400).json({
+                error: 'No access.'
+            })
+        }
+        // Make sure no one tries to change their own role
+        if (req.body.role) {
+            res.status(400).json({
+                error: 'You can not change your own user role.'
+            })
+        }
+        // Make sure there are update values provided
+        if (Object.keys(req.body).length == 0) {
+            res.status(400).json({
+                error: 'You need to include update values in a request body.'
+            })
+        }
+        // Update user
+        const user = await User.findByIdAndUpdate(req.params.id, req.body)
+        // Check for found/updated user and send response to client
+        if (!user) {
+            res.status(404).json({
+                error: `Could not find user with ID ${req.params.id}.`
+            })
+        } else {
+            res.status(201).json({
+                message: `User with ID ${req.params.id} was successfully updated.`
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to update user with ID ${req.params.id}. [${err}]`
         })
     }
 }
@@ -209,6 +270,8 @@ module.exports = {
     registerUser,
     loginUser,
     listUsers,
+    getSelf,
     getUser,
+    updateSelf,
     deleteUser
 }
