@@ -241,6 +241,37 @@ const updateSelf = async (req, res) => {
     }
 }
 
+// PUT: Update user role
+const changeRole = async (req, res) => {
+    try {
+        // Check that new role is included in request
+        if (!req.body.role) {
+            res.status(400).json({
+                error:
+                    'You need to include the new role in the body of your request.'
+            })
+        } else {
+            // Update role of the user by ID
+            let user = await User.findByIdAndUpdate(req.params.id, {
+                role: req.body.role
+            })
+            if (user) {
+                res.status(201).json({
+                    message: `Successfully changed role of user with ID ${req.params.id}.`
+                })
+            } else {
+                res.status(404).json({
+                    error: `Could not find user with ID ${req.params.id}.`
+                })
+            }
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to update the user role. [${err}]`
+        })
+    }
+}
+
 // DELETE: Delete user by ID
 const deleteUser = async (req, res) => {
     try {
@@ -273,5 +304,6 @@ module.exports = {
     getSelf,
     getUser,
     updateSelf,
+    changeRole,
     deleteUser
 }

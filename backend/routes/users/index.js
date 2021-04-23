@@ -59,6 +59,13 @@ router.get(
     routes.getUser
 )
 
+// Update user e-mail/role
+router.put(
+    '/:id/role',
+    passport.authenticate('manager', { session: false }),
+    routes.changeRole
+)
+
 // Delete specific user by ID
 router.delete(
     '/:id/manage',
