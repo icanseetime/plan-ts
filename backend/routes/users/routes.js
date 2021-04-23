@@ -223,7 +223,11 @@ const updateSelf = async (req, res) => {
             })
         }
         // Update user
-        const user = await User.findOneAndUpdate(req.params.id, req.body)
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.id },
+            req.body,
+            { runValidators: true }
+        )
         // Check for found/updated user and send response to client
         if (!user) {
             res.status(404).json({
@@ -252,9 +256,11 @@ const changeRole = async (req, res) => {
             })
         } else {
             // Update role of the user by ID
-            let user = await User.findByIdAndUpdate(req.params.id, {
-                role: req.body.role
-            })
+            let user = await User.findOneAndUpdate(
+                { _id: req.params.id },
+                { role: req.body.role },
+                { runValidators: true }
+            )
             if (user) {
                 res.status(201).json({
                     message: `Successfully changed role of user with ID ${req.params.id}.`
