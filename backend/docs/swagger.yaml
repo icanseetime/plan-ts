@@ -690,8 +690,12 @@ paths:
                                     $ref: '#/components/schemas/User/properties/email'
                                 password:
                                     $ref: '#/components/schemas/User/properties/password'
-                                name:
-                                    $ref: '#/components/schemas/User/properties/name'
+                                firstName:
+                                    type: string
+                                    example: 'Jane'
+                                lastName:
+                                    type: string
+                                    example: 'Doe'
                                 role:
                                     $ref: '#/components/schemas/User/properties/role'
 
