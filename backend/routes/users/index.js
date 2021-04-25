@@ -11,10 +11,10 @@ router.get(
     routes.listUsers
 )
 
-// Add new user
+// Register new user
 router.post('/', routes.registerUser)
 
-// Login user (send JWT if successful)
+// Login user
 router.get('/login', routes.loginUser)
 
 // Get a list of invites

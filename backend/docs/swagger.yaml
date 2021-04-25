@@ -775,23 +775,21 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        name:
-                                            $ref: '#/components/schemas/User/properties/name'
-                                        _id:
-                                            type: string
-                                            example: '606b7b5993e1ee1504b037e1'
-                                        email:
-                                            $ref: '#/components/schemas/User/properties/email'
-                                        role:
-                                            $ref: '#/components/schemas/User/properties/role'
-                                        createdAt:
-                                            $ref: '#/components/schemas/User/properties/createdAt'
-                                        updatedAt:
-                                            $ref: '#/components/schemas/User/properties/updatedAt'
+                                type: object
+                                properties:
+                                    name:
+                                        $ref: '#/components/schemas/User/properties/name'
+                                    _id:
+                                        type: string
+                                        example: '606b7b5993e1ee1504b037e1'
+                                    email:
+                                        $ref: '#/components/schemas/User/properties/email'
+                                    role:
+                                        $ref: '#/components/schemas/User/properties/role'
+                                    createdAt:
+                                        $ref: '#/components/schemas/User/properties/createdAt'
+                                    updatedAt:
+                                        $ref: '#/components/schemas/User/properties/updatedAt'
                 '400':
                     description: No access. The user ID of the logged in user does not match the user ID of the profile that is being fetched
                     content:
@@ -926,23 +924,21 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        name:
-                                            $ref: '#/components/schemas/User/properties/name'
-                                        _id:
-                                            type: string
-                                            example: '606b7b5993e1ee1504b037e1'
-                                        email:
-                                            $ref: '#/components/schemas/User/properties/email'
-                                        role:
-                                            $ref: '#/components/schemas/User/properties/role'
-                                        createdAt:
-                                            $ref: '#/components/schemas/User/properties/createdAt'
-                                        updatedAt:
-                                            $ref: '#/components/schemas/User/properties/updatedAt'
+                                type: object
+                                properties:
+                                    name:
+                                        $ref: '#/components/schemas/User/properties/name'
+                                    _id:
+                                        type: string
+                                        example: '606b7b5993e1ee1504b037e1'
+                                    email:
+                                        $ref: '#/components/schemas/User/properties/email'
+                                    role:
+                                        $ref: '#/components/schemas/User/properties/role'
+                                    createdAt:
+                                        $ref: '#/components/schemas/User/properties/createdAt'
+                                    updatedAt:
+                                        $ref: '#/components/schemas/User/properties/updatedAt'
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
@@ -1598,7 +1594,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: Successful query, returns the invite object.
+                    description: Successful query, returns the feedback object.
                     content:
                         application/json:
                             schema:
