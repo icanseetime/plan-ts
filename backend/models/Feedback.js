@@ -16,7 +16,7 @@ const Feedback = new mongoose.Schema(
             required: true
         }
     },
-    { timestamps: true }
+    { timestamps: true, collection: 'feedback' }
 )
 
 // Export

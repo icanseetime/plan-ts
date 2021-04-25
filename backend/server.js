@@ -18,6 +18,7 @@ const apiRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const plantsRouter = require('./routes/plants')
 const locationsRouter = require('./routes/locations')
+const feedbackRouter = require('./routes/feedback')
 
 // Middleware
 app.use(express.json())
@@ -44,6 +45,7 @@ app.use('/api', apiRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/plants', plantsRouter)
 app.use('/api/locations', locationsRouter)
+app.use('/api/feedback', feedbackRouter)
 app.use('/api/docs', swagger.serve, swagger.setup(documentation))
 
 // Error handling
