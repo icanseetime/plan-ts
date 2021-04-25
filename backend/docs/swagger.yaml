@@ -29,6 +29,8 @@ tags:
       description: New user invite routes
     - name: locations
       description: Location routes
+    - name: feedback
+      description: Feedback routes
 paths:
     /plants:
         get:
@@ -1506,6 +1508,162 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while looking for building with no. 115. [SERVER ERROR MESSAGE]'
+    /feedback:
+        get:
+            summary: List all feedback
+            tags:
+                - feedback
+                - managers
+            description: Get a list of all feedback objects in the database
+            operationId: listFeedback
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Successful query
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Feedback'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: Feedback not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find any feedback.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find feedback. [SERVER ERROR MESSAGE]'
+        post:
+            summary: Add new feedback
+            tags:
+                - feedback
+                - all
+            description: Create new feedback and save to database
+            operationId: createFeedback
+            responses:
+                '201':
+                    description: Successfully created new feedback, returns the feedback and a success message.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'New feedback successfully saved to database.'
+                                    feedback:
+                                        $ref: '#/components/schemas/Feedback'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to save the feedback. [SERVER ERROR MESSAGE]'
+    /feedback/{id}:
+        get:
+            summary: Get information about specific feedback
+            tags:
+                - feedback
+                - managers
+            description: Get information about specific feedback by its ID.
+            operationId: getFeedback
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the feedback
+                  schema:
+                      type: string
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Successful query, returns the invite object.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Feedback'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: Could not find the feedback.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'No feedback with this ID.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while looking for feedback with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
+        delete:
+            summary: Delete feedback
+            tags:
+                - feedback
+                - managers
+            description: Delete specific feedback by ID
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the feedback
+                  schema:
+                      type: string
+            operationId: deleteFeedback
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: 'Successfully deleted feedback.'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Successfully deleted feedback.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to delete feedback. [SERVER ERROR MESSAGE]'
 components:
     schemas:
         Plant:
@@ -1667,25 +1825,6 @@ components:
                     type: string
                     format: date-time
                     description: 'Date the user object was last updated. This property is created and updated automatically'
-        Feedback:
-            type: object
-            description: Feedback sent from users of the app to the managers
-            required:
-                - name
-                - plant_id
-                - message_body
-            properties:
-                name:
-                    type: string
-                    description: 'Name of person who sends the feedback'
-                    example: 'Michael'
-                plant_id:
-                    type: string
-                    description: 'ObjectID representing the plant the feedback is about'
-                    example: '606b7b5993e1ee1504b037e1'
-                message_body:
-                    type: string
-                    description: 'The message from the user'
         Invite:
             description: Invites for new users
             type: object
@@ -1752,6 +1891,40 @@ components:
                                             type: string
                                             example: '1152206'
                                             description: String built of building number, floor number and room number
+        Feedback:
+            type: object
+            description: Feedback sent from users of the app to the managers
+            required:
+                - name
+                - plant_id
+                - message_body
+            properties:
+                _id:
+                    type: string
+                    description: 'Unique identifier. ObjectID automatically generated by MongoDB'
+                    example: '60856ac06bf41a7270f65e62'
+                name:
+                    type: string
+                    description: 'Name of person who sends the feedback'
+                    example: 'Michael'
+                plant_id:
+                    type: string
+                    description: 'ObjectID representing the plant the feedback is about'
+                    example: '606b7b5993e1ee1504b037e1'
+                message_body:
+                    type: string
+                    description: 'The message from the user'
+                    example: 'This plant looks like it is dying'
+                createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Date and time the object was created. Automatically generated.'
+                updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Date and time the object was last updated. Automatically generated.'
+                __v:
+                    type: number
     securitySchemes:
         bearerAuth:
             type: http
