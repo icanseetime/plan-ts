@@ -10,8 +10,8 @@ info:
     contact:
         email: 'imgjeits@stud.ntnu.no'
     license:
-        name: Apache #Figure out which license
-        url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+        name: Attribution-NoDerivs 3.0 Unported (CC BY-ND 3.0)
+        url: 'https://creativecommons.org/licenses/by-nd/3.0/'
 tags:
     - name: managers
       description: Only available to users with manager role
@@ -839,6 +839,7 @@ paths:
             security:
                 - bearerAuth: []
             requestBody:
+                description: Only include properties of the user that should be updated. The key name of nested properties, like first name should be written `name.first`
                 required: true
                 content:
                     application/json:
@@ -1209,8 +1210,6 @@ paths:
                 - all
             description: Get information about a specific invite by its ID.
             operationId: checkInvite
-            security:
-                - bearerAuth: []
             parameters:
                 - name: id
                   in: path
