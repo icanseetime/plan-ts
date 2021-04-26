@@ -9,6 +9,7 @@ const Feedback = new mongoose.Schema(
         },
         plant_id: {
             type: mongoose.Schema.Types.ObjectId,
+            ref: 'Plant',
             required: true
         },
         message_body: {

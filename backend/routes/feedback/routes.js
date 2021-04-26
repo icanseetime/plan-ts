@@ -7,8 +7,8 @@ const createFeedback = async (req, res) => {
         // Create new feedback
         const newFeedback = new Feedback({
             name: req.body.name,
-            plant_id: req.body.plantID,
-            message_body: req.body.message
+            plant_id: req.body.plant_id,
+            message_body: req.body.message_body
         })
 
         // Save feedback to DB
@@ -29,6 +29,8 @@ const listFeedback = async (req, res) => {
     try {
         // Find feedback
         let feedback = await Feedback.find(req.query)
+            .populate('plant_id', 'name')
+            .exec()
         if (feedback.length) {
             res.status(200).json(feedback)
         } else {
@@ -44,7 +46,12 @@ const listFeedback = async (req, res) => {
 // GET: Get specific feedback object
 const getFeedback = async (req, res) => {
     try {
-        let existingFeedback = await Feedback.findOne({ _id: req.params.id })
+        let existingFeedback = await (
+            await Feedback.findOne({ _id: req.params.id }).populate(
+                'plant_id',
+                'name'
+            )
+        ).execPopulate()
         if (!existingFeedback) {
             res.status(404).json({
                 error: `No feedback with this ID.`
@@ -60,11 +67,15 @@ const getFeedback = async (req, res) => {
     }
 }
 
-// DELETE: Delete specific feedback object
+// DELETE: Delete specific feedback object // TODO: fix swagger, add 404
 const deleteFeedback = async (req, res) => {
     try {
-        await Feedback.findByIdAndDelete(req.params.id)
-        res.status(200).json({ message: `Successfully deleted feedback.` })
+        const feedback = await Feedback.findByIdAndDelete(req.params.id)
+        if (feedback) {
+            res.status(200).json({ message: `Successfully deleted feedback.` })
+        } else {
+            res.status(404).json({ error: 'No feedback with this ID.' })
+        }
     } catch (err) {
         res.status(500).json(
             `Something went wrong while trying to delete feedback. [${err}]`
