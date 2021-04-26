@@ -29,7 +29,7 @@ const inviteUser = async (req, res) => {
         const newInvite = new Invite({
             email: req.body.email,
             role: req.body.role,
-            invited_by: req.body.userID
+            invited_by: req.body.invited_by
         })
 
         // Save to DB and send response

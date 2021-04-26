@@ -589,8 +589,7 @@ paths:
                             type: object
                             properties:
                                 location:
-                                    type: string
-                                    example: '1152203'
+                                    $ref: '#/components/schemas/Location/properties/_id'
             responses:
                 '200':
                     description: Successful query
@@ -1187,6 +1186,20 @@ paths:
             operationId: inviteUser
             security:
                 - bearerAuth: []
+            requestBody:
+                description: Details about the invite
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    $ref: '#/components/schemas/Invite/properties/email'
+                                role:
+                                    $ref: '#/components/schemas/Invite/properties/role'
+                                invited_by:
+                                    $ref: '#/components/schemas/Invite/properties/invited_by'
             responses:
                 '201':
                     description: Successfully created new invite, returns the invite and a success message.
@@ -1411,7 +1424,7 @@ paths:
                                         type: string
                                         example: 'Something went wrong while trying to find locations. [SERVER ERROR MESSAGE]'
         post:
-            summary: Add new user
+            summary: Add new location
             tags:
                 - locations
                 - managers
@@ -1424,7 +1437,18 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Location'
+                            type: object
+                            properties:
+                                room:
+                                    $ref: '#/components/schemas/Location/properties/room'
+                                floor:
+                                    $ref: '#/components/schemas/Location/properties/floor'
+                                building:
+                                    $ref: '#/components/schemas/Location/properties/building'
+                                mazemap_link:
+                                    $ref: '#/components/schemas/Location/properties/mazemap_link'
+                                mazemap_embed:
+                                    $ref: '#/components/schemas/Location/properties/mazemap_embed'
             responses:
                 '201':
                     description: 'Successful location creation'
