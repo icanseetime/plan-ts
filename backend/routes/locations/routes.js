@@ -1,6 +1,31 @@
 // Database schemas
 const Location = require('../../models/Location')
 
+// POST: Create new location
+const createLocation = async (req, res) => {
+    try {
+        // Create new location
+        const newLocation = new Location({
+            room: req.body.room,
+            floor: req.body.floor,
+            building: req.body.building,
+            mazemap_link: req.body.mazemap_link,
+            mazemap_embed: req.body.mazemap_embed
+        })
+
+        // Save location to DB
+        const location = await newLocation.save()
+        res.status(201).json({
+            message: 'New location successfully saved to database.',
+            location: location
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to save the location. [${err}]`
+        })
+    }
+}
+
 // GET: List all locations
 const listLocations = async (req, res) => {
     try {
@@ -18,76 +43,84 @@ const listLocations = async (req, res) => {
     }
 }
 
-// GET: List only building names and numbers
+// GET: List only buildings
 const listBuildings = async (req, res) => {
     try {
         // Find locations
-        let locations = await Location.find(req.query).select('building name')
+        let locations = await Location.distinct('building')
         if (locations.length) {
             res.status(200).json(locations)
         } else {
-            res.status(404).json({ error: 'Could not find any locations.' })
+            res.status(404).json({ error: 'Could not find any buildings.' })
         }
     } catch (err) {
         res.status(500).json({
-            error: `Something went wrong while trying to find locations. [${err}]`
+            error: `Something went wrong while trying to find buildings. [${err}]`
         })
     }
 }
 
-// GET: Get building based on the building number
-const getBuilding = async (req, res) => {
+// GET: Get floors based on building no.
+const listFloors = async (req, res) => {
     try {
-        // Find location
-        let location = await Location.findOne({ building: req.params.no })
-        if (location) {
-            res.status(200).json(location)
+        // Find distinct floors that match the building
+        let locations = await Location.distinct('floor', {
+            'building.no': req.params.building
+        })
+        if (locations.length) {
+            res.status(200).json(locations)
         } else {
-            res.status(404).json({ error: `Building not found.` })
+            res.status(404).json({ error: 'Could not find any floors.' })
         }
     } catch (err) {
         res.status(500).json({
-            error: `Something went wrong while looking for building with no. ${req.params.no}. [${err}]`
+            error: `Something went wrong while trying to find floors. [${err}]`
         })
     }
 }
 
-// GET: Get location based on location string (used in plant objects)
+const listRooms = async (req, res) => {
+    try {
+        // Find distinct rooms that match the building and floor
+        let locations = await Location.find().where({
+            'building.no': req.params.building,
+            floor: req.params.floor
+        })
+        if (locations.length) {
+            res.status(200).json(locations)
+        } else {
+            res.status(404).json({ error: 'Could not find any rooms.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to find the rooms. [${err}]`
+        })
+    }
+}
+
 const getLocation = async (req, res) => {
     try {
-        // Find location and filter out other floors
-        let location = await Location.findOne(
-            {
-                'floors.rooms.uid': req.params.uid
-            },
-            {
-                name: 1,
-                'floors.no': 1,
-                'floors.rooms.$': 1
-            }
-        ) // TODO: check if there is a better filter that can remove other rooms as well
-
+        // Find location
+        let location = await Location.findById(req.params.id)
         if (location) {
-            // Remove other rooms from floor-rooms array
-            location.floors[0].rooms.forEach((room, idx) => {
-                if (room.uid != req.params.uid) {
-                    location.floors[0].rooms.splice(idx, 1)
-                }
-            })
             res.status(200).json(location)
         } else {
-            res.status(404).json({ error: `Location not found.` })
+            res.status(404).json({
+                error: `Could not find location with ID ${req.params.id}`
+            })
         }
     } catch (err) {
         res.status(500).json({
-            error: `Something went wrong while looking for location with uid ${req.params.uid}. [${err}]`
+            error: `Something went wrong while trying to find location with ID ${req.params.id}. [${err}]`
         })
     }
 }
 
 module.exports = {
+    createLocation,
     listLocations,
     listBuildings,
-    getBuilding,
+    listFloors,
+    listRooms,
     getLocation
 }

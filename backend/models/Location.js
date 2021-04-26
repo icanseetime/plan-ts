@@ -1,35 +1,34 @@
 const mongoose = require('mongoose')
 
 // Schemas
-const Room = new mongoose.Schema({
-    no: {
+const Location = new mongoose.Schema({
+    room: {
+        // TODO: write about? Type: string, because some rooms have names and not numbers
+        type: String,
+        required: true
+    },
+    floor: {
         type: Number,
         required: true
     },
-    uid: {
+    building: {
+        name: {
+            type: String,
+            required: true
+        },
+        no: {
+            type: Number,
+            required: true
+        }
+    },
+    mazemap_link: {
+        type: String,
+        required: true
+    },
+    mazemap_embed: {
         type: String,
         required: true
     }
-})
-
-const Floor = new mongoose.Schema({
-    no: {
-        type: Number,
-        required: true
-    },
-    rooms: [Room]
-})
-
-const Location = new mongoose.Schema({
-    building: {
-        type: Number,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    floors: [Floor]
 })
 
 // Export
