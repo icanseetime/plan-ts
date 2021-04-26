@@ -154,7 +154,7 @@ const waterPlant = async (req, res) => {
                     $push: {
                         history: {
                             type: 'water',
-                            user_id: req.body.userID,
+                            user_id: req.body.user_id,
                             date: Date.now()
                         }
                     }
@@ -192,7 +192,7 @@ const fertilizePlant = async (req, res) => {
                     $push: {
                         history: {
                             type: 'fertilize',
-                            user_id: req.body.userID,
+                            user_id: req.body.user_id,
                             date: Date.now()
                         }
                     }
@@ -228,7 +228,7 @@ const movePlant = async (req, res) => {
                     $push: {
                         history: {
                             type: 'move',
-                            user_id: req.body.userID,
+                            user_id: req.body.user_id,
                             date: Date.now(),
                             note: req.body.note
                         }

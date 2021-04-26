@@ -59,9 +59,7 @@ const checkInvite = async (req, res) => {
                 error: `No invite with this ID.`
             })
         }
-        res.status(200).json({
-            invite: existingInvite
-        })
+        res.status(200).json(existingInvite)
     } catch (err) {
         res.status(500).json(
             `Something went wrong while looking for invite with ID ${req.params.id}. [${err}]`

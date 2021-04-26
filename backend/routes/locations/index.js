@@ -21,7 +21,7 @@ router.get('/buildings', routes.listBuildings)
 router.get('/:building/floors', routes.listFloors)
 
 // List distinct rooms based on building and floor
-router.get('/:building/:floor', routes.listRooms)
+router.get('/:building/:floor/rooms', routes.listRooms)
 
 // Get specific location by ID
 router.get('/:id', routes.getLocation)

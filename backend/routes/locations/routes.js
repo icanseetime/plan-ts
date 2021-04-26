@@ -46,10 +46,10 @@ const listLocations = async (req, res) => {
 // GET: List only buildings
 const listBuildings = async (req, res) => {
     try {
-        // Find locations
-        let locations = await Location.distinct('building')
-        if (locations.length) {
-            res.status(200).json(locations)
+        // Find buildings
+        let buildings = await Location.distinct('building')
+        if (buildings.length) {
+            res.status(200).json(buildings)
         } else {
             res.status(404).json({ error: 'Could not find any buildings.' })
         }
@@ -60,15 +60,15 @@ const listBuildings = async (req, res) => {
     }
 }
 
-// GET: Get floors based on building no.
+// GET: List floors based on building no.
 const listFloors = async (req, res) => {
     try {
         // Find distinct floors that match the building
-        let locations = await Location.distinct('floor', {
+        let floors = await Location.distinct('floor', {
             'building.no': req.params.building
         })
-        if (locations.length) {
-            res.status(200).json(locations)
+        if (floors.length) {
+            res.status(200).json(floors)
         } else {
             res.status(404).json({ error: 'Could not find any floors.' })
         }
@@ -79,15 +79,16 @@ const listFloors = async (req, res) => {
     }
 }
 
+// GET: List rooms based on building no. & floor
 const listRooms = async (req, res) => {
     try {
         // Find distinct rooms that match the building and floor
-        let locations = await Location.find().where({
+        let rooms = await Location.find().where({
             'building.no': req.params.building,
             floor: req.params.floor
         })
-        if (locations.length) {
-            res.status(200).json(locations)
+        if (rooms.length) {
+            res.status(200).json(rooms)
         } else {
             res.status(404).json({ error: 'Could not find any rooms.' })
         }
@@ -98,6 +99,7 @@ const listRooms = async (req, res) => {
     }
 }
 
+// GET: Find specific location by ID
 const getLocation = async (req, res) => {
     try {
         // Find location

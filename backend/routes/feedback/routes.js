@@ -57,9 +57,7 @@ const getFeedback = async (req, res) => {
                 error: `No feedback with this ID.`
             })
         }
-        res.status(200).json({
-            feedback: existingFeedback
-        })
+        res.status(200).json(existingFeedback)
     } catch (err) {
         res.status(500).json(
             `Something went wrong while looking for feedback with ID ${req.params.id}. [${err}]`
@@ -67,7 +65,7 @@ const getFeedback = async (req, res) => {
     }
 }
 
-// DELETE: Delete specific feedback object // TODO: fix swagger, add 404
+// DELETE: Delete specific feedback object
 const deleteFeedback = async (req, res) => {
     try {
         const feedback = await Feedback.findByIdAndDelete(req.params.id)

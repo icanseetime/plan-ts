@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const User = require('./User')
 
 // Schema
 const Invite = new mongoose.Schema(
