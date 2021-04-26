@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const User = require('./User')
 
 // Schema
 const Invite = new mongoose.Schema(
@@ -14,6 +15,7 @@ const Invite = new mongoose.Schema(
         },
         invited_by: {
             type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
             required: true
         }
     },
