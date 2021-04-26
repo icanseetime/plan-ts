@@ -33,20 +33,13 @@ tags:
       description: Feedback routes
 paths:
     /plants:
-        get:
+        get: #TODO: add query params
             summary: Lists plants
             tags:
                 - all
                 - plants
             description: Get a list of plants in the system. List can be filtered by using queries. No query will return a list of all the plants.
             operationId: listPlants
-            parameters: # TODO: add query params
-                - in: query
-                  name: location
-                  description: Search by location
-                  required: false
-                  schema:
-                      type: string
             responses:
                 '200':
                     description: List of plants matching criteria
@@ -55,7 +48,24 @@ paths:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/Plant'
+                                    properties:
+                                        health:
+                                            $ref: '#/components/schemas/Plant/properties/health'
+                                        picture:
+                                            $ref: '#/components/schemas/Plant/properties/picture'
+                                        _id:
+                                            type: string
+                                            example: '607dde78081f316f0473f7fb'
+                                        name:
+                                            $ref: '#/components/schemas/Plant/properties/name'
+                                        location:
+                                            $ref: '#/components/schemas/Location'
+                                        createdAt:
+                                            $ref: '#/components/schemas/Plant/properties/createdAt'
+                                        updatedAt:
+                                            $ref: '#/components/schemas/Plant/properties/updatedAt'
+                                        __v:
+                                            type: number
                 '404':
                     description: Could not find any plants based on query
                 '500':
@@ -174,6 +184,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
                     description: Successful query returning plant object
@@ -192,11 +203,7 @@ paths:
                                     name:
                                         $ref: '#/components/schemas/Plant/properties/name'
                                     location:
-                                        $ref: '#/components/schemas/Plant/properties/location'
-                                    notes:
-                                        $ref: '#/components/schemas/Plant/properties/notes'
-                                    history:
-                                        $ref: '#/components/schemas/Plant/properties/history'
+                                        $ref: '#/components/schemas/Location'
                                     createdAt:
                                         $ref: '#/components/schemas/Plant/properties/createdAt'
                                     updatedAt:
@@ -237,6 +244,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
                     description: Successful update
@@ -253,6 +261,7 @@ paths:
                   description: ObjectID of the plant
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             operationId: deletePlant
             security:
                 - bearerAuth: []
@@ -306,6 +315,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
                     description: Successful query returning notes object
@@ -355,6 +365,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
                     description: Successful query returning history object
@@ -363,12 +374,27 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    history:
-                                        $ref: '#/components/schemas/Plant/properties/history'
+                                    _id:
+                                        type: string
+                                        example: 60770e1f23903c59c8dee276
+                                    type:
+                                        $ref: '#/components/schemas/Plant/properties/history/items/properties/type'
+                                    user_id:
+                                        type: object
+                                        properties:
+                                            name:
+                                                $ref: '#/components/schemas/User/properties/name'
+                                            _id:
+                                                type: string
+                                                example: 60770e1f23903c59c8dee276
+                                    date:
+                                        $ref: '#/components/schemas/Plant/properties/history/items/properties/date'
+                                    note:
+                                        $ref: '#/components/schemas/Plant/properties/history/items/properties/note'
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
-                    description: Could not find the plant.
+                    description: Could not find the plant
                     content:
                         application/json:
                             schema:
@@ -404,6 +430,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
                     description: Successful query
@@ -478,6 +505,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
                     description: Successful query
@@ -552,6 +580,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             requestBody:
                 description: A JSON object containing the new location room uid of the plant
                 content:
@@ -767,6 +796,7 @@ paths:
                   description: ObjectID of the user
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             security:
                 - bearerAuth: []
             responses:
@@ -836,6 +866,7 @@ paths:
                   description: ObjectID of the user
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             security:
                 - bearerAuth: []
             requestBody:
@@ -916,6 +947,7 @@ paths:
                   description: ObjectID of the user
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             security:
                 - bearerAuth: []
             responses:
@@ -974,6 +1006,7 @@ paths:
                   description: ObjectID of the user
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             operationId: deleteUser
             security:
                 - bearerAuth: []
@@ -1025,6 +1058,7 @@ paths:
                   description: ObjectID of the user
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             security:
                 - bearerAuth: []
             requestBody:
@@ -1093,7 +1127,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: Successfully created new invite, returns the invite and a success message.
+                    description: Successful query, returns list of invites
                     content:
                         application/json:
                             schema:
@@ -1109,7 +1143,12 @@ paths:
                                         role:
                                             $ref: '#/components/schemas/Invite/properties/role'
                                         invited_by:
-                                            $ref: '#/components/schemas/Invite/properties/invited_by'
+                                            type: object
+                                            properties:
+                                                name:
+                                                    $ref: '#/components/schemas/User/properties/name'
+                                                _id:
+                                                    $ref: '#/components/schemas/Invite/properties/invited_by'
                                         createdAt:
                                             $ref: '#/components/schemas/Invite/properties/createdAt'
                                         updatedAt:
@@ -1215,6 +1254,7 @@ paths:
                   description: ObjectID of the invite
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
                     description: Successful query, returns the invite object.
@@ -1223,24 +1263,26 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    invite:
+                                    _id:
+                                        type: string
+                                        example: '606b7b5993e1ee1504b037e1'
+                                    email:
+                                        $ref: '#/components/schemas/Invite/properties/email'
+                                    role:
+                                        $ref: '#/components/schemas/Invite/properties/role'
+                                    invited_by:
                                         type: object
                                         properties:
+                                            name:
+                                                $ref: '#/components/schemas/User/properties/name'
                                             _id:
-                                                type: string
-                                                example: '606b7b5993e1ee1504b037e1'
-                                            email:
-                                                $ref: '#/components/schemas/Invite/properties/email'
-                                            role:
-                                                $ref: '#/components/schemas/Invite/properties/role'
-                                            invited_by:
                                                 $ref: '#/components/schemas/Invite/properties/invited_by'
-                                            createdAt:
-                                                $ref: '#/components/schemas/Invite/properties/createdAt'
-                                            updatedAt:
-                                                $ref: '#/components/schemas/Invite/properties/updatedAt'
-                                            __v:
-                                                type: number
+                                    createdAt:
+                                        $ref: '#/components/schemas/Invite/properties/createdAt'
+                                    updatedAt:
+                                        $ref: '#/components/schemas/Invite/properties/updatedAt'
+                                    __v:
+                                        type: number
                 '404':
                     description: Could not find the invite.
                     content:
@@ -1275,6 +1317,7 @@ paths:
                   description: ObjectID of the invite
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             operationId: deleteInvite
             security:
                 - bearerAuth: []
@@ -1367,46 +1410,52 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to find locations. [SERVER ERROR MESSAGE]'
-    /locations/{uid}:
-        get:
-            summary: Get location object from room-uid
+        post:
+            summary: Add new user
             tags:
                 - locations
-                - all
-            description: Get an object that only contains the information related to the specific room's unique ID
-            operationId: getLocation
-            parameters:
-                - name: uid
-                  in: path
-                  required: true
-                  description: Room uid
-                  schema:
-                      type: string
+                - managers
+            description: Add new location
+            operationId: createLocation
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Location'
             responses:
-                '200':
-                    description: Successful query
+                '201':
+                    description: 'Successful location creation'
                     content:
                         application/json:
                             schema:
                                 type: object
                                 properties:
-                                    _id:
+                                    message:
                                         type: string
-                                        example: '60817eea81ae2cfcbf3f33fe'
-                                    name:
-                                        $ref: '#/components/schemas/Location/properties/name'
-                                    floors:
-                                        $ref: '#/components/schemas/Location/properties/floors'
-                '404':
-                    description: No location matching query
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    error:
-                                        type: string
-                                        example: 'Location not found.'
+                                        example: 'New location successfully saved to database.'
+                                    location:
+                                        type: object
+                                        properties:
+                                            building:
+                                                $ref: '#/components/schemas/Location/properties/building'
+                                            _id:
+                                                type: string
+                                                example: '60817ede81ae2cfcbf3f33fd'
+                                            room:
+                                                $ref: '#/components/schemas/Location/properties/room'
+                                            floor:
+                                                $ref: '#/components/schemas/Location/properties/floor'
+                                            mazemap_link:
+                                                $ref: '#/components/schemas/Location/properties/mazemap_link'
+                                            mazemap_embed:
+                                                $ref: '#/components/schemas/Location/properties/mazemap_embed'
+                                            __v:
+                                                type: number
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '500':
                     description: Server error
                     content:
@@ -1416,14 +1465,57 @@ paths:
                                 properties:
                                     error:
                                         type: string
-                                        example: 'Something went wrong while looking for location with uid 1152206. [SERVER ERROR MESSAGE]'
+                                        example: 'Something went wrong while trying to save the location. [SERVER ERROR MESSAGE]'
+    /locations/{id}:
+        get:
+            summary: Get specific location
+            tags:
+                - locations
+                - all
+            description: Get specific location object by ID
+            operationId: getLocation
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of location
+                  schema:
+                      type: string
+                      example: 6086c0b2e00c2a888c26af05
+            responses:
+                '200':
+                    description: Successful query
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Location'
+                '404':
+                    description: No floors found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find location with ID 6086c0b2e00c2a888c26af05.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find location with ID 6086c0b2e00c2a888c26af05. [SERVER ERROR MESSAGE]'
     /locations/buildings:
         get:
             summary: List all buildings
             tags:
                 - locations
                 - all
-            description: Get a list of all buildings with id, building number and name
+            description: Get a list of all unique building numbers and names
             operationId: listBuildings
             responses:
                 '200':
@@ -1435,13 +1527,8 @@ paths:
                                 items:
                                     type: object
                                     properties:
-                                        _id:
-                                            type: string
-                                            example: '60817ede81ae2cfcbf3f33fd'
                                         building:
                                             $ref: '#/components/schemas/Location/properties/building'
-                                        name:
-                                            $ref: '#/components/schemas/Location/properties/name'
                 '404':
                     description: Locations not found
                     content:
@@ -1451,7 +1538,7 @@ paths:
                                 properties:
                                     error:
                                         type: string
-                                        example: 'Could not find any locations.'
+                                        example: 'Could not find any buildings.'
                 '500':
                     description: Server error
                     content:
@@ -1461,31 +1548,34 @@ paths:
                                 properties:
                                     error:
                                         type: string
-                                        example: 'Something went wrong while trying to find locations. [SERVER ERROR MESSAGE]'
-    /locations/buildings/{no}:
+                                        example: 'Something went wrong while trying to find buildings. [SERVER ERROR MESSAGE]'
+    /locations/{building}/floors:
         get:
-            summary: Get specific building object
+            summary: List all floors in a building
             tags:
                 - locations
                 - all
-            description: Get a building object based on the building number
-            operationId: getBuilding
+            description: Get a list of all unique floors in a building
+            operationId: listFloors
             parameters:
-                - name: no
+                - name: building
                   in: path
                   required: true
                   description: Building number
                   schema:
                       type: string
+                      example: 118
             responses:
                 '200':
                     description: Successful query
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Location'
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Location/properties/floor'
                 '404':
-                    description: No building matching query
+                    description: No floors found
                     content:
                         application/json:
                             schema:
@@ -1493,7 +1583,7 @@ paths:
                                 properties:
                                     error:
                                         type: string
-                                        example: 'Building not found.'
+                                        example: 'Could not find any floors.'
                 '500':
                     description: Server error
                     content:
@@ -1503,7 +1593,59 @@ paths:
                                 properties:
                                     error:
                                         type: string
-                                        example: 'Something went wrong while looking for building with no. 115. [SERVER ERROR MESSAGE]'
+                                        example: 'Something went wrong while trying to find floors. [SERVER ERROR MESSAGE]'
+    /locations/{building}/{floor}/rooms:
+        get:
+            summary: List all rooms on specific floor of a building
+            tags:
+                - locations
+                - all
+            description: Get a list of all rooms on a floor in a specific building
+            operationId: listRooms
+            parameters:
+                - name: building
+                  in: path
+                  required: true
+                  description: Building number
+                  schema:
+                      type: string
+                      example: 118
+                - name: floor
+                  in: path
+                  required: true
+                  description: Floor number
+                  schema:
+                      type: string
+                      example: 2
+            responses:
+                '200':
+                    description: Successful query
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Location'
+                '404':
+                    description: No floors found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find any rooms.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find the rooms. [SERVER ERROR MESSAGE]'
     /feedback:
         get:
             summary: List all feedback
@@ -1522,7 +1664,29 @@ paths:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/Feedback'
+                                    type: object
+                                    properties:
+                                        _id:
+                                            $ref: '#/components/schemas/Feedback/properties/_id'
+                                        name:
+                                            $ref: '#/components/schemas/Feedback/properties/name'
+                                        plant_id:
+                                            type: object
+                                            properties:
+                                                _id:
+                                                    type: string
+                                                    example: '60856ac06bf41a7270f65e62'
+                                                    description: 'ObjectID of the plant'
+                                                name:
+                                                    $ref: '#/components/schemas/Plant/properties/name'
+                                        message_body:
+                                            $ref: '#/components/schemas/Feedback/properties/message_body'
+                                        createdAt:
+                                            $ref: '#/components/schemas/Feedback/properties/createdAt'
+                                        updatedAt:
+                                            $ref: '#/components/schemas/Feedback/properties/updatedAt'
+                                        __v:
+                                            type: number
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
@@ -1552,6 +1716,20 @@ paths:
                 - all
             description: Create new feedback and save to database
             operationId: createFeedback
+            requestBody:
+                description: Info about the feedback
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    $ref: '#/components/schemas/Feedback/properties/name'
+                                plant_id:
+                                    $ref: '#/components/schemas/Feedback/properties/plant_id'
+                                message_body:
+                                    $ref: '#/components/schemas/Feedback/properties/message_body'
             responses:
                 '201':
                     description: Successfully created new feedback, returns the feedback and a success message.
@@ -1590,6 +1768,7 @@ paths:
                   description: ObjectID of the feedback
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             security:
                 - bearerAuth: []
             responses:
@@ -1598,7 +1777,29 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Feedback'
+                                type: object
+                                properties:
+                                    _id:
+                                        $ref: '#/components/schemas/Feedback/properties/_id'
+                                    name:
+                                        $ref: '#/components/schemas/Feedback/properties/name'
+                                    plant_id:
+                                        type: object
+                                        properties:
+                                            _id:
+                                                type: string
+                                                example: '60856ac06bf41a7270f65e62'
+                                                description: 'ObjectID of the plant'
+                                            name:
+                                                $ref: '#/components/schemas/Plant/properties/name'
+                                    message_body:
+                                        $ref: '#/components/schemas/Feedback/properties/message_body'
+                                    createdAt:
+                                        $ref: '#/components/schemas/Feedback/properties/createdAt'
+                                    updatedAt:
+                                        $ref: '#/components/schemas/Feedback/properties/updatedAt'
+                                    __v:
+                                        type: number
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
@@ -1634,6 +1835,7 @@ paths:
                   description: ObjectID of the feedback
                   schema:
                       type: string
+                      example: 6086c0b2e00c2a888c26af05
             operationId: deleteFeedback
             security:
                 - bearerAuth: []
@@ -1650,6 +1852,16 @@ paths:
                                         example: 'Successfully deleted feedback.'
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
+                '404':
+                    description: 'Could not find feedback'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'No feedback with this ID.'
                 '500':
                     description: Server error
                     content:
@@ -1676,8 +1888,8 @@ components:
                     description: 'Should be unique'
                 location:
                     type: string
-                    description: 'Number combined of building, floor and room'
-                    example: 11214
+                    description: ObjectID of the [room location](1.0.0#/Location) where the plant is located
+                    example: 606b7b5993e1ee1504b037e1
                 picture:
                     type: string
                     default: 'no-image.png'
@@ -1763,7 +1975,7 @@ components:
                                     - move
                             user_id:
                                 type: string
-                                description: 'ObjectID indicating the user that performed the task'
+                                description: ObjectID of the [user](1.0.0#/Location) that performed the task
                                 example: '606b7b5993e1ee1504b037e1'
                             date:
                                 type: string
@@ -1841,6 +2053,7 @@ components:
                 invited_by:
                     type: string
                     example: '606b7b5993e1ee1504b037e1'
+                    description: ObjectID of the [user](1.0.0#/User) that created the invite
                 createdAt:
                     type: string
                     format: date-time
@@ -1853,40 +2066,49 @@ components:
             description: Locations where plants can be placed
             type: object
             required:
+                - room
+                - floor
                 - building
-                - name
-                - floors
+                - mazemap_link
+                - mazemap_embed
             properties:
-                building:
-                    type: number
-                    example: 115
-                    description: 'Building number'
-                name:
+                _id:
                     type: string
-                    example: 'Building 115'
-                    description: 'Name of building'
-                floors:
-                    type: array
-                    items:
-                        type: object
-                        properties:
-                            no:
-                                type: number
-                                example: 2
-                                description: Floor number
-                            rooms:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        no:
-                                            type: number
-                                            example: 206
-                                            description: Room number
-                                        uid:
-                                            type: string
-                                            example: '1152206'
-                                            description: String built of building number, floor number and room number
+                    example: 6086c0b2e00c2a888c26af05
+                room:
+                    type: string
+                    example: '215'
+                    description: Name of the room. Set as string, since some rooms have both letters and numbers.
+                floor:
+                    type: number
+                    example: 2
+                    description: Which floor of the building
+                building:
+                    type: object
+                    required:
+                        - name
+                        - no
+                    properties:
+                        name:
+                            type: string
+                            example: 'Teachers wing (118)'
+                            description: Human-readable name for the building
+                        no:
+                            type: number
+                            example: 118
+                            description: The building number
+                mazemap_link:
+                    type: string
+                    format: url
+                    example: 'https://link.mazemap.com/ol0mQw1f'
+                    description: Direct link to the room or point in Mazemap
+                mazemap_embed:
+                    type: string
+                    format: url
+                    example: 'https://use.mazemap.com/embed.html#v=1&config=ntnu&zlevel=2&center=10.675416,60.789249&zoom=19.6&campuses=ntnu&campusid=55&sharepoitype=poi&sharepoi=1137431&utm_medium=iframe'
+                    description: Link that can be used as source in a MazeMap embedded map
+                __v:
+                    type: number
         Feedback:
             type: object
             description: Feedback sent from users of the app to the managers
@@ -1905,7 +2127,7 @@ components:
                     example: 'Michael'
                 plant_id:
                     type: string
-                    description: 'ObjectID representing the plant the feedback is about'
+                    description: ObjectID of the [plant](1.0.0#/Plant) that the feedback is about
                     example: '606b7b5993e1ee1504b037e1'
                 message_body:
                     type: string
