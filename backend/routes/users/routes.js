@@ -49,7 +49,11 @@ const inviteUser = async (req, res) => {
 // GET: Check for invite and retrieve information
 const checkInvite = async (req, res) => {
     try {
-        let existingInvite = await Invite.findOne({ _id: req.params.id })
+        let existingInvite = await (
+            await Invite.findOne({ _id: req.params.id })
+        )
+            .populate('invited_by', 'name')
+            .execPopulate()
         if (!existingInvite) {
             res.status(404).json({
                 error: `No invite with this ID.`
@@ -69,6 +73,8 @@ const checkInvite = async (req, res) => {
 const listInvites = async (req, res) => {
     try {
         const invites = await Invite.find(req.query)
+            .populate('invited_by', 'name')
+            .exec()
         if (invites) {
             res.status(200).json(invites)
         } else {
