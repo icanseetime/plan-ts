@@ -9,6 +9,7 @@ const History = new mongoose.Schema({
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     date: {
@@ -29,8 +30,8 @@ const Plant = new mongoose.Schema(
             unique: true
         },
         location: {
-            // Location - number built from building/floor/room
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Location',
             required: true
         },
         picture: {

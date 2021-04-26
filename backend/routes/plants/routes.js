@@ -5,7 +5,11 @@ const Plant = require('../../models/Plant')
 const listPlants = async (req, res) => {
     try {
         // Find plant (exclude history and notes)
-        let plants = await Plant.find(req.query).select('-history -notes')
+        let plants = await Plant.find(req.query)
+            .select('-history -notes')
+            .populate('location')
+            .exec()
+
         if (plants.length) {
             res.status(200).json(plants)
         } else {
@@ -70,6 +74,9 @@ const getPlant = async (req, res) => {
     try {
         // Find plant
         const plant = await Plant.findById(req.params.id)
+            .select('-history -notes')
+            .populate('location')
+            .exec()
         if (plant) {
             res.status(200).json(plant)
         } else {
@@ -100,11 +107,14 @@ const plantNotes = async (req, res) => {
     }
 }
 
-// GET: Get notes for specific plant
+// GET: Get history for specific plant
 const plantHistory = async (req, res) => {
     try {
         // Find plant
-        const plant = await Plant.findById(req.params.id).select('history -_id')
+        const plant = await Plant.findById(req.params.id)
+            .select('history -_id')
+            .populate('history.user_id', 'name')
+            .exec()
         // TODO: return "No history" if there isn't any history? Right now it just returns an empty object
         if (plant) {
             res.status(200).json(plant)
@@ -120,9 +130,11 @@ const plantHistory = async (req, res) => {
 
 // PUT: Update plant //TODO: Finish building route
 const updatePlant = async (req, res) => {
-    // Check if plant exists
-    const updatedPlant = await Plant.findByIdAndUpdate(req.params.id, req.body)
-    console.log(updatedPlant)
+    // try {
+    // // Check if plant exists
+    // const updatedPlant = await Plant.findByIdAndUpdate(req.params.id, req.body)
+    // console.log(updatedPlant)
+    // } catch (err) {}
 }
 
 // PUT: Water plant
