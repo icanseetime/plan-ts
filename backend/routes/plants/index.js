@@ -4,15 +4,15 @@ const router = express.Router()
 const routes = require('./routes')
 const passport = require('passport')
 
-// -------------------------------- Access: anyone
-
 // Get a list of plants, filtered by query (no query = all plants)
 router.get('/', routes.listPlants)
 
-// Get information about plant
-router.get('/:id', routes.getPlant)
-
-// -------------------------------- Access: gardeners
+// Add new plant
+router.post(
+    '/',
+    passport.authenticate('manager', { session: false }),
+    routes.createPlant
+)
 
 // Get notes connected to specific plant
 router.get(
@@ -49,14 +49,8 @@ router.put(
     routes.movePlant
 )
 
-// -------------------------------- Access: managers
-
-// Add new plant
-router.post(
-    '/',
-    passport.authenticate('manager', { session: false }),
-    routes.createPlant
-)
+// Get information about plant (no history/notes)
+router.get('/:id', routes.getPlant)
 
 // Update plant // TODO
 router.put(
