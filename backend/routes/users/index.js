@@ -15,7 +15,7 @@ router.get(
 router.post('/', routes.registerUser)
 
 // Login user
-router.get('/login', routes.loginUser)
+router.post('/login', routes.loginUser)
 
 // Get a list of invites
 router.get(
