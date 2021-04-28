@@ -136,7 +136,7 @@ const registerUser = async (req, res) => {
     }
 }
 
-// GET: Log in user
+// POST: Log in user
 const loginUser = async (req, res, next) => {
     passport.authenticate('login', async (err, user, info) => {
         try {
@@ -191,13 +191,16 @@ const getSelf = async (req, res) => {
         // Check that the user is trying to access their own profile
         if (req.user._id != req.params.id) {
             res.status(400).json({ error: 'No access.' })
-        }
-        // Find user (but do not return password and version no.)
-        const user = await User.findById(req.params.id).select('-password -__v')
-        if (user) {
-            res.status(200).json(user)
         } else {
-            res.status(404).json({ error: 'User not found.' })
+            // Find user (but do not return password and version no.)
+            const user = await User.findById(req.params.id).select(
+                '-password -__v'
+            )
+            if (user) {
+                res.status(200).json(user)
+            } else {
+                res.status(404).json({ error: 'User not found.' })
+            }
         }
     } catch (err) {
         res.status(500).json({
