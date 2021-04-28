@@ -1,8 +1,7 @@
 openapi: 3.0.0
 servers:
-    # Added by API Auto Mocking Plugin
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/imgjeits/plan-ts/1.0.0
+    - description: localhost:5000
+      url: http://localhost:5000/api
 info:
     description: Plant care system
     version: '1.0.0'
@@ -169,6 +168,9 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '500':
                     description: Something went wrong on the server. Will include error message from server
+    #    /plants/notifications:
+    #     get:
+    #      summary: Get plants that have tasks due [UNDER CONSTRUCTION]
     /plants/{id}:
         get:
             summary: Get information about specific plant
@@ -1358,13 +1360,25 @@ paths:
                                         type: string
                                         example: 'Something went wrong while trying to delete invite. [SERVER ERROR MESSAGE]'
     /users/login:
-        get:
+        post:
             summary: Login user
             tags:
                 - users
                 - all
             description: Login user and get JSON Web Token.
             operationId: loginUser
+            requestBody:
+                description: E-mail and password
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    $ref: '#/components/schemas/User/properties/email'
+                                password:
+                                    $ref: '#/components/schemas/User/properties/password'
             responses:
                 '200':
                     description: Successful login, returns JWT.
