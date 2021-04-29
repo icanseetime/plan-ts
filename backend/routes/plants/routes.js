@@ -5,7 +5,7 @@ const Plant = require('../../models/Plant')
 const listPlants = async (req, res) => {
     try {
         // Find plant (exclude history and notes)
-        let plants = await Plant.find(req.query)
+        const plants = await Plant.find(req.query)
             .select('-history -notes')
             .populate('location')
             .exec()
@@ -14,6 +14,55 @@ const listPlants = async (req, res) => {
             res.status(200).json(plants)
         } else {
             res.status(404).json({ error: 'Could not find any plants.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to find plants. [${err}]`
+        })
+    }
+}
+
+// List plants that are due for watering/fertilizing (with optional days left until/days past due)
+const pastDue = async (req, res) => {
+    try {
+        // Query should always be 0 if missing
+        if (!req.query.days) {
+            req.query.days = 0
+        }
+
+        // Find plants that need watering
+        const waterDue = await Plant.find(
+            {
+                'health.water.due': {
+                    $lte: Date.now() + req.query.days * 86400000
+                }
+            },
+            { name: 1, location: 1, 'health.water.$': 1 }
+        )
+            .sort({ 'health.water.due': 1 })
+            .populate('location')
+            .exec()
+
+        // Find plants that need fertilizing
+        const fertilizeDue = await Plant.find(
+            {
+                'health.fertilizer.due': {
+                    $lte: Date.now() + req.query.days * 86400000
+                }
+            },
+            { name: 1, location: 1, 'health.fertilizer.$': 1 }
+        )
+            .sort({ 'health.fertilizer.due': 1 })
+            .populate('location')
+            .exec()
+
+        if (waterDue || fertilizerDue) {
+            res.status(200).json({ water: waterDue, fertilize: fertilizeDue })
+        } else {
+            res.status(404).json({
+                error:
+                    'Could not find any plants with tasks past due at this time.'
+            })
         }
     } catch (err) {
         res.status(500).json({
@@ -273,6 +322,7 @@ const deletePlant = async (req, res) => {
 
 module.exports = {
     listPlants,
+    pastDue,
     createPlant,
     getPlant,
     plantNotes,

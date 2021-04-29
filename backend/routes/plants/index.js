@@ -14,6 +14,12 @@ router.post(
     routes.createPlant
 )
 
+router.get(
+    '/notifications',
+    passport.authenticate('all-users', { session: false }),
+    routes.pastDue
+)
+
 // Get notes connected to specific plant
 router.get(
     '/:id/notes',
