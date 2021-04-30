@@ -20,6 +20,12 @@ router.get(
     routes.pastDue
 )
 
+router.get(
+    '/notifications/count',
+    passport.authenticate('all-users', { session: false }),
+    routes.noOfNotifications
+)
+
 // Get notes connected to specific plant
 router.get(
     '/:id/notes',

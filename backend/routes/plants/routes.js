@@ -22,18 +22,24 @@ const listPlants = async (req, res) => {
     }
 }
 
-// List plants that are due for watering/fertilizing (with optional days left until/days past due)
+// List plants that are due for watering/fertilizing
+// If days are included in query, the route should calculate plants due between today and x amount of days ahead
 const pastDue = async (req, res) => {
     try {
-        // Query should always be 0 if missing
+        let startDate = 0
         if (!req.query.days) {
+            // Amount of days should always be 0 if missing
             req.query.days = 0
+        } else if (req.query.days != 0) {
+            // If query contains days, the start date should be from today
+            startDate = Date.now()
         }
 
         // Find plants that need watering
         const waterDue = await Plant.find(
             {
                 'health.water.due': {
+                    $gte: startDate,
                     $lte: Date.now() + req.query.days * 86400000
                 }
             },
@@ -47,6 +53,7 @@ const pastDue = async (req, res) => {
         const fertilizeDue = await Plant.find(
             {
                 'health.fertilizer.due': {
+                    $gte: startDate,
                     $lte: Date.now() + req.query.days * 86400000
                 }
             },
@@ -56,7 +63,7 @@ const pastDue = async (req, res) => {
             .populate('location')
             .exec()
 
-        if (waterDue || fertilizerDue) {
+        if (waterDue || fertilizeDue) {
             res.status(200).json({ water: waterDue, fertilize: fertilizeDue })
         } else {
             res.status(404).json({
@@ -67,6 +74,40 @@ const pastDue = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: `Something went wrong while trying to find plants. [${err}]`
+        })
+    }
+}
+
+// Get number of tasks/notifications // TODO: test hva som skjer om det er 0 planter som har tasks (må vanne/fertilize alle planter i databasen først)
+const noOfNotifications = async (req, res) => {
+    try {
+        // Coutn plants that need watering
+        const waterDue = await Plant.countDocuments({
+            'health.water.due': {
+                $lte: Date.now()
+            }
+        })
+
+        // Find plants that need fertilizing
+        const fertilizeDue = await Plant.countDocuments({
+            'health.fertilizer.due': {
+                $lte: Date.now()
+            }
+        })
+
+        if (waterDue || fertilizeDue) {
+            res.status(200).json({
+                count: waterDue + fertilizeDue
+            })
+        } else {
+            res.status(404).json({
+                error:
+                    'Could not find any tasks due at this time.'
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to find tasks due. [${err}]`
         })
     }
 }
@@ -323,6 +364,7 @@ const deletePlant = async (req, res) => {
 module.exports = {
     listPlants,
     pastDue,
+    noOfNotifications,
     createPlant,
     getPlant,
     plantNotes,
