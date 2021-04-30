@@ -168,9 +168,123 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '500':
                     description: Something went wrong on the server. Will include error message from server
-    #    /plants/notifications:
-    #     get:
-    #      summary: Get plants that have tasks due [UNDER CONSTRUCTION]
+    /plants/notifications:
+        get:
+            summary: Get plants that have tasks due
+            tags:
+                - gardeners
+                - plants
+            description: Get array of plant objects where the plant needs watering/fertilizing. Will return one array for each of the types. Can also find plants that have tasks due between now and the next *x* amount of days.
+            operationId: pastDue
+            parameters:
+                - in: query
+                  name: days
+                  description: How many days ahead
+                  required: false
+                  schema:
+                      type: string
+                      example: 2
+            responses:
+                '200':
+                    description: Successful query returning two arrays
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    water:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                health:
+                                                    type: object
+                                                    properties:
+                                                        water:
+                                                            $ref: '#/components/schemas/Plant/properties/health/properties/water'
+                                                _id:
+                                                    type: string
+                                                    example: '6075b45e72d09a3aacc2eafc'
+                                                name:
+                                                    $ref: '#/components/schemas/Plant/properties/name'
+                                                location:
+                                                    $ref: '#/components/schemas/Location'
+                                    fertilize:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                health:
+                                                    type: object
+                                                    properties:
+                                                        water:
+                                                            $ref: '#/components/schemas/Plant/properties/health/properties/water'
+                                                _id:
+                                                    type: string
+                                                    example: '6075b45e72d09a3aacc2eafc'
+                                                name:
+                                                    $ref: '#/components/schemas/Plant/properties/name'
+                                                location:
+                                                    $ref: '#/components/schemas/Location'
+                '404':
+                    description: No plants with tasks due
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find any plants with tasks past due at this time.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find plants. [SERVER ERROR MESSAGE]'
+    /plants/notifications/count:
+        get:
+            summary: Get number of notifications
+            tags:
+                - gardeners
+                - plants
+            description: Counts the number of tasks due (not the number of plants)
+            operationId: noOfNotifications
+            responses:
+                '200':
+                    description: Successful query returning object with count
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    count:
+                                        type: number
+                                        example: 3
+                '404':
+                    description: No tasks due
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find any tasks due at this time.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to find tasks due. [SERVER ERROR MESSAGE]'
     /plants/{id}:
         get:
             summary: Get information about specific plant
