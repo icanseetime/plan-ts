@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 const Invite = require('../../models/Invite')
 
+// Services
+const mailInvite = require('../../services/email')
+
 // POST: Invite new user
 const inviteUser = async (req, res) => {
     try {
@@ -25,6 +28,14 @@ const inviteUser = async (req, res) => {
             })
         }
 
+        // Check that the userID of the manager creating the request exists in DB
+        const manager = await User.findById(req.body.invited_by)
+        if (!manager) {
+            return res.status(400).json({
+                error: `Manager with ID ${req.body.invited_by} does not exist in the database.`
+            })
+        }
+
         // Create invite object
         const newInvite = new Invite({
             email: req.body.email,
@@ -34,7 +45,15 @@ const inviteUser = async (req, res) => {
 
         // Save to DB and send response
         const invite = await newInvite.save()
-        // TODO: send e-mail to invitee here
+
+        // Send e-mail to invitee
+        await mailInvite(
+            req.body.email,
+            `${manager.name.first} ${manager.name.last}`,
+            req.body.role,
+            invite._id
+        )
+
         res.status(201).json({
             message: 'New invite successfully created.',
             invite: invite
