@@ -12,7 +12,7 @@ const inviteUser = async (req, res) => {
         // Check that invite with the same e-mail doesn't exist
         const existingInvite = await Invite.findOne({ email: req.body.email })
         if (existingInvite) {
-            res.status(409).json({
+            return res.status(409).json({
                 error: `An invite connected to this email already exists in the database.`
             })
         }
@@ -20,7 +20,7 @@ const inviteUser = async (req, res) => {
         // Check that user with the same e-mail doesn't exist
         const existingUser = await User.findOne({ email: req.body.email })
         if (existingUser) {
-            res.status(409).json({
+            return res.status(409).json({
                 error: `A user with this email already exists in the database.`
             })
         }
@@ -58,8 +58,9 @@ const checkInvite = async (req, res) => {
             res.status(404).json({
                 error: `No invite with this ID.`
             })
+        } else {
+            res.status(200).json(existingInvite)
         }
-        res.status(200).json(existingInvite)
     } catch (err) {
         res.status(500).json(
             `Something went wrong while looking for invite with ID ${req.params.id}. [${err}]`
@@ -118,7 +119,7 @@ const registerUser = async (req, res) => {
             email: req.body.email
         })
         if (!deletedInvite) {
-            res.status(409).json({
+            return res.status(409).json({
                 error: `Invite doesn't exist or was previously deleted, therefore user can not be registered at this time.`
             })
         }
@@ -231,19 +232,19 @@ const updateSelf = async (req, res) => {
     try {
         // Check that the user is changing their own profile
         if (req.user._id != req.params.id) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'No access.'
             })
         }
         // Make sure no one tries to change their own role
         if (req.body.role) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'You can not change your own user role.'
             })
         }
         // Make sure there are update values provided
         if (Object.keys(req.body).length == 0) {
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'You need to include update values in a request body.'
             })
         }
