@@ -176,6 +176,8 @@ paths:
                 - plants
             description: Get array of plant objects where the plant needs watering/fertilizing. Will return one array for each of the types. Can also find plants that have tasks due between now and the next *x* amount of days.
             operationId: pastDue
+            security:
+                - bearerAuth: []
             parameters:
                 - in: query
                   name: days
@@ -226,6 +228,8 @@ paths:
                                                     $ref: '#/components/schemas/Plant/properties/name'
                                                 location:
                                                     $ref: '#/components/schemas/Location'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '404':
                     description: No plants with tasks due
                     content:
@@ -254,6 +258,8 @@ paths:
                 - plants
             description: Counts the number of tasks due (not the number of plants)
             operationId: noOfNotifications
+            security:
+                - bearerAuth: []
             responses:
                 '200':
                     description: Successful query returning object with count
@@ -265,6 +271,8 @@ paths:
                                     count:
                                         type: number
                                         example: 3
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '404':
                     description: No tasks due
                     content:
@@ -285,6 +293,78 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to find tasks due. [SERVER ERROR MESSAGE]'
+    /plants/search:
+        get:
+            summary: Search plants by name
+            tags:
+                - all
+                - plants
+            description: Search for plant by name, or parts of the name
+            operationId: searchPlants
+            parameters:
+                - in: query
+                  name: searchField
+                  description: Search string
+                  required: true
+                  schema:
+                      type: string
+                      example: 'succulent'
+            responses:
+                '200':
+                    description: Successful search
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    properties:
+                                        health:
+                                            $ref: '#/components/schemas/Plant/properties/health'
+                                        picture:
+                                            $ref: '#/components/schemas/Plant/properties/picture'
+                                        _id:
+                                            type: string
+                                            example: '607dde78081f316f0473f7fb'
+                                        name:
+                                            $ref: '#/components/schemas/Plant/properties/name'
+                                        location:
+                                            $ref: '#/components/schemas/Location'
+                                        createdAt:
+                                            $ref: '#/components/schemas/Plant/properties/createdAt'
+                                        updatedAt:
+                                            $ref: '#/components/schemas/Plant/properties/updatedAt'
+                                        __v:
+                                            type: number
+                '400':
+                    description: No search string
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Query needs to include a searchField value.'
+                '404':
+                    description: No plants found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Search did not match any of the plants.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to search for plants. [SERVER ERROR MESSAGE].'
     /plants/{id}:
         get:
             summary: Get information about specific plant
@@ -300,7 +380,7 @@ paths:
                   required: true
                   schema:
                       type: string
-                      example: 6086c0b2e00c2a888c26af05
+                      example: '6086c0b2e00c2a888c26af05'
             responses:
                 '200':
                     description: Successful query returning plant object
@@ -327,7 +407,7 @@ paths:
                                     __v:
                                         type: number
                 '404':
-                    description: Could not find the plant.
+                    description: Could not find plant
                     content:
                         application/json:
                             schema:
@@ -337,7 +417,7 @@ paths:
                                         type: string
                                         example: 'Plant not found.'
                 '500':
-                    description: Could not find the user.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -346,13 +426,15 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while looking for plant with ID 607dde78081f316f0473f7fb. [SERVER ERROR MESSAGE].'
-        put: # TODO: finish (add responses + auth)
-            summary: Update plant details [UNDER CONSTRUCTION]
+        put:
+            summary: Update plant details
             tags:
                 - plants
                 - managers
             description: Update plant details
             operationId: updatePlant
+            security:
+                - bearerAuth: []
             parameters:
                 - in: path
                   name: id
@@ -360,10 +442,50 @@ paths:
                   required: true
                   schema:
                       type: string
-                      example: 6086c0b2e00c2a888c26af05
+                      example: '6086c0b2e00c2a888c26af05'
             responses:
-                '200':
+                '201':
                     description: Successful update
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Plant with ID 606b7b5993e1ee1504b037e1 was successfully updated.'
+                '400':
+                    description: Bad request, includes information that should not be updated
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        enum:
+                                            - 'Request should not include location. Use route for moving plants to update the location.'
+                                            - 'Request should not include history. History array will be updated automatically in other routes.'
+                '404':
+                    description: No plant found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Could not find plant with ID 606b7b5993e1ee1504b037e1.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to update plant with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
         delete:
             summary: Delete plant
             tags:
@@ -431,7 +553,7 @@ paths:
                   required: true
                   schema:
                       type: string
-                      example: 6086c0b2e00c2a888c26af05
+                      example: '6086c0b2e00c2a888c26af05'
             responses:
                 '200':
                     description: Successful query returning notes object
@@ -1358,7 +1480,7 @@ paths:
                                         type: string
                                         example: 'An invite connected to this email already exists in the database.'
                 '500':
-                    description: Something went wrong on the server. Will include server error message.
+                    description: Server error
                     content:
                         application/json:
                             schema:
