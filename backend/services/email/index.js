@@ -105,7 +105,7 @@ async function mailInvite(recipient, managerName, role, link) {
             attachments: [
                 {
                     filename: 'logo.png',
-                    path: './backend/services/email/logo.png',
+                    path: './services/email/logo.png',
                     cid: 'logo@plan-ts'
                 }
             ]

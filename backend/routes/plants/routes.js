@@ -55,7 +55,7 @@ const searchPlants = async (req, res) => {
 }
 
 // List plants that are due for watering/fertilizing
-// If days are included in query, the route should calculate plants due between today and x amount of days ahead
+// If days are included in query, the route calculates plants due between today and x amount of days ahead
 const pastDue = async (req, res) => {
     try {
         let startDate = 0
