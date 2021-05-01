@@ -22,6 +22,38 @@ const listPlants = async (req, res) => {
     }
 }
 
+// Search for plants by name
+const searchPlants = async (req, res) => {
+    try {
+        // Make sure search value is not empty
+        if (!req.query.searchField) {
+            return res
+                .status(400)
+                .json({ error: 'Query needs to include a searchField value.' })
+        }
+        // Search using regex to match part of plant name
+        const search = await Plant.find({
+            name: {
+                $regex: req.query.searchField,
+                $options: 'i'
+            }
+        })
+            .select('-history -notes')
+            .populate('location')
+            .exec()
+
+        if (search.length) {
+            res.status(200).json(search)
+        } else {
+            res.status(404).json({ error: 'No plants found.' })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to search for plants. [${err}]`
+        })
+    }
+}
+
 // List plants that are due for watering/fertilizing
 // If days are included in query, the route should calculate plants due between today and x amount of days ahead
 const pastDue = async (req, res) => {
@@ -101,8 +133,7 @@ const noOfNotifications = async (req, res) => {
             })
         } else {
             res.status(404).json({
-                error:
-                    'Could not find any tasks due at this time.'
+                error: 'Could not find any tasks due at this time.'
             })
         }
     } catch (err) {
@@ -118,7 +149,7 @@ const createPlant = async (req, res) => {
         // Check that plant name does not exist in DB
         let existingPlant = await Plant.findOne({ name: req.body.name })
         if (existingPlant) {
-            res.status(409).json({
+            return res.status(409).json({
                 error: `A plant with this name already exists in the database.`
             })
         }
@@ -218,13 +249,49 @@ const plantHistory = async (req, res) => {
     }
 }
 
-// PUT: Update plant //TODO: Finish building route
+// PUT: Update plant // TODO: check that picture update is okay after picture system is finished
 const updatePlant = async (req, res) => {
-    // try {
-    // // Check if plant exists
-    // const updatedPlant = await Plant.findByIdAndUpdate(req.params.id, req.body)
-    // console.log(updatedPlant)
-    // } catch (err) {}
+    try {
+        // Make sure there is no location in the request
+        if (req.body.location) {
+            return res.status(400).json({
+                error:
+                    'Request should not include location. Use route for moving plants to update the location.'
+            })
+        }
+
+        // Make sure history is not updated manually
+        if (req.body.history) {
+            return res.status(400).json({
+                error:
+                    'Request should not include history. History array will be updated automatically in other routes.'
+            })
+        }
+
+        // Update plant
+        const plant = await Plant.findOneAndUpdate(
+            { _id: req.params.id },
+            req.body,
+            {
+                runValidators: true
+            }
+        )
+
+        // Check for found/updated plant and send response to client
+        if (!plant) {
+            res.status(404).json({
+                error: `Could not find plant with ID ${req.params.id}.`
+            })
+        } else {
+            res.status(201).json({
+                message: `Plant with ID ${req.params.id} was successfully updated.`
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to update plant with ID ${req.params.id}. [${err}]`
+        })
+    }
 }
 
 // PUT: Water plant
@@ -363,6 +430,7 @@ const deletePlant = async (req, res) => {
 
 module.exports = {
     listPlants,
+    searchPlants,
     pastDue,
     noOfNotifications,
     createPlant,

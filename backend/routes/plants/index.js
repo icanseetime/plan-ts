@@ -14,17 +14,22 @@ router.post(
     routes.createPlant
 )
 
+// Get notifications (tasks)
 router.get(
     '/notifications',
     passport.authenticate('all-users', { session: false }),
     routes.pastDue
 )
 
+// Get a count of all the tasks that are due
 router.get(
     '/notifications/count',
     passport.authenticate('all-users', { session: false }),
     routes.noOfNotifications
 )
+
+// Search in plants database (name)
+router.get('/search', routes.searchPlants)
 
 // Get notes connected to specific plant
 router.get(
