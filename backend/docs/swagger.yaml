@@ -34,7 +34,7 @@ tags:
       description: Picture upload routes
 paths:
     /plants:
-        get: #TODO: add query params
+        get:
             summary: Lists plants
             tags:
                 - all

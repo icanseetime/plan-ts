@@ -9,7 +9,7 @@ const formFields = {
     passwordField: 'password'
 }
 
-// Signup strategy // TODO: check
+// Signup strategy
 passport.use(
     'signup',
     new LocalStrategy(formFields, async (email, password, done) => {
@@ -37,7 +37,7 @@ passport.use(
                     user.password
                 )
                 if (!validPass) {
-                    return done(null, false, { error: 'Invalid password.' }) //TODO: check if there should only be 1 error for security, or if this should be done on the front-end
+                    return done(null, false, { error: 'Invalid password.' })
                 } else {
                     return done(null, user, {
                         message: 'Successfully logged in.'

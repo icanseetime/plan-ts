@@ -69,7 +69,7 @@ router.put(
 // Get information about plant (no history/notes)
 router.get('/:id', routes.getPlant)
 
-// Update plant // TODO
+// Update plant
 router.put(
     '/:id',
     passport.authenticate('manager', { session: false }),

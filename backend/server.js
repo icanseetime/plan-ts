@@ -13,7 +13,7 @@ const fileUpload = require('express-fileupload')
 const swagger = require('swagger-ui-express')
 const yaml = require('yamljs')
 
-// Routers // TODO: shorten import
+// Routers
 const apiRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const plantsRouter = require('./routes/plants')
