@@ -30,6 +30,8 @@ tags:
       description: Location routes
     - name: feedback
       description: Feedback routes
+    - name: pictures
+      description: Picture upload routes
 paths:
     /plants:
         get: #TODO: add query params
@@ -2146,6 +2148,96 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to delete feedback. [SERVER ERROR MESSAGE]'
+    /pictures:
+        post:
+            summary: Upload picture
+            tags:
+                - pictures
+                - plants
+                - managers
+            description: Upload pictures of plants
+            operationId: uploadFile
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Successful upload
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'File successfully uploaded.'
+                                    filename:
+                                        type: string
+                                        example: 'jade-plant.png'
+                '400':
+                    description: No file included
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'You need to include a file with your request.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to upload the file. [SERVER ERROR MESSAGE]'
+        delete:
+            summary: Delete picture file
+            tags:
+                - pictures
+                - plants
+                - managers
+            description: Delete existing picture by filename
+            operationId: deleteFile
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Successfully deleted file
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'File successfully deleted.'
+                '400':
+                    description: No filename included
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'You need to include a filename in your request.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to delete the file. [SERVER ERROR MESSAGE]'
 components:
     schemas:
         Plant:
