@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // TODO: fix templating CSS issues
-// TODO: change link url
 
 async function mailInvite(recipient, managerName, role, link) {
     try {
@@ -40,8 +39,7 @@ async function mailInvite(recipient, managerName, role, link) {
                 }
 
                 header img {
-                    width: 150px;
-                    padding: 30px;
+                    width: 100%;
                 }
 
                 main {
@@ -75,10 +73,13 @@ async function mailInvite(recipient, managerName, role, link) {
             </style>
 
             <header class="header">
-                <img src="cid:logo@plan-ts" alt="Plan-ts logo" />
+                <img src="cid:banner@plan-ts" alt="Banner with Plan-ts logo" />
             </header>
 
             <main>
+                <br/ >
+                <br/ >
+                
                 <h1>Invite to Plan-ts system</h1>
                 <p>
                     ${managerName} has invited you to be a ${role} in the Plan-ts system. To
@@ -104,9 +105,9 @@ async function mailInvite(recipient, managerName, role, link) {
         `,
             attachments: [
                 {
-                    filename: 'logo.png',
-                    path: './services/email/logo.png',
-                    cid: 'logo@plan-ts'
+                    filename: 'banner.png',
+                    path: './services/email/banner.png',
+                    cid: 'banner@plan-ts'
                 }
             ]
         })
