@@ -1,0 +1,26 @@
+#profileContainer {
+    padding-top: 50px;
+}
+
+.profileCard {
+    background-color: #bec7ac;
+    margin: auto;
+    width: 310px;
+    display: grid;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center
+}
+
+.profileInfo {
+    text-align: left;
+} 
+
+span {
+font-weight: bolder;
+}
+
+#noProfile {
+   text-align: center;  
+}

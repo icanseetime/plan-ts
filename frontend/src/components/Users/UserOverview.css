@@ -1,0 +1,56 @@
+table {
+    background-color: #C6CDB5; /*temp*/
+    margin: auto;
+    width: 80%;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 6px;
+}
+td {
+    padding: 5px;
+    padding-left: 10px;
+    background-color: #D8DBD2;
+    border-radius: 7px;
+} 
+th {
+    padding: 10px;
+}
+
+td:last-child {
+    background-color: rgba(255, 255, 255, 0);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+
+}
+.editbtn, .delbtn {
+    cursor: pointer;
+    background-color: #cae297;
+    border: none;
+    margin: 2px auto;
+    padding: 5px;
+    width: 60%;
+    min-width: 60px;
+    border-radius: 7px;
+
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 4px 6px;
+}
+
+.delbtn {
+    background-color: rgb(190, 54, 54);
+    color: white;
+}
+
+.editbtn:hover, .delbtn:hover {
+    transition: ease-in-out .5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
+                inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+.delbtn:hover {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
+    inset 0px 0px 20px rgba(0, 0, 0, 0.4);
+}
+
+.bigcontainer {
+    display: grid;
+    grid-template-columns: 1fr;
+}

@@ -1,0 +1,56 @@
+#allTasks {
+    padding-top: 50px;
+}
+
+.tasksContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    background-color: #D2DAC1;
+    width: 90%;
+    margin: auto;
+}
+/* ^ Basic temp shit for å se stuff idk */
+
+.oneTask {
+    background-color: #E0E3D9;
+    margin: 8px;
+    padding: 10px;
+}
+
+#tasksHowTo {
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #D2DAC1;
+    width: fit-content;
+    margin: auto;
+}
+
+.dueTime {
+    text-align: center;
+}
+
+/* Notification count */
+.notifCount {
+    position: relative;
+    bottom: 5vh;
+    left: 6vh;
+
+    z-index: 100;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    border-radius: 50%;
+    background-color: rgb(95, 52, 52);
+    color: white;   
+    text-align: center;
+    padding: 1px;
+    padding-bottom: 3px;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 6px;
+}
+.tasksNotifics {
+    position: relative;
+    top: 1.4vh;
+}

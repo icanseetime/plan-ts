@@ -1,0 +1,202 @@
+
+/* Navigation Style */
+
+nav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    height: 9vh;
+    background: rgba(99, 103, 93, 1);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 6px 9px;
+    z-index: 1;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav ul {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    max-height: 55px;
+    min-height: 55px;
+}
+nav a {
+    text-decoration: none;
+    color: white;
+    border-bottom: rgb(255, 255, 255) solid 1px;
+    text-shadow: rgba(32, 32, 32, 0.3) 3px 3px 5px;
+    padding: 13px;
+}
+nav a:hover {
+    transition: .3s ease-in;
+    border-bottom: rgb(165, 221, 113) solid 1px;
+}
+
+/* Logo */
+#logo {
+    border: none;
+    z-index: 1;
+}
+#logo img {
+    width: 100px;
+    background-color: rgba(99, 103, 93);
+    padding: 8px;
+    border-radius: 50%;
+    box-shadow: rgba(51, 51, 51, 0.4) 2px 6px 9px;
+}
+
+
+
+/* Help */
+.i:hover { border: none; }
+.i h3 {
+    border: solid white 2px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
+
+    color: white;
+    text-align: center;
+    font-size: 18px;
+
+    height: 100%;
+    width: 100%;
+}
+
+.i:hover h3 {
+    transition: .3s ease-in;
+    border: solid rgb(165, 221, 113) 2px;
+    color: rgb(165, 221, 113);
+}
+
+.i {
+    border: none;
+    width: 26px;
+    height: 26px;
+
+    position: relative;
+    bottom: 2em;
+    right: -3%;
+}
+
+/* icons | text */
+.plantovw::after {
+    content: 'Plant Overview';
+}
+.tasks::after {
+    content: 'Tasks';
+}
+.msgs::after {
+    content: 'Messages';
+}
+.settings::after {
+    content: 'Settings';
+}
+.profile::after {
+    content: 'Profile';
+}
+
+/**//**//**//**//**//**//**//**//**//**//**//**/
+
+@media only screen and (max-width: 500px) {
+
+    /* Navigation Style */
+    nav {
+        width: 100%;
+        height: 6vh;
+        padding: 0;
+        margin: 0;
+        
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    nav ul {
+        font-size: 30px;
+    }
+    .mob {
+        position: fixed; 
+        bottom: -2%;
+        left: 1%;
+        
+        width: 98%;
+        padding: 0;
+
+        height: 54px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 50px;
+    }
+    .mob ul {
+        width: 100%;
+    }
+
+    /* Logo */
+
+    #logo {
+        margin: auto;
+        position: relative;
+        bottom: 20px;
+    }
+    #logo img {
+        width: 75px;
+        padding: 8px;
+    }
+
+    /* help */
+    .i h3 { font-size: 14px; }
+    .i {
+        width: 20px;
+        height: 20px;
+
+        position: fixed;
+        bottom: 0;
+        top: -15px;
+        right: 10px;
+    }
+
+    /* Icons | Text*/
+    .liteicon {        
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: #D7DFC0;
+        padding: 5px;
+        background-size: 75%; 
+        background-repeat: 
+        no-repeat; 
+        background-position: center; 
+        position: relative;
+        bottom: -4px;
+    }
+    
+    .plantovw::after { content: ''; }
+    .mainicon {
+        border-radius: 50%;
+        background-color: #DFF0AE;
+        background-image: url("../../assets/navicons/ovw.png");
+        background-size: 80%; 
+        background-repeat: no-repeat; 
+        background-position: center; 
+        padding: 5px;
+        width: 55px;        
+        height: 55px;
+        position: relative;
+        bottom: 30%;
+    }
+
+    .tasks::after { content: ''; }
+    .tasks { background-image: url("../../assets/navicons/tasks.png");}
+
+    .msgs::after { content: ''; }
+    .msgs { background-image: url("../../assets/navicons/msgs.png"); }
+
+    .settings::after { content: ''; }
+    .settings { background-image: url("../../assets/navicons/sett.png"); }
+
+    .profile::after { content: ''; }
+    .profile { background-image: url("../../assets/navicons/prfl.png"); }
+
+
+
+}

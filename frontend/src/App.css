@@ -1,38 +1,38 @@
-.App {
-  text-align: center;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: rgba(207, 208, 203, 1); 
+  font-family: 'Red Hat Text', sans-serif;
+  font-size: 16px;
+
+
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+main {
+  margin-top: 10vh;
+  min-height: 90vh;
+}
+main .container {
+  height: 700px;
+  min-height: 100%;
+}
+
+footer {
+  background-color: rgba(99, 103, 93, 1);
+  color: rgb(182, 182, 182);
+}
+@media only screen and (max-width:800px) {
+  footer {
+    padding-bottom: 90px;
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media only screen and (max-width:500px) {
+  main {
+    min-height: 110vh;
   }
 }

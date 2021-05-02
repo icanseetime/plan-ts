@@ -1,0 +1,22 @@
+.Allsettings {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.settingsContainer{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-auto-flow: row;
+}
+
+.SettingsLink {
+    background-color: #BCC5A8;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 6px 8px;
+    border: solid 1px;
+    margin: 10px;
+    padding: 8px;
+    width: 300px;
+
+    color: rgb(34, 34, 34);
+}
