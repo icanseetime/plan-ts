@@ -5,9 +5,11 @@ const routes = require('./routes')
 const passport = require('passport')
 
 // Upload file
-router.post('/', routes.uploadFile)
-
-// TODO: lock for managers after someone adds auth headers to route
+router.post(
+    '/',
+    passport.authenticate('manager', { session: false }),
+    routes.uploadFile
+)
 
 // Delete file
 router.delete(
