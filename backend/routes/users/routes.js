@@ -54,6 +54,7 @@ const inviteUser = async (req, res) => {
             invite._id
         )
 
+        // Send response to client-side
         res.status(201).json({
             message: 'New invite successfully created.',
             invite: invite

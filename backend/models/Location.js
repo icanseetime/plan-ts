@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 // Schemas
 const Location = new mongoose.Schema({
     room: {
-        // TODO: write about? Type: string, because some rooms have names and not numbers
         type: String,
         required: true
     },
