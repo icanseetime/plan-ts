@@ -7,6 +7,7 @@ const listPlants = async (req, res) => {
         // Find plant (exclude history and notes)
         const plants = await Plant.find(req.query)
             .select('-history -notes')
+            .sort('name')
             .populate('location')
             .exec()
 

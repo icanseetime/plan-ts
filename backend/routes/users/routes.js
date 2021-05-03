@@ -193,7 +193,9 @@ const loginUser = async (req, res, next) => {
 const listUsers = async (req, res) => {
     try {
         // Find users (but do not return password and version no.)
-        let users = await User.find(req.query).select('-password -__v')
+        let users = await User.find(req.query)
+            .select('-password -__v')
+            .sort('name.first')
         if (users.length) {
             res.status(200).json(users)
         } else {
