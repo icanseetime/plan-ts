@@ -3,8 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
 
-// TODO: fix templating CSS issues
-
 async function mailInvite(recipient, managerName, role, link) {
     try {
         const transporter = nodemailer.createTransport({

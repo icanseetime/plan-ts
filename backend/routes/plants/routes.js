@@ -7,6 +7,7 @@ const listPlants = async (req, res) => {
         // Find plant (exclude history and notes)
         const plants = await Plant.find(req.query)
             .select('-history -notes')
+            .sort('name')
             .populate('location')
             .exec()
 
@@ -45,7 +46,9 @@ const searchPlants = async (req, res) => {
         if (search.length) {
             res.status(200).json(search)
         } else {
-            res.status(404).json({ error: 'Search did not match any of the plants.' })
+            res.status(404).json({
+                error: 'Search did not match any of the plants.'
+            })
         }
     } catch (err) {
         res.status(500).json({
@@ -110,7 +113,7 @@ const pastDue = async (req, res) => {
     }
 }
 
-// Get number of tasks/notifications // TODO: test hva som skjer om det er 0 planter som har tasks (må vanne/fertilize alle planter i databasen først)
+// Get number of tasks/notifications
 const noOfNotifications = async (req, res) => {
     try {
         // Coutn plants that need watering
@@ -215,7 +218,7 @@ const plantNotes = async (req, res) => {
     try {
         // Find plant
         const plant = await Plant.findById(req.params.id).select('notes -_id')
-        // TODO: return "No notes" if there aren't any notes? Right now it just returns an empty object
+
         if (plant) {
             res.status(200).json(plant)
         } else {
@@ -236,7 +239,7 @@ const plantHistory = async (req, res) => {
             .select('history -_id')
             .populate('history.user_id', 'name')
             .exec()
-        // TODO: return "No history" if there isn't any history? Right now it just returns an empty object
+
         if (plant) {
             res.status(200).json(plant)
         } else {
@@ -249,7 +252,7 @@ const plantHistory = async (req, res) => {
     }
 }
 
-// PUT: Update plant // TODO: check that picture update is okay after picture system is finished
+// PUT: Update plant
 const updatePlant = async (req, res) => {
     try {
         // Make sure there is no location in the request

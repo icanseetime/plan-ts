@@ -34,12 +34,12 @@ tags:
       description: Picture upload routes
 paths:
     /plants:
-        get: #TODO: add query params
+        get:
             summary: Lists plants
             tags:
                 - all
                 - plants
-            description: Get a list of plants in the system. List can be filtered by using queries. No query will return a list of all the plants.
+            description: Get a list of plants in the system, sorted alphabetically by name. List can be filtered by using queries. No query will return a list of all the plants.
             operationId: listPlants
             responses:
                 '200':
@@ -893,7 +893,7 @@ paths:
             tags:
                 - users
                 - managers
-            description: Get a list of all users, based on query. No query will return a list of all users.
+            description: Get a list of all users, based on query. No query will return a list of all users. The list will be sorted alphabetically by the users first name.
             operationId: listUsers
             security:
                 - bearerAuth: []

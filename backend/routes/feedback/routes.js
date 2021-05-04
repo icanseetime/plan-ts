@@ -1,7 +1,7 @@
 // Database schemas
 const Feedback = require('../../models/Feedback')
 
-// POST: Create new feedback // TODO: test
+// POST: Create new feedback
 const createFeedback = async (req, res) => {
     try {
         // Create new feedback
@@ -24,7 +24,7 @@ const createFeedback = async (req, res) => {
     }
 }
 
-// GET: Get list of all feedback // TODO: test
+// GET: Get list of all feedback
 const listFeedback = async (req, res) => {
     try {
         // Find feedback

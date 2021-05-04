@@ -5,7 +5,6 @@ const routes = require('./routes')
 const passport = require('passport')
 
 // POST: Create new feedback
-// Access: anyone, connect to plant-id
 router.post('/', routes.createFeedback)
 
 // GET: Get list of all feedback

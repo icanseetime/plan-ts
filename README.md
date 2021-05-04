@@ -36,17 +36,20 @@
 |
 └───📁auth            // Authorization and authentication files
 |
-└───📁docs            // Documentation [swagger]
+└───📁docs            // Documentation [Swagger]
 |
 └───📁models          // Schema models for MongoDB/mongoose
 |
 └───📁routes          // Endpoints and routes for API
+|   └───📁feedback    // /api/feedback
+|   └───📁locations   // /api/locations
+|   └───📁pictures    // /api/pictures
 |   └───📁plants      // /api/plants
 |   └───📁users       // /api/users
 |   └─📄index.js      // /api
 |
+└───📁services        // Extra services / functions for the API
+|
 └─📄.env              // Environment variables
-└─📄.env.local        // Local environment variables
 └─📄server.js         // Main server setup
-└─📄test.rest         // Test file for testing API endpoints
 ```
