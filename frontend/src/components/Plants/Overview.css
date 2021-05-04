@@ -1,6 +1,10 @@
 .viewPlants {
     padding-top: 50px;
 }
+#topPlant {
+    margin: auto;
+    width: fit-content;
+}
 
 /* img/map and cards*/
 .cover img,
@@ -61,15 +65,9 @@
 }
 
 /* Mazemap */
-.mazem {
-    margin: auto !important;
-    margin-top: 10px;
-    background-color: white;
-}
 .mazemap {
     height: 400px;
     width: 350px;
-    border: 1px solid black;
 }
 
 /* plant ovweview background */
@@ -125,7 +123,6 @@
     height: fit-content !important;
     padding: 0 20px;
 }
-
 #plantInfo h2 {text-align: center;}
 .plantName {
     text-align: center;

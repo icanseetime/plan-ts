@@ -33,6 +33,11 @@ main .container {
     margin: 50px auto;
 }
 
+select:hover, select:focus, select:active {
+    background-color: none;
+    border: none;
+}
+
 footer {
     background-color: rgba(99, 103, 93, 1);
     color: rgb(182, 182, 182);

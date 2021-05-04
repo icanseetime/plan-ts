@@ -94,6 +94,8 @@ export default function EditPlant(props) {
 
     const onSubmit = async (e) => {
         e.preventDefault()
+        
+        if(file) {
         const formData = new FormData()
         formData.append('file', file)
         try {
@@ -116,25 +118,43 @@ export default function EditPlant(props) {
                 console.log(err.response.data.error)
             }
         }
+    } else {
+        addPlant(e);
+    }
     }
 
     // API Call | Add new plant
     const addPlant = (e, imgurl) => {
         e.preventDefault()
-        let data = {
-            'name': plantName,
-            'location': locationObj,
-            'picture': imgurl,
-            'notes': plantNotes,
-            'waterDaysBetween': daysBetweenWtr,
-            'waterAmount': waterAmount,
-            'waterDue': waterDueDate,
-            'fertilizerDaysBetween': daysBetweenFrt,
-            'fertilizerAmount': fertilizerAmount,
-            'fertilizerDue': frtDueDate,
-            'lightAmount': lightAmount
+        let data;
+        if(!imgurl) {
+            data = {
+                'name': plantName,
+                'location': locationObj,
+                'notes': plantNotes,
+                'waterDaysBetween': daysBetweenWtr,
+                'waterAmount': waterAmount,
+                'waterDue': waterDueDate,
+                'fertilizerDaysBetween': daysBetweenFrt,
+                'fertilizerAmount': fertilizerAmount,
+                'fertilizerDue': frtDueDate,
+                'lightAmount': lightAmount
+            }
+        } else {
+            data = {
+                'name': plantName,
+                'location': locationObj,
+                'picture': imgurl,
+                'notes': plantNotes,
+                'waterDaysBetween': daysBetweenWtr,
+                'waterAmount': waterAmount,
+                'waterDue': waterDueDate,
+                'fertilizerDaysBetween': daysBetweenFrt,
+                'fertilizerAmount': fertilizerAmount,
+                'fertilizerDue': frtDueDate,
+                'lightAmount': lightAmount
+            }
         }
-        console.log(imgurl)
         axios.post(`/api/plants`, data, { headers })
         .then( res => {
             alert(plantName, " successfully added.")

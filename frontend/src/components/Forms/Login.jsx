@@ -10,7 +10,7 @@ import Password from './Inputs/Password'
 export default function Login(props) {
   const authContext = useContext(AuthContext);
 
-  //declaring states  
+  //declaring states
   const [repeatPass] = useState(false)
   const [active, setActive] = useState(false)
 
@@ -55,9 +55,9 @@ export default function Login(props) {
       </button>
 
           {/* Forgotten password link */}
-          <div className="passLink">
+          {/* <div className="passLink">
             <Link to="/forgotpass">Forgot Password</Link>
-          </div>
+          </div> */}
 
 
 

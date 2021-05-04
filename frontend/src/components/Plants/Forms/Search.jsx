@@ -33,28 +33,28 @@ export default function Search(props) {
 
             {/* Filter plants */}
             <div>
-                <h3>Select building</h3>
-                <select
-                    onChange={(e) => {
-                        props.setFilterValue(e.target.value)
-                    }}
-                >
-                    <option value="" defaultValue>
-                        All Buildings
-                    </option>
-                    {props.buildings.map((building, idex) => {
-                        return (
-                            <option
-                                type="radio"
-                                name="buildSelect"
-                                value={building.no}
-                                key={building.no}
-                            >
-                                {building.name}
-                            </option>
-                        )
-                    })}
-                </select>
+                <div className="inputs">
+                    <div className="singleInput">
+                        <h3>Select building</h3>
+                        <div className="inputcontainer">
+                            <select onChange={(e) => { props.setFilterValue(e.target.value) }}>
+                                <option value="" defaultValue> All Buildings </option>
+                                {props.buildings.map((building, idex) => {
+                                    return (
+                                        <option
+                                            type="radio"
+                                            name="buildSelect"
+                                            value={building.no}
+                                            key={building.no}
+                                        >
+                                            {building.name}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     )
