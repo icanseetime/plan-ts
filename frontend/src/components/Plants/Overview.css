@@ -1,8 +1,8 @@
 .viewPlants {
     padding-top: 50px;
 }
-/* img/map and cards*/
 
+/* img/map and cards*/
 .cover img,
 .location {
     object-fit: cover;
@@ -14,17 +14,6 @@
 
     margin: 0 auto;
 }
-.historyCard,
-.noteCard {
-    background-color: #d6e2bc;
-    border-bottom: rgba(0, 0, 0, 0.5) 2px solid;
-    margin: 10px auto;
-    width: 50%;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr !important;
-}
-
 #coverPlant img {
     object-fit: cover;
     width: 25vh;
@@ -56,7 +45,6 @@
     margin: 3px;
     padding: 0 5px;
 }
-
 .locationInfo {
     display: grid;
     grid-template-columns: 2fr 2fr !important;
@@ -68,27 +56,21 @@
     background-color: #b9c2a6;
     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
 }
-
 .imgLoc {
     margin: 10px;
 }
 
 /* Mazemap */
-
 .mazem {
     margin: auto !important;
     margin-top: 10px;
     background-color: white;
-
 }
-
 .mazemap {
-    height: 350px;
-    width: 400px;
+    height: 400px;
+    width: 350px;
     border: 1px solid black;
 }
-
-
 
 /* plant ovweview background */
 .plant {
@@ -108,13 +90,12 @@
     grid-template-columns: 90% 10% !important;
 }
 .searchInp {
-    width: 86% !important;
+    width: 96% !important;
     font-size: 18px !important;
 }
 .searchicon {
-    background-color: #707564;
     font-size: 24px;
-    margin: 2px auto;
+    margin: 0px auto;
     padding: 3px;
 }
 .srchBtn {
@@ -128,25 +109,40 @@
     box-shadow: none;
 }
 
-/* text */
-
-
-
+/* Text */
 #plantInfo {
     margin: auto;
-    margin-left: 70px;
-    margin-bottom: 80px;
-    /* margin-left: 150px; */
+    margin-top: 10px;
+    background-color: #b9c2a6;
+    width: 100%;
+}
+#plantInfo div {
+    padding: 10px;
+    height: fit-content;
+}
+#plantInfo div p {
+    margin: 2px !important;
+    height: fit-content !important;
+    padding: 0 20px;
 }
 
+#plantInfo h2 {text-align: center;}
 .plantName {
     text-align: center;
     padding-top: 10px;
     font-size: 24px;
 }
 
-/* containers */
-
+/* Containers */
+#plantInfoInner {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+}
+#plantInfoInner div {
+    background-color: #d2dac1;
+    margin: 0 10px;
+}
 .plantsContainer {
     display: grid;
     grid-template-columns: 1fr 1fr !important;
@@ -160,7 +156,6 @@
     grid-template-columns: 2fr 1fr !important;
     width: fit-content;
 }
-
 .gridBox h2 {
     text-align: center;
     font-size: 22px;
@@ -184,7 +179,7 @@
     padding: 15px;
 }
 textarea {
-    max-width: 250px;
+    width: 100%;
     padding: 5px;
     margin: 0;
 }
@@ -225,19 +220,15 @@ textarea {
     display: grid;
     padding-top: 10px;
 }
-
-
 .taskbtns {
     grid-template-columns: 1fr 1fr !important;
     margin: auto;
 }
-
 .wtrbtn:hover {
     transition: ease-in-out 0.5s;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
         inset 0px 0px 20px rgba(255, 255, 255, 0.7);
 }
-
 .fertbtn:hover {
     transition: ease-in-out 0.5s;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
@@ -270,7 +261,6 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
 }
-
 #canclebtn {
     font-size: 17px;
     background-color: #b5cc85;
@@ -300,15 +290,12 @@ textarea {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
         inset 0px 0px 20px rgba(255, 255, 255, 0.7);
 }
-
 #taskL {
     margin-right: 5px;
 }
-
 #taskR {
     margin-left: 5px;
 }
-
 .taskbtn {
     display: grid;
     grid-template-columns: 1fr !important;
@@ -319,8 +306,6 @@ textarea {
 }
 
 /* slider */
-
-
 .dueslide {
     background-color: #b9c2a6;
     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
@@ -329,7 +314,6 @@ textarea {
     margin: 10px auto;
     width: fit-content;
 }
-
 #plantSlider {
     text-align: center;
     min-width: fit-content;
@@ -339,8 +323,6 @@ textarea {
     margin: auto;
     margin-left: 110px;
 }
-
-
 .imgSlider {
     display: grid;
     grid-template-columns: 3fr 2fr !important;
@@ -427,7 +409,6 @@ input[type='range']::-moz-range-thumb {
     text-align: center;
 }
 
-
 /* add plant form */
 .addPlantForm {
     width: 50%;
@@ -449,12 +430,38 @@ input[type='range']::-moz-range-thumb {
 .singlePlant h1 {
     font-size: 28px;
 }
-
 .notes,
 .history {
+    margin: auto;
+    width: 100%;
     margin-top: 10px;
     text-align: center;
     background-color: #b9c2a6;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+}
+.history {
+    max-height: 500px;
+    padding-bottom: 20px;
+}
+.innerHistory {
+    max-height: 380px;
+    height: fit-content;
+    overflow: auto;
+}
+.historyCard,
+.noteCard {
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: #d6e2bc;
+    margin: 10px auto;
+    width: 60%;
+    border-radius: 5px;
+    height: fit-content;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr !important;
+}
+.historyCard {
+    grid-template-columns: 1fr !important;
 }
 
 /**//**//**//**//**//**//**//**//**//**//**//**/

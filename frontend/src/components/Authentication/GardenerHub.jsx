@@ -16,6 +16,7 @@ import Profile from '../Profile/ProfileHub';
 import Help from '../TextComponent/Help'
 import Tasks from '../Notifications/Notifications';
 import FooterTxt from '../TextComponent/FooterTxt';
+import CountNotifs from '../Notifications/CountNotifs';
 
 export default function GardenerHub() {
   const authContext = useContext(AuthContext);
@@ -31,6 +32,7 @@ export default function GardenerHub() {
                 alt="Plan-ts logo"
               />
             </Link>
+            <CountNotifs />
             <NavGardener />
             <Link className="i" to='/help'>
               <h3>i</h3>

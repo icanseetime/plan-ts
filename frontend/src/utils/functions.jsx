@@ -6,7 +6,6 @@ export const ChangeTime = (timestamp) => {
 }
 export const WaterSlider = (data) => {
     return (<div className="sliderContainer">
-
         <input className="watrSlide" type="range" readOnly value={data} min={1} max={3}></input>
         <img className="iconLeft" src="/assets/healthslider/drop.png" alt="Icon for water level - min water" />
         <img className="iconRight" src="/assets/healthslider/drops.png" alt="Icon for water level - max water" />

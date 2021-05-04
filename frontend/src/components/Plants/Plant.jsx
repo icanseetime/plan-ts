@@ -4,7 +4,8 @@ import React, { useEffect, useState, useContext } from 'react'
 import NewFeedback from '../Feedback/NewFeedback'
 import { AuthContext } from '../../utils/context'
 
-import {ChangeTime,WaterSlider,FertSlider,SunSlider,calcDaysRemaining
+import {
+    ChangeTime, WaterSlider, FertSlider, SunSlider, calcDaysRemaining
 } from '../../utils/functions.jsx'
 import MovePlant from './Forms/MovePlant'
 import axios from 'axios'
@@ -68,24 +69,17 @@ export default function Plant(props) {
                                     <span>Sunlight</span>
                                     {SunSlider(plant.health.light.amount)}
                                 </div>
-
                                 <div id="coverPlant">
                                     <img
                                         src={`/assets/uploaded-plants/${plant.picture}`}
-                                        alt={
-                                            plant.picture !== 'no-image.png'
-                                                ? `Image of ${plant.name}`
-                                                : 'No image provided'
-                                        }
+                                        alt={plant.picture !== 'no-image.png' ? `Image of ${plant.name}` : 'No image provided'}
                                     />
                                 </div>
                             </div>
                             <div id="duedatePlant">
                                 {waterDue >= 1 ? (
                                     <p className="watr">
-                                        Water the plant in{' '}
-                                        <span>{waterDue}</span> day
-                                        {waterDue !== 1 ? 's' : ''}!
+                                        Water the plant in{' '} <span>{waterDue}</span> day{waterDue !== 1 ? 's' : ''}!
                                     </p>
                                 ) : (
                                     <p className="watr">
@@ -94,9 +88,7 @@ export default function Plant(props) {
                                 )}
                                 {fertDue >= 1 ? (
                                     <p className="watr">
-                                        Fertilize the plant in{' '}
-                                        <span>{fertDue}</span> day
-                                        {fertDue !== 1 ? 's' : ''}!
+                                        Fertilize the plant in{' '} <span>{fertDue}</span> day{fertDue !== 1 ? 's' : ''}!
                                     </p>
                                 ) : (
                                     <p className="watr">
@@ -104,117 +96,53 @@ export default function Plant(props) {
                                     </p>
                                 )}
                             </div>
-                            <div className="locationInfo">
-                                <div className="mazem">
-                                    {/* <h2>Location:</h2>
-                                    <p>{plant.location.building.name}</p>
-                                    <p>{plant.location.floor}</p>
-                                    <p>{plant.location.room}</p> */}
-                                    <iframe
-                                        className="mazemap"
-                                        frameBorder="0"
-                                        scrolling="no"
-                                        marginHeight="0"
-                                        marginWidth="0"
-                                        src={plant.location.mazemap_embed}
-                                        allow="geolocation"
-                                    ></iframe>
-                                </div>
+                            <div id="plantInfo">
+                                <h2>Information about {plant.name}</h2>
+                                <div id="plantInfoInner">
+                                    <div>
+                                        <div>
+                                            <h3>Location:</h3>
+                                            <div className="miniCard">
+                                                <p>{plant.location.building.name}</p>
+                                                <p>{plant.location.floor}</p>
+                                                <p>{plant.location.room}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3>Watering and fertilization</h3>
+                                            <div className="miniCard">
+                                                <p> Needs water every <span>{plant.health.water.days_between}</span> day </p>
+                                                <p className="fert">
+                                                    Needs fertilizer every <span>{plant.health.fertilizer.days_between}</span> day
+                                                </p>
+                                                <p>
+                                                    Next water due date is: <span>{ChangeTime(plant.health.water.due)}</span>
+                                                </p>
+                                                <p className="fert">
+                                                    Next fertilizer due date is: <span>{ChangeTime(plant.health.fertilizer.due)}</span>
+                                                </p>
+                                                <p>
+                                                    The plant was added: {ChangeTime(plant.createdAt)}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div id="plantInfo">
-                                    <h2>Information about {plant.name}</h2>
-                                    <p>
-                                        Need water every{' '}
-                                        <span>
-                                            {plant.health.water.days_between}
-                                        </span>{' '}
-                                        day
-                                    </p>
-                                    <p className="fert">
-                                        Need fertilizer every{' '}
-                                        <span>
-                                            {
-                                                plant.health.fertilizer
-                                                    .days_between
-                                            }
-                                        </span>{' '}
-                                        day
-                                    </p>
-                                    <p>
-                                        Next water due date is:{' '}
-                                        <span>
-                                            {ChangeTime(plant.health.water.due)}
-                                        </span>
-                                    </p>
-                                    <p className="fert">
-                                        Next fertilizer due date is:{' '}
-                                        <span>
-                                            {ChangeTime(
-                                                plant.health.fertilizer.due
-                                            )}
-                                        </span>
-                                    </p>
-                                    <p>
-                                        The plant was added:{' '}
-                                        {ChangeTime(plant.createdAt)}
-                                    </p>
+                                    <div className="mazem">
+                                        <iframe
+                                            className="mazemap"
+                                            frameBorder="0"
+                                            scrolling="no"
+                                            marginHeight="0"
+                                            marginWidth="0"
+                                            src={plant.location.mazemap_embed}
+                                            allow="geolocation"
+                                        ></iframe>
+                                    </div>
+
                                 </div>
                             </div>
-                            {authContext.role !== 'guest' && (
-                                <div className="history">
-                                    <h2>History</h2>
-                                    {history ? (
-                                        history.map((history) => {
-                                            return (
-                                                <div
-                                                    className="historyCard"
-                                                    key={history._id}
-                                                >
-                                                    <div>
-                                                        <p>WIP</p>
-                                                        <p>
-                                                            {history.type
-                                                                .charAt(0)
-                                                                .toUpperCase() +
-                                                                history.type.slice(
-                                                                    1
-                                                                )}
-                                                        </p>
-                                                        <p>{history.note}</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>
-                                                            {ChangeTime(
-                                                                history.date
-                                                            )}
-                                                        </p>
-                                                        {history.user_id ? (
-                                                            <p>
-                                                                {
-                                                                    history
-                                                                        .user_id
-                                                                        .name
-                                                                        .first
-                                                                }{' '}
-                                                                {
-                                                                    history
-                                                                        .user_id
-                                                                        .name
-                                                                        .last
-                                                                }
-                                                            </p>
-                                                        ) : (
-                                                            <p>Unknown</p>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    ) : (
-                                        <p>Loading history...</p>
-                                    )}
-                                </div>
-                            )}
+
                             {authContext.role !== 'guest' && (
                                 <div className="notes">
                                     <h2>Notes</h2>
@@ -223,44 +151,50 @@ export default function Plant(props) {
                                     ) : (
                                         <p>Loading notes...</p>
                                     )}
-                                    {/* TODO Notes -> Plant */}
+                                </div>
+                            )}
+                            {authContext.role !== 'guest' && (
+                                <div className="history">
+                                    <h2>History</h2>
+                                    <div className="innerHistory">
+                                        {history ? (
+                                            history.map((history) => {
+                                                return (
+                                                    <div className="historyCard" key={history._id}>
+                                                        <p>Plant was <span>{history.type.charAt(0).toUpperCase() + history.type.slice(1)}{history.type == 'water' ? 'ed' : 'd'}</span> at {ChangeTime(history.date)} by {history.user_id ? (
+                                                            <> {history.user_id.name.first} {history.user_id.name.last}</>
+                                                        ) : (
+                                                            <>unknown</>
+                                                        )}</p>
+                                                        {history.note && (
+                                                            <>
+                                                                <h4>Note:</h4>
+                                                                <p>{history.note}</p>
+                                                            </>
+
+                                                        )}
+                                                    </div>
+                                                )
+                                            })
+                                        ) : (
+                                            <p>Loading history...</p>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                             <div className="buttons">
-                                {/*
-                                    Guest:
-                                        - Feedback btn
-                                        -skal ikke se need water in x days, eller kan se alt men ikke gjøre no med det? 
-                                        -borsett fra knappene ofc - å history
-
-                                    Gardener:
-                                        (- Water plant btn
-                                        - Fertilize plant btn ?)
-                                        - Move plant btn
-                                        - Feedback btn ?
-                                        -skal se schedualen bare ikke adde planten"
-
-                                    Manager:
-                                        (- Water plant btn
-                                        - Fertilize plant btn ?)
-                                        - Move plant btn
-                                        - Update details of plant btn
-                                        -set the watering schedual (blir gjort når den planten blir adda)
-
-
-                                */}
                                 <div
-                                    className={ authContext.role != 'guest' ? 'taskbtns' : 'taskbtn' } >
+                                    className={authContext.role != 'guest' ? 'taskbtns' : 'taskbtn'} >
                                     {authContext.role !== 'guest' && ( //TODO ikke la hover funke når dæm e disabled
                                         <div id="taskL">
                                             <button
-                                                disabled={ waterDue >= 2 ? true : false }
-                                                className={ !waterDue >= 2 ? 'wtrbtn' : 'wtrbtn off' }
-                                                //onClick={}
+                                                disabled={waterDue >= 2 ? true : false}
+                                                className={!waterDue >= 2 ? 'wtrbtn' : 'wtrbtn off'}
+                                            //onClick={}
                                             > Water </button>
                                             <button
-                                                disabled={ fertDue >= 2 ? true : false }
-                                                className={ !fertDue >= 2 ? 'fertbtn' : 'fertbtn off' }
+                                                disabled={fertDue >= 2 ? true : false}
+                                                className={!fertDue >= 2 ? 'fertbtn' : 'fertbtn off'}
                                             > Fertilize </button>
                                         </div>
                                     )}
@@ -271,18 +205,14 @@ export default function Plant(props) {
                                                     setMovingPlant(true)
                                                 }
                                                 className="mvebtn"
-                                            >
-                                                Move Plant
-                                            </button>
+                                            > Move Plant </button>
                                         )}
                                         <button
                                             onClick={() =>
                                                 setSendingFeedback(true)
                                             }
                                             className="fbbtn"
-                                        >
-                                            Send Feedback
-                                        </button>
+                                        > Send Feedback </button>
                                     </div>
                                 </div>
                             </div>
@@ -290,16 +220,12 @@ export default function Plant(props) {
                                 <button
                                     onClick={() => setEditingPlant(true)}
                                     className="viewbtn"
-                                >
-                                    Edit Plant
-                                </button>
+                                > Edit Plant </button>
                             )}
                             <button
                                 onClick={() => props.onClick()}
                                 className="viewbtn"
-                            >
-                                Back
-                            </button>
+                            > Back </button>
                         </div>
                     )}
                     {sendingFeedback && (

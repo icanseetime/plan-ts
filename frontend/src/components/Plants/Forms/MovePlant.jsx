@@ -1,23 +1,10 @@
-/*
-    Choose building(dropdown), then floor(dropdown) appears if building, then room(dropdown) appears if floor -> get room uid value and send to backend at submit, along with plant id, which is gotten from
-    const [build, setBuild]
-    const [floor, setFloor]
-    const [room, setRoom]
-
-    props -> location
-
-    onSubmit -> handleSubmit
-    handleSubmit -> props.updateLocation(room_uid)
-
-    --> some other parent component --> updateLocation takes in room_uid and plant_id, then axios time
-
-    maybe - https://codesandbox.io/s/lr3m7wrn19
-*/
-
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import axios from 'axios';
+import { AuthContext } from "../../../utils/context";
 
 export default function MovePlant(props) {
+    const authContext = useContext(AuthContext)
+
     const [buildings, setBuildings] = useState([]);
     const [building, setBuilding] = useState('')
 
@@ -28,7 +15,8 @@ export default function MovePlant(props) {
     const [room, setRoom] = useState('');
 
     const [locationObj, setLocationObj] = useState('');
-        //// Everything is placed in order ////
+    const [note, setNote] = useState('');
+    //// Everything is placed in order ////
 
     // API Call | Get all locations (buildings)
     const getBuildings = () => {
@@ -52,7 +40,7 @@ export default function MovePlant(props) {
 
     // API Call | Get all floors after selecting building
     const getFloors = (building) => {
-        axios.get(`/api/locations/${building}/floors`) 
+        axios.get(`/api/locations/${building}/floors`)
             .then(res => {
                 setFloors(res.data);
             })
@@ -62,7 +50,7 @@ export default function MovePlant(props) {
     // Floor select
     const handleFloorChange = (e) => {
         setFloor(e.target.value) // Store value
-        getRooms( building, e.target.value) // To new api call
+        getRooms(building, e.target.value) // To new api call
     }
 
     // API Call | Get all floors after selecting building
@@ -88,92 +76,109 @@ export default function MovePlant(props) {
         e.preventDefault();
         alert(`${props.plant.name} has succeessfully been moved`)
         let body = {
-            location: locationObj
+            user_id: authContext.userid,
+            location: locationObj,
+            note: note
         };
 
         axios.put(`/api/plants/${props.plant._id}/move`, body, { headers })
-        .then( res => {
-            console.log('Plant moved successfully')
-            props.onClick();
-        })
-        .catch( err => console.log('Error | ', err))
+            .then(res => {
+                console.log('Plant moved successfully')
+                props.onClick();
+            })
+            .catch(err => console.log('Error | ', err))
     }
 
     if (buildings.length > 0) {
         return (
             <form onSubmit={(e) => handleSubmit(e)}>
                 <h1>Move Plant</h1>
+
                 {/* Building */}
                 <div className="inputs">
-                    <h3>Select building</h3>
-                    <select
-                        defaultValue
-                        onChange={handleBuildingChange}
-                        name="building"
-                        id="buildingSelect"
-                    >
-                        <option value="">-- Select building --</option>
-                        {buildings &&
-                            buildings.map((building, idex) => {
-                                return (
-                                    <option
-                                        key={building.no}
-                                        value={building.no}
-                                    >
-                                        {building.name}
-                                    </option>
-                                )
-                            })}
-                    </select>
+                    <div className="singleInput">
+                        <h3>Select building</h3>
+                        <div className="inputcontainer">
+                            <select
+                                defaultValue
+                                onChange={handleBuildingChange}
+                                name="building"
+                                id="buildingSelect"
+                            >
+                                <option value="">-- Select building --</option>
+                                {buildings &&
+                                    buildings.map((building, idex) => {
+                                        return (
+                                            <option
+                                                key={building.no}
+                                                value={building.no}
+                                            >
+                                                {building.name}
+                                            </option>
+                                        )
+                                    })}
+                            </select>
+                        </div>
+                    </div>
 
                     {/* Floor */}
-                    <h3>Select floor</h3>
-                    <select
-                        defaultValue
-                        onChange={handleFloorChange}
-                        name="floor"
-                        id="floorSelect"
-                    >
-                        <option value="">-- Select floor --</option>
-                        {floors.map((floor, idex) => {
-                            return (
-                                <option key={floor} value={floor}>
-                                    {floor}
-                                </option>
-                            )
-                        })}
-                    </select>
+                    <div className="singleInput">
+                        <h3>Select floor</h3>
+                        <div className="inputcontainer">
+                            <select
+                                defaultValue
+                                onChange={handleFloorChange}
+                                name="floor"
+                                id="floorSelect"
+                            >
+                                <option value="">-- Select floor --</option>
+                                {floors.map((floor, idex) => {
+                                    return (
+                                        <option key={floor} value={floor}>
+                                            {floor}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                    </div>
 
                     {/* Room */}
-                    <h3>Select room</h3>
-                    <select
-                        defaultValue
-                        name="room"
-                        id="roomSelect"
-                        onChange={handleRoomChange}
-                    >
-                        <option value="">-- Select room --</option>
-                        {rooms.map((room, idex) => {
-                            return (
-                                <option key={room._id} value={room._id}>
-                                    {room.room}
-                                </option>
-                            )
-                        })}
-                    </select>
+                    <div className="singleInput">
+                        <h3>Select room</h3>
+                        <div className="inputcontainer">
+                            <select
+                                defaultValue
+                                name="room"
+                                id="roomSelect"
+                                onChange={handleRoomChange}
+                            >
+                                <option value="">-- Select room --</option>
+                                {rooms.map((room, idex) => {
+                                    return (
+                                        <option key={room._id} value={room._id}>
+                                            {room.room}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="singleInput">
+                        <label htmlFor="note">Note</label>
+                        <div className="inputcontainer">
+                            <textarea name="note" id="note" value={note} onChange={(e) => setNote(e.target.value)} />
+                        </div>
+                    </div>
                 </div>
-
-                <button type="submit" className="updatebtn">
-                    Save New Location
-                </button>
-
+                <button type="submit" className="updatebtn"
+                > Save New Location </button>
                 <button
                     type="button"
                     onClick={() => props.onClick()}
                     className="updatebtn"
-                >
-                    Cancel
-                </button>
+                > Cancel </button>
             </form>
         )
     } else {

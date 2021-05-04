@@ -1,10 +1,13 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../utils/context';
 import { WaterSlider, FertSlider } from '../../utils/functions';
 //calcDaysRemaining
 
 // !! Componenet that gets all tasks that ARE DUE today, or are OVERDUE
 export default function AllDueNotifications(props) {
+    const authContext = useContext(AuthContext)
+
     let fTasks = props.dueFertilizeNotifications;
     let wTasks = props.dueWaterNotifications;
 
@@ -13,8 +16,11 @@ export default function AllDueNotifications(props) {
     const headers = { Authorization: `Bearer ${token}` }
 
     const completeTask = (plant_id, taskType) => {
+        let data = {
+            user_id: authContext.userid
+        }
         if (taskType === "water") {
-            axios.put(`/api/plants/${plant_id}/water`, null, { headers })
+            axios.put(`/api/plants/${plant_id}/water`, data, { headers })
                 .then(res => {
                     alert('Plant has been watered!')
                     props.reload();
@@ -23,7 +29,7 @@ export default function AllDueNotifications(props) {
                     console.log('Error | ', err)
                 })
         } else if (taskType === "fertilize") {
-            axios.put(`/api/plants/${plant_id}/fertilize`, null, { headers })
+            axios.put(`/api/plants/${plant_id}/fertilize`, data, { headers })
                 .then(res => {
                     alert('Plant has been fertilized!')
                     props.reload();

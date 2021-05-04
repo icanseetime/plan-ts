@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+
 export default function NavManager() {
     return (
         <ul className="iconUl mob">

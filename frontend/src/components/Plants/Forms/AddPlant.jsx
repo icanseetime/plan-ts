@@ -34,7 +34,7 @@ export default function EditPlant(props) {
     const token = localStorage.getItem('token')
     const headers = { Authorization: `Bearer ${token}` } // Just in case :P
 
-    //// Everything is placed in order (LOCATION) ////
+        //// Everything is placed in order (LOCATION) ////
     // API Call | Get all locations (buildings)
     const getBuildings = () => {
         axios.get('/api/locations/buildings')
@@ -244,9 +244,7 @@ export default function EditPlant(props) {
                         <div className="plantNeeds">
                             <Slider
                                 setWaterAmount={(v) => setWaterAmount(v)}
-                                setFertilizerAmount={(v) =>
-                                    setFertilizerAmount(v)
-                                }
+                                setFertilizerAmount={(v) => setFertilizerAmount(v) }
                                 setLightAmount={(v) => setLightAmount(v)}
                             />
                         </div>

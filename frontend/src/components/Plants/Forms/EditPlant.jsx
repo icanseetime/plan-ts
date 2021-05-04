@@ -9,7 +9,6 @@ export default function AddPlant(props) {
 
     // General Inputs
     const [plantName, setPlantName] = useState(plant.name)
-    const [plantFile, setPlantFile] = useState('')
     const [plantNotes, setPlantNotes] = useState('')
     const [daysBetweenWtr, setDaysbetweenWtr] = useState(plant.health.water.days_between)
     const [daysBetweenFrt, setDaysbetweenFrt] = useState(plant.health.fertilizer.days_between)
@@ -138,7 +137,7 @@ export default function AddPlant(props) {
                     }
                 })
                 const { filename } = res.data
-                addPlant(e, filename);
+                editPlant(e, filename);
             } catch (err) {
                 if (err.response.status === 500) {
                     console.log('Server error', err.response.data.error)
@@ -147,12 +146,12 @@ export default function AddPlant(props) {
                 }
             }
         } else {
-            addPlant(e);
+            editPlant(e);
         }
     }
 
     // API Call | Add new plant
-    const addPlant = (e, imgurl) => {
+    const editPlant = (e, imgurl) => {
         e.preventDefault()
         let data = {
             'name': plantName,
@@ -172,7 +171,7 @@ export default function AddPlant(props) {
         console.log(data)
         axios.put(`/api/plants/${plant._id}`, data, { headers })
         .then( res => {
-            alert(plant.name, " successfully updated.")
+            alert("Successfully updated ", props.plant.name)
             props.onClick()
             window.location.reload()
         })
@@ -247,7 +246,6 @@ export default function AddPlant(props) {
                             setLightAmount={(v) => setLightAmount(v)}
                         />
                     </div>
-                    <div className="singleInput">
                         <label><span>Plant Notes</span></label>
                         <div className="inputcontainer">
                             <textarea
@@ -255,7 +253,6 @@ export default function AddPlant(props) {
                                 onChange={(e) => setPlantNotes(e.target.value)}
                             />
                         </div>
-                    </div>
 
                     <button
                         type="submit"

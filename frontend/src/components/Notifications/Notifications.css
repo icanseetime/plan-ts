@@ -108,6 +108,9 @@
     padding-bottom: 3px;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 6px;
 }
+.garnotifCount {
+    left: 20%; 
+}
 .tasksNotifics {
     position: relative;
     top: 1.4vh;
@@ -153,5 +156,8 @@
         width: 20px;
         height: 20px;
         font-size: 16px;
+    }
+    .garnotifCount {
+        left: 18%; 
     }
 }
