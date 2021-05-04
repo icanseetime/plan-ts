@@ -9,17 +9,14 @@
 ```
 📂frontend
 |
-└───📂public
+└───📂public          // Public assets
 |
 └───📂src
     └───📂assets      // Images, extra files
     └───📂components  // All components in the app
-    |   └───📂forms   // Components related to forms
-    └───📂pages       // Components that represent distinct pages
-    └───📂routes      // Authorization and routes for frontend
     └───📂utils       // Scripts, functions, etc.
     |
-    └─📄fileApp.js
+    └─📄App.js
     └─📄App.css
     └─📄index.js
     └─📄index.css
