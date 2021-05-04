@@ -24,3 +24,7 @@ font-weight: bolder;
 #noProfile {
    text-align: center;  
 }
+
+#profileContainer h4 {
+    text-align: center;
+}

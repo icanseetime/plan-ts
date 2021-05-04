@@ -13,23 +13,22 @@ const UsersTable = (props) => {
           <tr>
             <th>Role</th>
             {/* <th>Lastname</th> */}
-            <th>Email</th>
+            <th className="tableEmail">Email</th>
             <th>Name</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
 
-          {/* TODO: fix: Warning: Each child in a list should have a unique "key" prop. Må kanskje fjern index fra map */}
           {props.users.length > 0 ? (
             props.users.map((user, index) =>
               <tr key={user._id}>
                 <td>{user.role.charAt(0).toUpperCase() + user.role.slice(1)}</td>
-                <td>{user.email}</td>
+                <td className="tableEmail">{user.email}</td>
                 <td>{user.name.first} {user.name.last}</td>
                 <td>
                   <button onClick={() => props.editUser(user)} className="editbtn">Edit</button>
-                  <button onClick={() => props.deleteUser(user._id)} className="delbtn">Delete</button>
+                  <button onClick={() => props.deleteUser(user._id)} id="delbtnUser">Delete</button>
                 </td>
               </tr>
             )) : (

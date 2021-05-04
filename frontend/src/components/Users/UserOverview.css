@@ -1,17 +1,17 @@
 table {
-    background-color: #C6CDB5; /*temp*/
+    background-color: #c6cdb5; /*temp*/
     margin: auto;
-    width: 80%;
+    width: fit-content;
     border-radius: 20px;
-    padding: 20px;
+    padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 6px;
 }
 td {
     padding: 5px;
     padding-left: 10px;
-    background-color: #D8DBD2;
+    background-color: #d8dbd2;
     border-radius: 7px;
-} 
+}
 th {
     padding: 10px;
 }
@@ -20,37 +20,113 @@ td:last-child {
     background-color: rgba(255, 255, 255, 0);
     display: grid;
     grid-template-columns: 2fr 1fr;
-
 }
-.editbtn, .delbtn {
+.editbtn, .logout, #delbtnUser{
     cursor: pointer;
     background-color: #cae297;
     border: none;
-    margin: 2px auto;
+    margin: auto;
+    height: 35px;
     padding: 5px;
     width: 60%;
     min-width: 60px;
     border-radius: 7px;
-
+    font-size: 16px;
     box-shadow: rgba(0, 0, 0, 0.2) 4px 4px 6px;
 }
 
-.delbtn {
-    background-color: rgb(190, 54, 54);
+.editbtn, #delbtnUser {
+    margin-top: 40px;
+}
+
+/* del button users */
+#delbtnUser {
+    background-color: rgb(163, 46, 46);
     color: white;
 }
 
-.editbtn:hover, .delbtn:hover {
-    transition: ease-in-out .5s;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
-                inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+.logout {
+    margin-top: 20px;
+    background-color: rgb(243, 248, 217);
+}
+
+.updatebtn {
+    cursor: pointer;
+    background-color: #cae297;
+    border: none;
+    margin: 10px auto;
+    margin-top: 25px;
+    font-size: 16px;
+    height: 40px;
+    width: 60%;
+    min-width: 60px;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 4px 6px;
+}
+
+/* del button plants */
+.delbtn {
+    background-color: rgb(163, 46, 46);
+    color: white;
+    margin: auto;
+    width: 55%;
+    height: 40px;
+    margin-bottom: 30px;
+}
+
+.cancleFormbtn {
+    cursor: pointer;
+    background-color: #cae297;
+    border: none;
+    margin: 10px auto;
+    margin-bottom: 30px;
+    height: 40px;
+    width: 50%;
+    min-width: 60px;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.2) 4px 4px 6px;
+}
+
+
+
+.editbtn:hover,
+.delbtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
 }
 .delbtn:hover {
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
-    inset 0px 0px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
 
 .bigcontainer {
     display: grid;
     grid-template-columns: 1fr;
+}
+
+
+
+/**//**//**//**//**//**//**//**//**//**//**//**/
+
+/* Fix Mobile view. Maybe remove/hide email in the table for space */
+
+@media only screen and (max-width: 600px) {
+    .tableEmail {
+        display: none;
+    }
+    table {
+        width: fit-content;
+        padding: 5px;
+        box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 6px;
+    }
+    td:last-child {
+        grid-template-columns: 1fr;
+    }
+    td:last-child button {
+        margin: 4px !important;
+    }
+    #delbtnUser {
+        padding: .1px !important;
+    }
 }

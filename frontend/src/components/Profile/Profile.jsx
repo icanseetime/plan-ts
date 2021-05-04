@@ -1,22 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../utils/context.js';
 import { ChangeTime } from '../../utils/functions.jsx';
 import './Profile.css'
 
 export default function Profile(props) {
+    const authContext = useContext(AuthContext);
     const profile = props.yourProfile
 
-    return (profile ? (
-        <div className='profileCard' key={profile.id}>
+    const handleLogout = () => {
+        authContext.logout();
+        window.location.replace('/');
+    }
+
+    return profile ? (
+        <div className="profileCard" key={profile.id}>
             <div className="profileInfo">
-                <p><span>Name:</span> {profile.name.first} {profile.name.last}</p>
-                <p><span>Email:</span> {profile.email} </p>
-                <p><span>Role:</span> {profile.role} </p>
-                <p><span>created at:</span> {ChangeTime(profile.createdAt)}</p>
+                <p>
+                    <span>Name:</span> {profile.name.first} {profile.name.last}
+                </p>
+                <p>
+                    <span>Email:</span> {profile.email}{' '}
+                </p>
+                <p>
+                    <span>Role:</span>{' '}
+                    {profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}{' '}
+                </p>
+                <p>
+                    <span>Created at:</span> {ChangeTime(profile.createdAt)}
+                </p>
             </div>
-            <button onClick={() => props.editUser(profile)} className="editbtn">Edit</button>
+            <button onClick={() => props.editUser(profile)} className="editbtn"> Edit </button>
+            <Link to="/"><button onClick={() => handleLogout() } className="btn logout">Logout</button></Link>
         </div>
     ) : (
         <h3 id="noProfile">PROFILE NOT FOUND</h3>
-    ))
+    )
 }
 

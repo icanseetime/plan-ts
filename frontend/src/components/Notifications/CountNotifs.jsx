@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios'
 
 import './Notifications.css'
 import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../../utils/context';
 
 export default function CountNotifs() {
     const [count, setCount] = useState() //TODO FIX MEMORY LEAK WARNINGEN
+    const authContext = useContext(AuthContext)
 
     //GET TOKEN
     const token = localStorage.getItem('token');
@@ -14,7 +16,6 @@ export default function CountNotifs() {
     const getNotificationCount = () => {
         axios.get(`/api/plants/notifications/count`, { headers })
             .then(res => {
-                // console.log(res.data)
                 setCount(res.data.count)
             })
             .catch(err => console.log('Error | ', err))
@@ -34,7 +35,7 @@ export default function CountNotifs() {
     }, [])
 
     if (count !== '') {
-        return <p className="notifCount">{count}</p>
+        return <p className={authContext.role == 'manager'?("notifCount"):("garnotifCount")}>{count}</p>
     } else {
         return <p className="notifCount">X</p>
     }

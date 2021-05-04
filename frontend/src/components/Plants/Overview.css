@@ -1,9 +1,10 @@
 .viewPlants {
     padding-top: 50px;
 }
-/* LENA SKAL FIKSE :) */
+/* img/map and cards*/
 
-.cover img, .location {
+.cover img,
+.location {
     object-fit: cover;
     width: 25vh;
     height: 25vh;
@@ -13,7 +14,8 @@
 
     margin: 0 auto;
 }
-.historyCard, .noteCard {
+.historyCard,
+.noteCard {
     background-color: #d6e2bc;
     border-bottom: rgba(0, 0, 0, 0.5) 2px solid;
     margin: 10px auto;
@@ -33,40 +35,29 @@
     margin: 0 auto;
     margin-top: 15px;
 }
-
-#plantSlider {
-    text-align: center;
-    min-width: fit-content;
-    width: fit-content;
-    height: 300px;
-    border-radius: 10px;
-    margin: auto;
-    margin-left: 110px;
-   
-}
 #duedatePlant {
-    background-color:#b9c2a6;
+    background-color: #b9c2a6;
     line-height: 5px;
     border-radius: 5px;
     text-align: center;
     margin-top: 20px;
-     box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 .cover {
     width: fit-content;
     margin: 0 auto;
-
 }
 .location {
     margin-top: 8px;
     background-color: #b9c2a6;
 }
-.location p, .duedate p {
+.location p,
+.duedate p {
     margin: 3px;
     padding: 0 5px;
 }
 
-.locationInfo{
+.locationInfo {
     display: grid;
     grid-template-columns: 2fr 2fr !important;
     /* margin: auto; om på midten*/
@@ -75,41 +66,56 @@
     width: 100%;
     border-radius: 5px;
     background-color: #b9c2a6;
-     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
-}
-
-.mazem {
-    margin: auto !important;
-     /* margin-right: 150px; */
-     margin-top: 10px;
-}
-
-#plantInfo {
-    margin: auto;
-    margin-left: 70px;
-   margin-bottom: 80px;
-    /* margin-left: 150px; */
-}
-
-
-.dueslide {
-    background-color: #b9c2a6;
     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    text-align: center;
-    margin: 10px auto;
-    width: fit-content;
 }
+
 .imgLoc {
     margin: 10px;
 }
+
+/* Mazemap */
+
+.mazem {
+    margin: auto !important;
+    margin-top: 10px;
+    background-color: white;
+
+}
+
+.mazemap {
+    height: 350px;
+    width: 400px;
+    border: 1px solid black;
+}
+
+
+
+/* plant ovweview background */
+.plant {
+    background-color: #d2dac1;
+    width: 620px;
+    padding: 10px;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+/* Search  */
+.searchInpContainer div {
+    display: grid;
+    grid-template-columns: 90% 10% !important;
+}
 .searchInp {
-    width: 88% !important;
+    width: 86% !important;
     font-size: 18px !important;
 }
 .searchicon {
-    background-color: #C6CDB5;
-    font-size: 18px;
+    background-color: #707564;
+    font-size: 24px;
+    margin: 2px auto;
+    padding: 3px;
 }
 .srchBtn {
     background: none;
@@ -121,15 +127,16 @@
     background: none;
     box-shadow: none;
 }
-.plant {
-    background-color: #D2DAC1;
-    width: 620px;
-    padding: 10px;    
-    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
-    display: grid;
-    grid-template-columns: 1fr;
-    margin: 10px auto;
-    border-radius: 10px;
+
+/* text */
+
+
+
+#plantInfo {
+    margin: auto;
+    margin-left: 70px;
+    margin-bottom: 80px;
+    /* margin-left: 150px; */
 }
 
 .plantName {
@@ -137,6 +144,23 @@
     padding-top: 10px;
     font-size: 24px;
 }
+
+/* containers */
+
+.plantsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr !important;
+    width: 1320px;
+    margin: auto;
+    margin-top: 30px;
+}
+.gridBox {
+    margin: auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr !important;
+    width: fit-content;
+}
+
 .gridBox h2 {
     text-align: center;
     font-size: 22px;
@@ -164,49 +188,117 @@ textarea {
     padding: 5px;
     margin: 0;
 }
+
+/* buttons */
 .wtrbtn {
     background-color: #5fcad6;
     font-size: 17px;
     margin-top: 10px;
     padding: 10px;
     width: 141px;
-    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     border: black 1px;
+    cursor: pointer;
 }
 .fertbtn {
-    background-color: #A89787;
-    font-size: 17px;
-  
-
-    margin-top: 10px;
-    padding: 10px;
-    width: 141px;
-    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
-    border: black 1px;
-    
-   
-}
-.mvebtn, .fbbtn {
-    background-color: #BCC5A8;
+    background-color: #a89787;
     font-size: 17px;
     margin-top: 10px;
     padding: 10px;
     width: 141px;
-    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     border: black 1px;
-
-    
+      cursor: pointer;
 }
-.buttons { 
-    /* TODO: FIX THE UGLY BUTTONS ON SINGLE PLANT! */
+.mvebtn,
+.fbbtn {
+    background-color: #bcc5a8;
+    font-size: 17px;
+    margin-top: 10px;
+    padding: 10px;
+    width: 141px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    border: black 1px;
+      cursor: pointer;
+}
+.buttons {
     display: grid;
     padding-top: 10px;
-   
 }
 
+
 .taskbtns {
-     grid-template-columns: 1fr 1fr !important;
-     margin: auto;
+    grid-template-columns: 1fr 1fr !important;
+    margin: auto;
+}
+
+.wtrbtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+
+.fertbtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+.off:hover {
+    cursor: default;
+    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 0px rgba(0, 0, 0, 0);
+}
+.mvebtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+.fbbtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+.addPlantBtn {
+    font-size: 17px;
+    background-color: #b5cc85;
+    margin: auto;
+    margin-bottom: 1px;
+    padding: 12px;
+    width: 200px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    border: black 2px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#canclebtn {
+    font-size: 17px;
+    background-color: #b5cc85;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 12px;
+    width: 50%;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    border: black 2px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.viewbtn {
+    font-size: 17px;
+    background-color: #b5cc85;
+    margin: 30px auto;
+    padding: 12px;
+    width: 250px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    border: black 2px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.viewbtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
 }
 
 #taskL {
@@ -217,79 +309,37 @@ textarea {
     margin-left: 5px;
 }
 
-.wtrbtn:hover {
-    transition: ease-in-out .5s;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
-                inset 0px 0px 20px rgba(255, 255, 255, 0.7);
-}
-.fertbtn:hover {
-    transition: ease-in-out .5s;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
-                inset 0px 0px 20px rgba(255, 255, 255, 0.7);
-}
-.mvebtn:hover {
-    transition: ease-in-out .5s;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
-                inset 0px 0px 20px rgba(255, 255, 255, 0.7);
-}
-.fbbtn:hover {
-    transition: ease-in-out .5s;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
-                inset 0px 0px 20px rgba(255, 255, 255, 0.7);
-}
-.addPlantBtn {
-     font-size: 17px;
-    background-color: #B5CC85;
+.taskbtn {
+    display: grid;
+    grid-template-columns: 1fr !important;
     margin: auto;
-     margin-bottom: 1px;
-    padding: 12px;
-    width: 200px;
-    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
-    border: black 2px;
-    border-radius: 5px;
+}
+.taskbtn #taskR {
+    margin: auto;
 }
 
-#canclebtn { 
-    font-size: 17px;
-    background-color: #B5CC85;
-    margin: auto;
-    margin-top: 5px;
-    padding: 12px;
-    width: 200px;
-    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
-    border: black 2px;
-    border-radius: 5px;
-}
-.viewbtn {
-    font-size: 17px;
-    background-color: #B5CC85;
-    margin: 30px auto;
-    padding: 12px;
-    width: 250px;
-    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
-    border: black 2px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.viewbtn:hover {
-    transition: ease-in-out .5s;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
-                inset 0px 0px 20px rgba(255, 255, 255, 0.7);
-}
+/* slider */
 
-.plantsContainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr !important;
-    width: 1320px;
-    margin: auto;
-    margin-top: 30px;
-}
-.gridBox {
-    margin: auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr !important; 
+
+.dueslide {
+    background-color: #b9c2a6;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    margin: 10px auto;
     width: fit-content;
 }
+
+#plantSlider {
+    text-align: center;
+    min-width: fit-content;
+    width: fit-content;
+    height: 300px;
+    border-radius: 10px;
+    margin: auto;
+    margin-left: 110px;
+}
+
 
 .imgSlider {
     display: grid;
@@ -304,51 +354,68 @@ textarea {
     border-radius: 10px;
     margin: auto;
 }
-.iconLeft{
+.iconLeft {
     height: 20px;
 }
 .iconRight {
-height: 20px;
-margin-left: 300px;
-margin-top: -20px;
+    height: 20px;
+    margin-left: 300px;
+    margin-top: -20px;
 }
 .light {
-  height: 15px;
-  margin:10px;
-  border-radius: 5px; 
-   background: -webkit-gradient(linear, left top, right top, from(rgb(231, 231, 230)), to(rgb(239, 243, 15)));
+    height: 15px;
+    margin: 10px;
+    border-radius: 5px;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        from(rgb(231, 231, 230)),
+        to(rgb(239, 243, 15))
+    );
 }
 .watrSlide {
     height: 15px;
-    margin:10px;
-  border-radius: 5px; 
-   background: -webkit-gradient(linear, left top, right top, from(rgb(167, 208, 241)), to(rgb(4, 16, 180)));
+    margin: 10px;
+    border-radius: 5px;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        from(rgb(167, 208, 241)),
+        to(rgb(4, 16, 180))
+    );
 }
 .fertSlider {
-      height: 15px;
-      margin:10px;
-  border-radius: 5px; 
-   background: -webkit-gradient(linear, left top, right top, from(rgb(163, 138, 67)), to(rgb(44, 30, 12)));
+    height: 15px;
+    margin: 10px;
+    border-radius: 5px;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        from(rgb(163, 138, 67)),
+        to(rgb(44, 30, 12))
+    );
 }
-input[type="range"] {
+input[type='range'] {
     -webkit-appearance: none;
     -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.35));
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.35));
 }
-input[type="range"]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
     appearance: none;
     width: 18px;
     height: 18px;
     border-radius: 60%;
     background: white;
-    
 }
-input[type="range"]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
     appearance: none;
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background:white;
+    background: white;
     border: 1px solid black;
 }
 .addNeed {
@@ -359,6 +426,9 @@ input[type="range"]::-moz-range-thumb {
 .between {
     text-align: center;
 }
+
+
+/* add plant form */
 .addPlantForm {
     width: 50%;
     background-color: #bec7ac;
@@ -371,31 +441,25 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 10px;
 }
 
-.mazemap {
-    width: 380px;
-    height: 380px;
-    border: 1px solid black;
-    margin-bottom: 10px;
-}
-
 /* Single plant view */
-.singlePlant { /* Outermost container */
+.singlePlant {
+    /* Outermost container */
     width: 70% !important;
 }
 .singlePlant h1 {
     font-size: 28px;
 }
 
-.notes, .history {
+.notes,
+.history {
     margin-top: 10px;
     text-align: center;
     background-color: #b9c2a6;
 }
 
+/**//**//**//**//**//**//**//**//**//**//**//**/
 
-
-
-@media only screen and (max-width: 1400px ) {
+@media only screen and (max-width: 1400px) {
     .plant {
         width: 620px;
         padding: 10px;
@@ -426,7 +490,8 @@ input[type="range"]::-moz-range-thumb {
     }
 
     /* Single plant view */
-    .singlePlant { /* Outermost container */
+    .singlePlant {
+        /* Outermost container */
         width: 90% !important;
         font-size: 16px;
     }
@@ -436,7 +501,4 @@ input[type="range"]::-moz-range-thumb {
     .singlePlant h2 {
         font-size: 20px;
     }
-
-
-    
 }

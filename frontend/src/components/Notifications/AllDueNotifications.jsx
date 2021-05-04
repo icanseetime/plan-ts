@@ -7,17 +7,17 @@ import { WaterSlider, FertSlider } from '../../utils/functions';
 export default function AllDueNotifications(props) {
     let fTasks = props.dueFertilizeNotifications;
     let wTasks = props.dueWaterNotifications;
-    //console.log('ALL DUE TODAY NOTIF: ',wTasks);
 
     //GET TOKEN
     const token = localStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` }
 
-    const onClick = (plant_id, taskType) => {
+    const completeTask = (plant_id, taskType) => {
         if (taskType === "water") {
             axios.put(`/api/plants/${plant_id}/water`, null, { headers })
                 .then(res => {
                     alert('Plant has been watered!')
+                    props.reload();
                 })
                 .catch(err => {
                     console.log('Error | ', err)
@@ -26,6 +26,7 @@ export default function AllDueNotifications(props) {
             axios.put(`/api/plants/${plant_id}/fertilize`, null, { headers })
                 .then(res => {
                     alert('Plant has been fertilized!')
+                    props.reload();
                 })
                 .catch(err => {
                     console.log('Error | ', err)
@@ -37,9 +38,15 @@ export default function AllDueNotifications(props) {
     if (wTasks.length > 0) {
         wTasksList = wTasks.map((task) => (
             <div className="oneTask" key={task._id}>
-                <p>{task.name}</p>
-                <button onClick={() => onClick(task._id, 'water')}>Complete task</button>
+                <h4>{task.name}</h4>
                 {WaterSlider(task.health.water.amount)}
+
+                <button
+                    className="btn"
+                    onClick={() => completeTask(task._id, 'water')}
+                >
+                    Complete task
+                </button>
             </div>
         ))
     } else {
@@ -52,9 +59,15 @@ export default function AllDueNotifications(props) {
     if (fTasks.length > 0) {
         fTasksList = fTasks.map((task) => (
             <div className="oneTask" key={task._id}>
-                <p>{task.name}</p>
-                <button onClick={() => onClick(task._id, 'fertilize')}>Complete task</button>
+                <h4>{task.name}</h4>
                 {FertSlider(task.health.fertilizer.amount)}
+
+                <button
+                    className="btn"
+                    onClick={() => completeTask(task._id, 'fertilize')}
+                >
+                    Complete task
+                </button>
             </div>
         ))
     } else {
@@ -68,11 +81,11 @@ export default function AllDueNotifications(props) {
     return (
         <div className="tasksContainer">
             <div>
-                <h2>Watering tasks:</h2>
+                <h3>Watering tasks</h3>
                 {wTasksList}
             </div>
             <div>
-                <h2>Fertilizing tasks:</h2>
+                <h3>Fertilizing tasks</h3>
                 {fTasksList}
             </div>
         </div>

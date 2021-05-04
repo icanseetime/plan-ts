@@ -10,7 +10,7 @@ import {
   from "react-router-dom";
 
 // Components
-import NavManager from '../Nav/NavAlts/Manager';
+import NavManager from '../Nav/Manager';
 import Landing from '../Landing/Landing';
 import Tasks from '../Notifications/Notifications'; //endre
 import Overview from '../Plants/OverviewPlants';
@@ -21,6 +21,7 @@ import Feedback from '../Feedback/Feedback';
 import Invites from '../Invites/InvitesOverview';
 import Plant from '../Plants/Plant'
 import FooterTxt from '../TextComponent/FooterTxt';
+import CountNotifs from '../Notifications/CountNotifs';
 
 // Manager 
 export default function ManagerHub() {
@@ -29,14 +30,14 @@ export default function ManagerHub() {
     return authContext.isLoggedIn && (
       <div>
         <header className="App-header">
-          {/* TODO move notifs here */}
           <nav>
             <Link id='logo' to='/'>
               <img
                 src={`/src/../assets/logo.png`}
                 alt="Plan-ts logo"
               />
-            </Link>
+            </Link>            
+            <CountNotifs />
             <NavManager />
             <Link className="i" to='/help'>
               <h3>i</h3>

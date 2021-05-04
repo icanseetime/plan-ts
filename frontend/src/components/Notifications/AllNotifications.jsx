@@ -6,15 +6,22 @@ import { WaterSlider, FertSlider, calcDaysRemaining } from '../../utils/function
 export default function AllNotifications(props) {
     let fTasks = props.notDueFertilizeNotifications;
     let wTasks = props.notDueWaterNotifications;
-    //console.log('ALL NOTIF: ',wTasks);
+
 
 
     let wTasksList;
     if (wTasks.length > 0) {
         wTasksList = wTasks.map((task) => (
+
             <div className="oneTask" key={task._id}>
-                <p>{task.name}</p>
-                <p>{calcDaysRemaining(task.health.water.due)} day(s) remaining.</p>
+                <h4>{task.name}</h4>
+                <p>{calcDaysRemaining(task.health.water.due) + 1} day{calcDaysRemaining(task.health.water.due) + 1 !== 1 ? 's' : ''}  remaining.</p>
+                <div className="locInfo">
+                    <h3>Location</h3>
+                    <p>{task.location.building.name}</p>
+                    <p>On floor {task.location.floor}</p>
+                    <p>In room {task.location.room}</p>
+                </div>
                 {WaterSlider(task.health.water.amount)}
             </div>
         ))
@@ -28,8 +35,14 @@ export default function AllNotifications(props) {
     if (fTasks.length > 0) {
         fTasksList = fTasks.map((task) => (
             <div className="oneTask" key={task._id}>
-                <p>{task.name}</p>
-                <p>{calcDaysRemaining(task.health.fertilizer.due)} day(s) remaining.</p>
+                <h4>{task.name}</h4>
+                <p>{calcDaysRemaining(task.health.fertilizer.due) + 1} day{calcDaysRemaining(task.health.fertilizer.due) + 1 !== 1 ? 's' : ''} remaining.</p>
+                <div className="locInfo">
+                    <h3>Location</h3>
+                    <p>{task.location.building.name}</p>
+                    <p>On floor {task.location.floor}</p>
+                    <p>In room {task.location.room}</p>
+                </div>
                 {FertSlider(task.health.fertilizer.amount)}
             </div>
         ))
@@ -42,11 +55,11 @@ export default function AllNotifications(props) {
     return (
         <div className="tasksContainer">
             <div>
-                <h2>Watering tasks:</h2>
+                <h3>Watering tasks</h3>
                 {wTasksList}
             </div>
             <div>
-                <h2>Fertilizing tasks:</h2>
+                <h3>Fertilizing tasks</h3>
                 {fTasksList}
             </div>
         </div>

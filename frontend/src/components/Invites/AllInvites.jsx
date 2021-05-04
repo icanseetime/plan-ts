@@ -23,10 +23,10 @@ export default function AllInvites(props) {
                     </div>
                 )
             })
-            // <p>Uuuh</p>
+            
 
             )
-    } else { return "No messages" }
+    } else { return <p>No Invites</p> }
 
 }
 

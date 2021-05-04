@@ -10,7 +10,7 @@ import AddPlant from './Forms/AddPlant'
 import Plant from './Plant'
 
 export default function Overview() {
-    const [plantsDEFAULT, setPlantsDEFAULT] = useState('')
+    const [plantsDEFAULT, setPlantsDEFAULT] = useState('') //e nå me herren for memory leak
     const [plants, setPlants] = useState('')
     const [plant, setPlant] = useState({})
     const [buildings, setBuildings] = useState([])
@@ -52,23 +52,14 @@ export default function Overview() {
     // API Call | Get all plants - On load -> load all plants in db
     const getAllPlants = (searchValue) => {
         let search = ''
-        console.log(searchValue)
-        console.log(searchValue != '' && searchValue != undefined)
         if (searchValue != '' && searchValue != undefined) search = `/search?searchField=${searchValue}`
         else if (searchValue == '') search = ''
-        console.log(search)
 
-        axios
-            .get(`/api/plants${search}`)
+        axios.get(`/api/plants${search}`)
             .then((res) => {
                 const allPlants = res.data
                 setPlants(allPlants)
                 setPlantsDEFAULT(allPlants)
-                console.log(filterValue !== '')
-                console.log(
-                    'Before filter, after search, DEFAULT: ',
-                    plantsDEFAULT
-                )
                 if (filterValue !== '') getAllPlantsInBuilding()
             })
             .catch((error) => {
@@ -78,21 +69,17 @@ export default function Overview() {
 
     // Get all plants - On filter -> load all plants in x building WIP
     const getAllPlantsInBuilding = () => {
-        console.log('default ', plantsDEFAULT)
-        console.log('plants ', plants)
         if (filterValue === '') {
             setPlants(plantsDEFAULT)
         } else {
             let filteredPlants = plantsDEFAULT.filter(
                 (plant) => plant.location.building.no == filterValue
-            ) //gir warning på == men d må vær d funke ikke med === eller = lol
-            console.log('Filtered: ', filteredPlants)
+            ) 
             setPlants(filteredPlants)
         }
     }
 
     useEffect(() => {
-        console.log(filterValue)
         getAllPlantsInBuilding()
     }, [filterValue])
 
@@ -101,7 +88,6 @@ export default function Overview() {
         await axios
             .get(`/api/plants/${plantId}`)
             .then((res) => {
-                //console.log(res.data);
                 setPlant(res.data)
                 setSinglePlantView(true)
             })
@@ -123,7 +109,7 @@ export default function Overview() {
                 </div>
             ) : (
                 <div>
-                    <h1>Plants Overview</h1>
+                    <h1>Plant Overview</h1>
                     {/* Make auth stuff happen here */}
                     {isAdding ? (
                         <AddPlant
@@ -159,6 +145,7 @@ export default function Overview() {
                                     setIsAdding={setIsAdding}
                                     getOnePlant={getOnePlant}
                                     locations={locations}
+                                    refresh={setSinglePlantView}
                                 />
                             ) : (
                                 <p className="loading">Loading...</p>

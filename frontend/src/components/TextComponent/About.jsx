@@ -19,15 +19,15 @@ export default function About() {
                     </p>
                     <p>
                         From now on the plants will live a long and happy life,
-                        because its much easier to take care of them:)
+                        because it's much easier to take care of them. :)
                     </p>
                 </div>
                 <div className="textfield">
                     <h2>The people behind the project</h2>
                     <p>We are three BWU students, in our second year.</p>
                     <p>
-                        Ida worked on the backend, while Vilde and Lena worked
-                        on the frontend
+                        Ida worked on the back end, while Vilde and Lena worked
+                        on the front end.
                     </p>
                 </div>
             </div>

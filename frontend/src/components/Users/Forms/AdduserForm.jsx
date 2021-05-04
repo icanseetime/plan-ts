@@ -29,8 +29,6 @@ export default function AdduserForm(props) {
 
     const handleChange = async (e) => {
         const { name, value } = e.target;
-        console.log("name value | ", name, value);
-
         if (name === 'email') {
             await setUser({ ...user, [name]: value })
         }
@@ -53,7 +51,6 @@ export default function AdduserForm(props) {
         if (user.email && user.role) { //iksa man må ha onsubmit på form ikke knappen - trenger egentlig ikke å ha detre fordi require, men fint for bugs i guess :) user.name.first && user.name.last &&
             handleChange(e, props.addUser(user));
         } else {
-            console.log(user)
             setError('You have to fill inn all the fields to add a new user')
         }
 

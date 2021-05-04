@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import CountNotifs from '../../Notifications/CountNotifs';
+import CountNotifs from '../Notifications/CountNotifs';
 
 export default function NavGardener() {
 

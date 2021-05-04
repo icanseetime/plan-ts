@@ -1,9 +1,12 @@
 import axios from 'axios'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Slider from '../Slider'
 import { AuthContext } from './../../../utils/context'
 
-export default function AddPlant(props) {
+export default function EditPlant(props) {
+    const authContext = useContext(AuthContext)
+
+    // General Inputs
     const [plantName, setPlantName] = useState('')
     const [plantFile, setPlantFile] = useState('')
     const [plantNotes, setPlantNotes] = useState('')
@@ -11,13 +14,79 @@ export default function AddPlant(props) {
     const [daysBetweenFrt, setDaysbetweenFrt] = useState(0)
     const [waterDueDate, setWaterDueDate] = useState('')
     const [frtDueDate, setFrtDueDate] = useState('')
+    const [waterAmount, setWaterAmount] = useState('')
+    const [fertilizerAmount, setFertilizerAmount] = useState('')
+    const [lightAmount, setLightAmount] = useState('')
 
+    // Location
+    const [buildings, setBuildings] = useState([]);
+    const [building, setBuilding] = useState('')
+    const [floors, setFloors] = useState([]);
+    const [floor, setFloor] = useState('');
+    const [rooms, setRooms] = useState([]);
+    const [room, setRoom] = useState('');
+    const [locationObj, setLocationObj] = useState('');
+
+    // Image File
     const [file, setFile] = useState('')
-    const [picture, setPicture] = useState('')
 
     //GET TOKEN
     const token = localStorage.getItem('token')
+    const headers = { Authorization: `Bearer ${token}` } // Just in case :P
 
+    //// Everything is placed in order (LOCATION) ////
+    // API Call | Get all locations (buildings)
+    const getBuildings = () => {
+        axios.get('/api/locations/buildings')
+            .then(res => {
+                setBuildings(res.data);
+            })
+            .catch(err => console.log('Error! ', err))
+    };
+
+    // Run getBuildings at start
+    useEffect(() => {
+        getBuildings();
+    }, []);
+
+    // Building select
+    const handleBuildingChange = (e) => {
+        setBuilding(e.target.value) // Store value
+        getFloors(e.target.value)   // To new api call
+    }
+
+    // API Call | Get all floors after selecting building
+    const getFloors = (building) => {
+        axios.get(`/api/locations/${building}/floors`)
+            .then(res => {
+                setFloors(res.data);
+            })
+            .catch(err => console.log('Error! ', err))
+    };
+
+    // Floor select
+    const handleFloorChange = (e) => {
+
+        setFloor(e.target.value) // Store value
+        getRooms(building, e.target.value) // To new api call
+    }
+
+    // API Call | Get all floors after selecting building
+    const getRooms = (building, floor) => {
+        axios.get(`/api/locations/${building}/${floor}/rooms`) //buildings blir undefined
+            .then(res => {
+                setRooms(res.data);
+                console.log(res.data)
+            })
+            .catch(err => console.log('Error! ', err))
+    };
+    // Room select
+    const handleRoomChange = (e) => {
+        setLocationObj(e.target.value) // Store value
+    }
+    //// END OF LOCATION HANDLING ////
+
+    // Image file handling
     const onPicChange = (e) => {
         console.log(e.target.files[0])
         setFile(e.target.files[0])
@@ -27,18 +96,19 @@ export default function AddPlant(props) {
         e.preventDefault()
         const formData = new FormData()
         formData.append('file', file)
-
         try {
             // Upload image file
-            const res = await axios.post('/api/pictures', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`
-                }
-            })
-
-            const { filename } = res.data
-            setPicture(filename) // Send this with the other request (create new plant / update plant) for "picture" property
+            const res = await axios.post('/api/pictures', 
+                formData, 
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+            const { filename } = await res.data
+            await setPlantFile(filename)
+            await addPlant(e, filename);
         } catch (err) {
             if (err.response.status === 500) {
                 console.log('Server error', err.response.data.error)
@@ -48,18 +118,44 @@ export default function AddPlant(props) {
         }
     }
 
-    const authContext = useContext(AuthContext)
-    //only manager can see the add plant stuff
+    // API Call | Add new plant
+    const addPlant = (e, imgurl) => {
+        e.preventDefault()
+        let data = {
+            'name': plantName,
+            'location': locationObj,
+            'picture': imgurl,
+            'notes': plantNotes,
+            'waterDaysBetween': daysBetweenWtr,
+            'waterAmount': waterAmount,
+            'waterDue': waterDueDate,
+            'fertilizerDaysBetween': daysBetweenFrt,
+            'fertilizerAmount': fertilizerAmount,
+            'fertilizerDue': frtDueDate,
+            'lightAmount': lightAmount
+        }
+        console.log(imgurl)
+        axios.post(`/api/plants`, data, { headers })
+        .then( res => {
+            alert(plantName, " successfully added.")
+            props.setIsAdding(false)
+        })
+        .catch( err => {
+            console.log("Error | ", err)
+        })
+    }
+
+    //// RENDER //// 
+    // Only manager can add plants |
     if (authContext.role === 'manager') {
         return (
             <div className="inputs">
                 <h1>Add a new plant</h1>
-
-                <form className="addPlantForm" onSubmit={onSubmit}>
+                <form className="addPlantForm" onSubmit={(e) => onSubmit(e)}>
                     <div id="addPart1">
                         <div className="singleInput">
                             <label>
-                                <span>Plant name:</span>
+                                <span>Plant name</span>
                             </label>
                             <div className="inputcontainer">
                                 <input
@@ -80,19 +176,14 @@ export default function AddPlant(props) {
                                 <input
                                     id="file"
                                     type="file"
-                                    value={plantFile}
                                     onChange={onPicChange}
                                 />
-                                {plantFile && (
-                                    <img src={plantFile} alt="plant"></img>
-                                )}
                             </div>
                         </div>
-
                         <div className="singleInput">
                             <h2>Set the watering schedule</h2>
                             <label className="addNeed">
-                                <span>Days between watering:</span>
+                                <span>Days between watering</span>
                             </label>
                             <div className="inputcontainer">
                                 <input
@@ -105,7 +196,7 @@ export default function AddPlant(props) {
                                 />
                             </div>
                             <label className="addNeed">
-                                <span>Days between the fertalizing:</span>
+                                <span>Days between the fertilizing</span>
                             </label>
                             <div className="inputcontainer">
                                 <input
@@ -121,7 +212,7 @@ export default function AddPlant(props) {
 
                         <div className="singleInput">
                             <label className="addNeed">
-                                <span>Next watering due date:</span>
+                                <span>Next watering due date</span>
                             </label>
                             <div className="inputcontainer">
                                 <input
@@ -134,7 +225,7 @@ export default function AddPlant(props) {
                                 />
                             </div>
                             <label className="addNeed">
-                                <span>Next Fertalizing due date:</span>
+                                <span>Next Fertalizing due date</span>
                             </label>
                             <div className="inputcontainer">
                                 <input
@@ -151,14 +242,76 @@ export default function AddPlant(props) {
 
                     <div id="addPart2">
                         <div className="plantNeeds">
-                            <Slider />
+                            <Slider
+                                setWaterAmount={(v) => setWaterAmount(v)}
+                                setFertilizerAmount={(v) =>
+                                    setFertilizerAmount(v)
+                                }
+                                setLightAmount={(v) => setLightAmount(v)}
+                            />
                         </div>
                         {/* Dropsdowns for locations. Buildings, Foor, Room */}
                         <div className="singleInput">
                             <label>
-                                <span>Location:</span>
+                                <span>Location</span>
                             </label>
-                            location
+                            {/* Building */}
+                            <h3>Select building</h3>
+                            <select
+                                defaultValue
+                                onChange={handleBuildingChange}
+                                name="building"
+                                id="buildingSelect"
+                            >
+                                <option value="">-- Select building --</option>
+                                {buildings &&
+                                    buildings.map((building, idex) => {
+                                        return (
+                                            <option
+                                                key={building.no}
+                                                value={building.no}
+                                            >
+                                                {building.name}
+                                            </option>
+                                        )
+                                    })}
+                            </select>
+
+                            {/* Floor */}
+                            <h3>Select floor</h3>
+                            <select
+                                defaultValue
+                                onChange={handleFloorChange}
+                                name="floor"
+                                id="floorSelect"
+                            >
+                                <option value="">-- Select floor --</option>
+                                {floors.map((floor, idex) => {
+                                    return (
+                                        <option key={floor} value={floor}>
+                                            {floor}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+
+                            {/* Room */}
+                            <h3>Select room</h3>
+                            <select
+                                defaultValue
+                                name="room"
+                                id="roomSelect"
+                                onChange={handleRoomChange}
+                            >
+                                <option value="">-- Select room --</option>
+                                {rooms.map((room, idex) => {
+                                    return (
+                                        <option key={room._id} value={room._id}>
+                                            {room.room}
+                                        </option>
+                                    )
+                                })}
+                            </select>
                         </div>
 
                         <div className="singleInput">

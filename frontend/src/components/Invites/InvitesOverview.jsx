@@ -12,8 +12,7 @@ export default function Invites() {
     const [invites, setInvites] = useState([])
 
     // For sending invites
-    const [error, setError] = useState('') //TODO: fix error når mailen allerede e i bruk
-
+    const [error, setError] = useState('') 
 
     //GET TOKEN
     const token = localStorage.getItem('token');
@@ -29,7 +28,6 @@ export default function Invites() {
 
         axios.post('/api/users/invites', data, { headers })
             .then(res => {
-                console.log('Status | ', res.status)
                 alert(`User with email ${em} has been invited!`)
             })
             .catch( err => {
@@ -43,7 +41,6 @@ export default function Invites() {
         await axios.get('/api/users/invites', { headers })
             .then(async res => {
                 await setInvites(res.data)
-                console.log(invites)
             })
             .catch(err => {
                 console.log('Error | ', err)
@@ -55,7 +52,7 @@ export default function Invites() {
         setInvites(invites.filter((invite) => invite._id !== invite_id))
         axios.delete(`/api/users/invites/${invite_id}`, { headers })
             .then(res => {
-                console.log('User deleted')
+                alert('Invite deleted')
             })
             .catch(err => {
                 console.log('Error | ', err)

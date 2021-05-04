@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, Route, Switch } from "react-router-dom";
 //import ManageUsers from './../ManageUsers';
 
-// TODO: change 'crud' names into something else idk
 import UsersOverview from '../Users/UsersOverview';
 // import NewInvite from '../Invites/NewInvite';
 
@@ -12,16 +11,16 @@ export default function AllSettingsManager() {
     return (
         <div className="Allsettings">
             <Switch>
-                <Route exact path='/settings'>
+                <Route path='/settings' exact>
                     <h1>Settings</h1>
-                    <div className="settingsContainer">
+                    {/* <div className="settingsContainer">
                         <h2>Manage plants</h2>
                         <Link className="SettingsLink" to='/manageplants'>Manage plants</Link>
-                    </div> <br /> <br />
+                    </div> <br /> <br /> */}
                     <div className="settingsContainer">
                         <h2>Manage users</h2>
-                        <Link className="SettingsLink" to='/manageinvites'>Manage invites</Link>
-                        <Link className="SettingsLink" to='/settings/usersoverview'>Manage users</Link>
+                        <Link to='/manageinvites'><button className="btn">Manage invites</button></Link>
+                        <Link to='/settings/usersoverview'><button className="btn">Manage users</button></Link>
                     </div>
                 </Route>
                 <Route path='/settings/usersoverview/'>
@@ -29,10 +28,6 @@ export default function AllSettingsManager() {
                 </Route>
 
             </Switch>
-
-
-
-
         </div >
     )
 }

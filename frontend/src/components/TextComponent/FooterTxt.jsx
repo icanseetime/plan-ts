@@ -8,7 +8,7 @@ export default function FooterTxt() {
             <h1 id="about">Plan-ts</h1>
 
             <div className="textcontainer">
-                ©Plan-ts 2021
+               <div id="copyright">©Plan-ts 2021</div>
             </div>
         </div>
     );

@@ -35,12 +35,13 @@ const App = () => {
     const tokendata = decodeJWT(token);
     setRole(tokendata.user.role)
     setUserid(tokendata.user._id)
-  }, []);
+  }, []); 
 
   const logout = useCallback(() => {
     setToken(null);
     setTokenExpirationTime(null);
     localStorage.removeItem('userData');
+    window.location.reload()
   }, []);
 
   useEffect(() => {

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { ChangeTime } from '../../utils/functions'
 
-export default function Feedback(props) {
+export default function Feedback() {
     const [feedback, setFeedback] = useState([]);
 
     //GET TOKEN
@@ -13,7 +14,7 @@ export default function Feedback(props) {
         setFeedback(feedback.filter((message) => message._id !== _id))
         axios.delete(`/api/feedback/${_id}`, { headers })
             .then(res => {
-                console.log('Feedback Deleted')
+                alert('Feedback Deleted')
             })
             .catch(err => {
                 console.log('Error | ', err)
@@ -22,33 +23,22 @@ export default function Feedback(props) {
 
     const getAllFeedback = () => {
         axios.get('/api/feedback', { headers })
-            .then(res => {
+            .then( res => {
                 setFeedback(res.data)
+                    
             })
             .catch(err => console.log(err))
     }
 
+    
 
-    // const newFeedback = (plant_id) => {
-    //     let data = {
-    //         "name": props.anonName,
-    //         "plant_id": plant_id,
-    //         "message_body": props.messageBody
-    //     }
-    //     axios.post('/api/feedback', data)
-    //         .then(res => {
-    //            console.log(res.data)
-    //         })
-    //         .catch(err => console.log(err))
-    // }
-
-    //Temporary (Add api call later)
     useEffect(() => {
         getAllFeedback();
- 
     }, [])
 
+
     if (feedback.length > 0) {
+        
         return (
             feedback.map((message, index) => {
                 return (
@@ -56,20 +46,20 @@ export default function Feedback(props) {
                         <h3 className="sender">{message.name}</h3>
                         <div className="textField">
                             <p>{message.message_body}</p>
-                            <hr />
-                            <p>Regarding plant... (plant name/location? API call for plants?)</p>
-                            <p>(temp | id {message._id})</p>
+                             <p>Regarding "{message.plant_id.name}"</p> 
+                            <h4>Message sent at {ChangeTime(message.createdAt)}</h4>
                         </div>
                         <div className="btnContainer">
-                            <button onClick={() => deleteFeedback(message._id)} className="delbtn delbtnMSG">Delete</button>
+                            <button 
+                                onClick={() => deleteFeedback(message._id)} 
+                                className="delbtn delbtnMSG"
+                            >Delete</button>
                         </div>
                     </div>
                 )
             }
-
             ))
     } else { return <h3 id="noMsg">No Feedback</h3> }
-
 }
 
 

@@ -1,14 +1,17 @@
 
 .feedback {
     padding-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 80%;
+    margin: auto;
 }
 
 .letter {
-    width: 40%;
+    width: 50%;
     background-color: #D2DAC1;
     margin: auto;
     box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
-
     display: grid;
     grid-template-columns: 1fr;
     margin-bottom: 1vh;
@@ -22,8 +25,8 @@
 }
 
 .textField {
-    width: 90%;
-    margin: auto;
+    width: 100%;
+    margin: auto !important;
     background-color: #E0E3D9;
     border-radius: 6px;
     padding: 0 5px;
@@ -39,6 +42,9 @@
     padding: 5px 15px;
     margin: 5px;
     margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+     box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #noMsg {
@@ -51,8 +57,19 @@
     min-width: max-content;
 }
 
+#new {
+    text-align: center;
+}
+
+/**//**//**//**//**//**//**//**//**//**//**//**/
+
 @media only screen and (max-width:800px) {
+    .feedback {
+        padding-top: 0px;
+        grid-template-columns: 1fr;
+        width: 98%;
+    }
     .letter {
-        width: 90%;
+        width: 60%;
     }
 }

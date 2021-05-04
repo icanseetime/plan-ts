@@ -5,7 +5,7 @@ export const ChangeTime = (timestamp) => {
     return date
 }
 export const WaterSlider = (data) => {
-    return (<div>
+    return (<div className="sliderContainer">
 
         <input className="watrSlide" type="range" readOnly value={data} min={1} max={3}></input>
         <img className="iconLeft" src="/assets/healthslider/drop.png" alt="Icon for water level - min water" />
@@ -14,7 +14,7 @@ export const WaterSlider = (data) => {
 }
 export const FertSlider = (data) => {
     return (
-        <div>
+        <div className="sliderContainer">
             <input className="fertSlider" type="range" readOnly value={data} min={1} max={3}></input>
             <img className="iconLeft" src="/assets/healthslider/lilfertil.png" alt="Icon for fertalizing level - no fertalizing" />
             <img className="iconRight" src="/assets/healthslider/lotsfertil.png" alt="Icon for fertalizing level - max fertalizing" />
@@ -23,7 +23,7 @@ export const FertSlider = (data) => {
 }
 export const SunSlider = (data) => {
     return (
-        <div>
+        <div className="sliderContainer">
             <input className="light" type="range" readOnly value={data} min={1} max={5}></input>
             <img className="iconLeft" src="/assets/healthslider/nosun.png" alt="Icon for sun level - no sun" />
             <img className="iconRight" src="/assets/healthslider/sun.png" alt="Icon for sun level - full sun" />

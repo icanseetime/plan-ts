@@ -72,9 +72,12 @@
     padding-top: 30px;
 }
 
+/**//**//**//**//**//**//**//**//**//**//**//**/
+
 @media only screen and (max-width:800px) {
     .allInvitesContainer {
         grid-template-columns: 1fr;
+        width: 98%;
     }
 }
 

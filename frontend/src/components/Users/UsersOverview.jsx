@@ -21,7 +21,6 @@ export default function UsersOverview() {
     const getUsers = async () => {
       await axios.get(`/api/users`, { headers })
         .then(res => {
-          //console.log(res.data)
           setUsers(res.data);
         })
         .catch(err => {
@@ -52,13 +51,9 @@ export default function UsersOverview() {
     let data = {
       "role": updateUser.role,
     }
-    console.log('DATA/BODY: ', data)
 
     await axios.put(`/api/users/${_id}/role`, data, { headers })
       .then(response => {
-        console.log("Status: ", response.status);
-        console.log("Data: ", response.data);
-
         setUsers(users.map((user) => (user._id === currentUser._id ? updateUser : user)))
       })
       .catch(err => {
@@ -73,7 +68,7 @@ export default function UsersOverview() {
     setEditing(false)
     await axios.delete(`/api/users/${_id}/manage`, { headers })
       .then(res => {
-        console.log(`:D`)
+        alert('user deleted')
       })
       .catch(err => {
         console.log('Error | ', err)

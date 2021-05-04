@@ -26,7 +26,7 @@ export default function Landing() {
                     setUser(res.data)
                 },
                 err => {
-                    //console.log(err)
+                    console.log(err)
                 }
             )
     }, [])

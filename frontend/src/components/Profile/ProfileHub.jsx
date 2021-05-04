@@ -50,8 +50,6 @@ export default function ProfileHub() {
         }
         await axios.put(`/api/users/${authContext.userid}`, data, { headers })
             .then(response => {
-                console.log("Status: ", response.status);
-                console.log("Data: ", response.data);
                 setYourProfile(updateUser) // No need to reload page to view change
             })
             .catch(err => {

@@ -1,22 +1,38 @@
 .Allsettings {
+    width: fit-content;
+    min-width: 300px;
+    border-radius: 20px;
+    margin: 10px auto;
     text-align: center;
-    padding-top: 50px;
+    background-color: rgba(99, 103, 93, 1);
+    padding: 20px;
+    position: relative;
+    top: 10vh;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
 }
 
-.settingsContainer{
+.Allsettings h1 {
+    color: rgb(224, 236, 217);
+}
+
+.settingsContainer {
+    color: rgb(224, 236, 217);
     display: grid;
     justify-content: center;
     align-content: center;
     grid-auto-flow: row;
 }
 
-.SettingsLink {
-    background-color: #BCC5A8;
-    box-shadow: rgba(0, 0, 0, 0.3) 2px 6px 8px;
-    border: solid 1px;
-    margin: 10px;
-    padding: 8px;
+.settingsContainer .btn {
     width: 300px;
+    margin: 10px;
+}
 
-    color: rgb(34, 34, 34);
+@media only screen and (max-width: 600px) {
+    .Allsettings {
+        width: fit-content;
+        padding: 10px;
+        top: -1vh;
+        padding-top: 3vh;
+    }
 }

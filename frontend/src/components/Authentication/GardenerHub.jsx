@@ -9,13 +9,12 @@ import {
 } from "react-router-dom";
 
 // Components
-import NavGardener from '../Nav/NavAlts/Gardener';
+import NavGardener from '../Nav/Gardener';
 import Landing from '../Landing/Landing';
 import Overview from '../Plants/OverviewPlants';
 import Profile from '../Profile/ProfileHub';
 import Help from '../TextComponent/Help'
 import Tasks from '../Notifications/Notifications';
-//import About from '../TextComponent/About';
 import FooterTxt from '../TextComponent/FooterTxt';
 
 export default function GardenerHub() {

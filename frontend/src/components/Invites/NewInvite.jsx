@@ -4,6 +4,7 @@ import './Invites.css'
 
 import Email from '../Forms/Inputs/Email';
 import Role from '../Forms/Inputs/Role';
+import { Redirect } from 'react-router';
 
 export default function NewInvite(props) {
     const [email, setEmail] = useState('')
@@ -11,12 +12,10 @@ export default function NewInvite(props) {
 
     const authContext = useContext(AuthContext);
    
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email, role)
-        console.log(authContext.userid)
-
-        props.sendInvite(email, role, authContext.userid)
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        await props.sendInvite(email, role, authContext.userid)
+        await window.location.replace("/manageinvites") //ooh herren funke
     };
 
     return (

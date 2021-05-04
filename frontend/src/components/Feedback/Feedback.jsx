@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import React from 'react';
 import './Feedback.css'
 import AllFeedback from './AllFeedback';
 
 export default function Feedback() {
     return (
-        <div className="feedback">
+        <div>
             <h1>Feedback</h1>
-            <AllFeedback />
+            <div className="feedback">
+                <AllFeedback />
+            </div>
+            <div className="backBtnContainer">
+                <Link to='/settings'><button className="btn backBtn">Back</button></Link>
+            </div>
         </div>
     )
 }

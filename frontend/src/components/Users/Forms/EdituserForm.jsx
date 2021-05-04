@@ -11,9 +11,8 @@ export default function EdituserForm(props) {
     //const [repPas, setRepPas] = useState('')
 
 
-    useEffect( () => {
-         setUser(props.currentUser)
-        //console.log("currectuser", user.name.first)
+    useEffect(() => {
+        setUser(props.currentUser)
     }, [props])
 
     let pass;
@@ -21,8 +20,6 @@ export default function EdituserForm(props) {
 
     const handleChange = async (e) => {
         const { name, value } = e.target;
-        console.log("name value | ", name, value);
-
         if (name === 'email') {
             await setUser({ ...user, [name]: value })
         }
@@ -49,8 +46,6 @@ export default function EdituserForm(props) {
                 await setUser({ ...user, password: pass })
             }
         }
-
-        console.log(user)
     }
 
 
@@ -62,86 +57,93 @@ export default function EdituserForm(props) {
     return (
         <div className="inputs">
             <form onSubmit={onSubmit}>
-                  {props.firstname && ( 
-                <div className="singleInput">
-                    <label>First Name</label>
-                    <div className="inputcontainer">
-                        <input
-                            value={user.name.first}
-                            onChange={handleChange}
-                            placeholder="Jon"
-                            type="text"
-                            name="first"
-                            required
-                        />
+                {props.firstname && (
+                    <div className="singleInput">
+                        <label>First Name</label>
+                        <div className="inputcontainer">
+                            <input
+                                value={user.name.first}
+                                onChange={handleChange}
+                                placeholder="Jon"
+                                type="text"
+                                name="first"
+                                required
+                            />
+                        </div>
                     </div>
-                </div>
-                )} 
+                )}
 
-                 {props.lastname && ( 
-                <div className="singleInput">
-                    <label>Last Name</label>
-                    <div className="inputcontainer">
-                        <input
-                            value={user.name.last}
-                            onChange={handleChange}
-                            placeholder="Doe"
-                            type="text"
-                            name="last"
-                            required
-                        />
+                {props.lastname && (
+                    <div className="singleInput">
+                        <label>Last Name</label>
+                        <div className="inputcontainer">
+                            <input
+                                value={user.name.last}
+                                onChange={handleChange}
+                                placeholder="Doe"
+                                type="text"
+                                name="last"
+                                required
+                            />
+                        </div>
                     </div>
-                </div>
-                 )} 
+                )}
 
-                {props.email && ( 
-                <div className="singleInput">
-                    <label>Email</label>
+                {props.email && (
+                    <div className="singleInput">
+                        <label>Email</label>
 
-                    <div className="inputcontainer">
-                        <input
-                            placeholder="testUser@gmail.com"
-                            type="email"
-                            name="email"
-                            required
-                            value={user.email}
-                            onChange={handleChange}
-                        />
-                    </div></div>
-                 )} 
+                        <div className="inputcontainer">
+                            <input
+                                placeholder="testUser@gmail.com"
+                                type="email"
+                                name="email"
+                                required
+                                value={user.email}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                )}
 
                 {props.role && (
                     <div className="singleInput">
-                        <label> Role: </label>
+                        <label>
+                            <span> Role</span>{' '}
+                        </label>
 
                         <div className="inputcontainer">
-
                             <select
                                 value={user.role}
                                 onChange={handleChange}
                                 name="role"
-                                required>
+                                required
+                            >
                                 <option value="" disabled>-- Select a role --</option>
                                 <option value="gardener">Gardener</option>
                                 <option value="manager">Manager</option>
                             </select>
-
                         </div>
                     </div>
                 )}
 
                 {props.password && (
-                    <div className="singleInput">
-                        <hr />
-                        <p>Leave password inputs empty if you do not want to change your password.</p>
-                        <label> New Password </label>
-                        <div className="inputcontainer">
-                            <input
-                                onChange={e => handleChange(e, false)}
-                                placeholder="********"
-                                type="password"
-                                name="password"
-                            />
+                    <div>
+                        <div className="singleInput">
+                            <hr />
+                            <p>
+                                Leave password inputs empty if you do not want to
+                                change your password.
+                        </p>
+                            <label> New Password </label>
+                            <div className="inputcontainer">
+                                <input
+                                    onChange={(e) => handleChange(e, false)}
+                                    placeholder="********"
+                                    type="password"
+                                    name="password"
+                                />
+                            </div>
                         </div>
                         <div className="singleInput">
                             <label> Repeat Password </label>
@@ -155,25 +157,23 @@ export default function EdituserForm(props) {
                                 />
                             </div>
                         </div>
-                        <h4>Passwords {iscorrect ? 'match' : 'do not match'}.</h4>
-
+                        <h4>
+                            Passwords {iscorrect ? 'match' : 'do not match'}.
+                        </h4>
                     </div>
                 )}
-                <button
-                    type="submit"
-                    className="btn"
-                >Update</button>
+                <button type="submit" className="updatebtn">
+                    Update
+                </button>
 
                 <button
                     onClick={() => props.setEditing(false)}
                     type="submit"
-                    className="btn"
-                >Cancel</button>
-
+                    className="cancleFormbtn"
+                >
+                    Cancel
+                </button>
             </form>
-
         </div>
-
-
     )
 };

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import './Settings.css';
 
 
-//TODO: i figma e d lsm to settings menya så må vel få den linken om manage usert t å gå t herren:>
 export default function ManageUsers() {
     return (
         <div className="Allsettings">

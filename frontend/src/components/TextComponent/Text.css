@@ -1,18 +1,27 @@
-.textcontainer {
-    background-color: rgba(255, 255, 255, 0.671);
+.textFieldContainer {
+    background-color: #d2dac1;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     width: 90%;
     margin: auto;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.textcontainer {
+    padding: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-radius: 10px;
 }
 
 .textfield {
     border-radius: 10px;
-    color: rgb(63, 63, 63);
+    color: rgb(0, 0, 0);
     width: 98%;
+    margin: 10px auto;
 }
-.textfield h2 {
+.textfield h2,
+#plantNeeds h2 {
     text-align: center;
     color: black;
 }
@@ -20,16 +29,38 @@
     padding: 0 5px;
     text-align: left;
 }
+.plantNeedHelpContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#plantNeeds {
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    width: 98%;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.helpHeading {
+    margin-left: 25px;
+}
+
 #aboutcontainer {
     width: 100%;
 }
 #about {
     padding-top: 10px;
 }
+
+#copyright {
+    color: black;
+}
 @media only screen and (max-width: 500px) {
     .textcontainer {
         padding: 5px;
-        background-color: #C6CDB5;
+        background-color: #c6cdb5;
         width: 96%;
         margin: auto;
         display: grid;
