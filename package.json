@@ -7,7 +7,7 @@
   "author": "Group 3",
   "license": "MIT",
   "scripts": {
-    "start": "cd ../frontend && npm run start && cd backend && npm run start",
+    "start": "cd frontend && npm run start && cd ../backend && npm run start",
     "backend-start": "cd backend && npm run dev",
     "frontend-start": "cd frontend && npm run start",
     "full-start": "concurrently \"npm run backend-start\" \"npm run frontend-start\"",
