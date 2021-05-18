@@ -59,5 +59,5 @@ app.use((err, req, res, next) => {
 
 // Server
 app.listen(process.env.PORT || 5000, () =>
-    console.log(`✅ Server running [👂:${process.env.PORT}]`)
+    console.log(`✅ Server running [👂:${process.env.PORT || 5000}]`)
 )
