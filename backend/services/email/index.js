@@ -84,7 +84,7 @@ async function mailInvite(recipient, managerName, role, link) {
                     register your user details, please click the link below.
                 </p>
 
-                <a href="${process.env.HOST}/register/${link}" class="button">Register user</a>
+                <a href="${process.env.SITE}/register/${link}" class="button">Register user</a>
 
                 <br/ >
                 <br/ >
