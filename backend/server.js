@@ -51,6 +51,16 @@ app.use('/api/feedback', feedbackRouter)
 app.use('/api/pictures', picturesRouter)
 app.use('/api/docs', swagger.serve, swagger.setup(documentation))
 
+// Test
+const path = require('path')
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, '../frontend/build')))
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'))
+})
+
 // Error handling
 app.use((err, req, res, next) => {
     res.status(err.status || 500)
