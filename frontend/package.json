@@ -68,8 +68,7 @@
     ]
   },
   "devDependencies": {
-    "@imgjeits/prettier-config": "^1.0.0",
-    "dotenv": "^8.2.0"
+    "@imgjeits/prettier-config": "^1.0.0"
   },
   "prettier": "@imgjeits/prettier-config"
 }
