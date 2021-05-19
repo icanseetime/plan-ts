@@ -41,11 +41,12 @@ db.on('error', (error) => console.error('❌ Database connection\n', error)) // 
 db.on('open', () => console.log('✅ Database connection'))
 
 // Documentation
+let documentation
 if (process.env.NODE_ENV === 'production') {
     // TODO
-    const documentation = yaml.load('./backend/docs/swagger.yaml')
+    documentation = yaml.load('./backend/docs/swagger.yaml')
 } else {
-    const documentation = yaml.load('./docs/swagger.yaml')
+    documentation = yaml.load('./docs/swagger.yaml')
 }
 
 // Endpoints
