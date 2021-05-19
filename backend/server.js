@@ -41,7 +41,7 @@ db.on('error', (error) => console.error('❌ Database connection\n', error)) // 
 db.on('open', () => console.log('✅ Database connection'))
 
 // Documentation
-const documentation = yaml.load('./docs/swagger.yaml')
+const documentation = yaml.load('./backend/docs/swagger.yaml')
 
 // Endpoints
 app.use('/api', apiRouter)
@@ -55,11 +55,11 @@ app.use('/api/docs', swagger.serve, swagger.setup(documentation))
 // Test
 if (process.env.NODE_ENV === 'production') {
     // Have Node serve the files for our built React app
-    app.use(express.static('../frontend/build'))
+    app.use(express.static('./frontend/build'))
 
     // All other GET requests not handled before will return our React app
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'))
+        res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'))
     })
 }
 
