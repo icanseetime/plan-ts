@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const path = require('path')
 const cors = require('cors')
 const passport = require('passport')
 require('./auth/auth')
@@ -39,8 +40,12 @@ const db = mongoose.connection
 db.on('error', (error) => console.error('❌ Database connection\n', error)) // TODO: remove all emojis at the end of project
 db.on('open', () => console.log('✅ Database connection'))
 
-// Documentation
-const documentation = yaml.load('./docs/swagger.yaml')
+// Documentation (TODO)
+if (process.env.NODE_ENV === 'production') {
+    const documentation = yaml.load('./backend/docs/swagger.yaml')
+} else {
+    const documentation = yaml.load('./docs/swagger.yaml')
+}
 
 // Endpoints
 app.use('/api', apiRouter)
@@ -50,6 +55,14 @@ app.use('/api/locations', locationsRouter)
 app.use('/api/feedback', feedbackRouter)
 app.use('/api/pictures', picturesRouter)
 app.use('/api/docs', swagger.serve, swagger.setup(documentation))
+
+// Serve client from backend in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('./frontend/build'))
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'))
+    })
+}
 
 // Error handling
 app.use((err, req, res, next) => {
