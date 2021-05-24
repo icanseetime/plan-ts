@@ -37,8 +37,8 @@ mongoose.connect(process.env.DATABASE_URL, {
     useFindAndModify: false
 })
 const db = mongoose.connection
-db.on('error', (error) => console.error('❌ Database connection\n', error)) // TODO: remove all emojis at the end of project
-db.on('open', () => console.log('✅ Database connection'))
+db.on('error', (error) => console.error('Database connection failed\n', error))
+db.on('open', () => console.log('Connected to database'))
 
 // Documentation (TODO)
 let documentation
@@ -72,6 +72,6 @@ app.use((err, req, res, next) => {
 })
 
 // Server
-app.listen(process.env.PORT || 5000, () =>
-    console.log(`✅ Server running [👂:${process.env.PORT || 5000}]`)
+app.listen(process.env.PORT, () =>
+    console.log(`Server running on port ${process.env.PORT}`)
 )
