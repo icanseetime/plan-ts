@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 
-// Test
+// Test // TODO: remove?
 router.get('/', (req, res) => {
     res.status(200).send({ message: `This is the top level of the API` })
 })

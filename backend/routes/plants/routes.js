@@ -426,6 +426,7 @@ const deletePlant = async (req, res) => {
         if (existingPlant) {
             // Delete plant
             await Plant.findByIdAndDelete(req.params.id)
+
             // Delete picture file connected to plant
             if (existingPlant.picture !== 'no-image.png') {
                 await fs.unlink(
@@ -435,6 +436,7 @@ const deletePlant = async (req, res) => {
                     }
                 )
             }
+
             res.status(200).json({
                 message: `Plant with ID ${req.params.id} deleted successfully.`
             })
