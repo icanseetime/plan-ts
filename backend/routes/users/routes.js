@@ -5,9 +5,10 @@ const jwt = require('jsonwebtoken')
 // Database schemas
 const User = require('../../models/User')
 const Invite = require('../../models/Invite')
+const ForgottenPassword = require('../../models/ForgottenPassword')
 
 // Services
-const mailInvite = require('../../services/email')
+const { mailInvite, mailPasswordRequest } = require('../../services/email')
 
 // POST: Invite new user
 const inviteUser = async (req, res) => {
@@ -299,8 +300,7 @@ const changeRole = async (req, res) => {
         // Check that new role is included in request
         if (!req.body.role) {
             res.status(400).json({
-                error:
-                    'You need to include the new role in the body of your request.'
+                error: 'You need to include the new role in the body of your request.'
             })
         } else {
             // Update role of the user by ID
@@ -348,6 +348,52 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const requestPasswordChange = async (req, res) => {
+    try {
+        if (!req.body.email) {
+            return res.status(400).json({
+                error: 'You need to include an email in your request.'
+            })
+        }
+
+        // Find info about the user email that was submitted
+        const user = await User.findOne({ email: req.body.email })
+        if (!user) {
+            return res.status(404).json({
+                error: 'User with this email not found.'
+            })
+        }
+
+        // Check for existing reset and delete
+        await ForgottenPassword.findOneAndDelete({
+            user_id: req.params.id
+        })
+
+        // Create new request object in database
+        const newPasswordRequest = new ForgottenPassword({
+            user_id: user._id
+        })
+        const passwordRequest = await newPasswordRequest.save()
+
+        // Send reset password-email to user
+        mailPasswordRequest(
+            user.email,
+            user.name.first,
+            user.name.last,
+            passwordRequest._id
+        )
+
+        // Send success message and reset object to client-side
+        res.status(200).json({
+            message: 'Successfully created request and sent email to user.'
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to create a password change request. [${err}]`
+        })
+    }
+}
+
 module.exports = {
     inviteUser,
     checkInvite,
@@ -360,5 +406,6 @@ module.exports = {
     getUser,
     updateSelf,
     changeRole,
-    deleteUser
+    deleteUser,
+    requestPasswordChange
 }
