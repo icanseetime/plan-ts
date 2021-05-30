@@ -170,6 +170,12 @@ const loginUser = async (req, res, next) => {
                     if (error) {
                         return next(error)
                     }
+
+                    // Check for existing password reset request and delete
+                    await ForgottenPassword.findOneAndDelete({
+                        user_id: user._id
+                    })
+
                     // Generate and return JWT
                     const body = {
                         _id: user._id,
@@ -366,7 +372,7 @@ const requestPasswordChange = async (req, res) => {
 
         // Check for existing reset and delete
         await ForgottenPassword.findOneAndDelete({
-            user_id: req.params.id
+            user_id: user._id
         })
 
         // Create new request object in database
