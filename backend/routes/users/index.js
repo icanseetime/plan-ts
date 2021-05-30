@@ -61,6 +61,13 @@ router.put(
     routes.updateSelf
 )
 
+// Delete own user profile
+router.delete(
+    '/:id',
+    passport.authenticate('all-users', { session: false }),
+    routes.deleteSelf
+)
+
 // Get user by ID
 router.get(
     '/:id/manage',

@@ -1173,6 +1173,46 @@ paths:
                                     message:
                                         type: string
                                         example: 'Something went wrong while trying to update user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
+        delete:
+            summary: Delete own user
+            tags:
+                - users
+                - self
+            description: Delete own user profile.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+                      example: 6086c0b2e00c2a888c26af05
+            operationId: deleteSelf
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: 'Successfully deleted the user.'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'User with ID 606b7b5993e1ee1504b037e1 deleted successfully.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '500':
+                    description: Server error.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to delete the user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
     /users/{id}/manage:
         get:
             summary: Get information about specific user

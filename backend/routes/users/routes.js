@@ -332,6 +332,28 @@ const changeRole = async (req, res) => {
     }
 }
 
+// DELETE: Delete own user
+const deleteSelf = async (req, res) => {
+    try {
+        // Check that the user is changing their own profile
+        if (req.user._id != req.params.id) {
+            return res.status(400).json({
+                error: 'No access.'
+            })
+        }
+
+        // Delete user
+        await User.findByIdAndDelete(req.params.id)
+        res.status(200).json({
+            message: `User with ID ${req.params.id} deleted successfully.`
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to delete the user with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 // DELETE: Delete user by ID
 const deleteUser = async (req, res) => {
     try {
@@ -358,6 +380,7 @@ const deleteUser = async (req, res) => {
     }
 }
 
+// POST: Create new password change request
 const requestPasswordChange = async (req, res) => {
     try {
         if (!req.body.email) {
@@ -423,6 +446,7 @@ const getPasswordChangeRequest = async (req, res) => {
     }
 }
 
+// PUT: Update user password after forgotten password request
 const updateUserPassword = async (req, res) => {
     try {
         // Check for existing reset and delete
@@ -478,6 +502,7 @@ module.exports = {
     getUser,
     updateSelf,
     changeRole,
+    deleteSelf,
     deleteUser,
     requestPasswordChange,
     getPasswordChangeRequest,
