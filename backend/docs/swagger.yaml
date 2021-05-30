@@ -1355,6 +1355,63 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to update the user role. [SERVER ERROR MESSAGE]'
+    /users/{id}/password:
+        put:
+            summary: Update users password after "forgot password" request
+            tags:
+                - users
+                - all
+            description: Will check for the password reset request and delete it. If found, it will update the users password in the database.
+            operationId: updateUserPassword
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+                      example: 6086c0b2e00c2a888c26af05
+            responses:
+                '200':
+                    description: Successful password update
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Successfully updated the password of user with ID 6086c0b2e00c2a888c26af05.'
+                '400':
+                    description: New password not included
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'You need to include a new password in your request.'
+                '404':
+                    description: Reset request or user not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'There was no password reset request connected to user with ID 6086c0b2e00c2a888c26af05.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to update the password for user with ID 60856ac06bf41a7270f65e62. [SERVER ERROR MESSAGE]'
     /users/invites:
         get:
             summary: List user invites
@@ -1728,7 +1785,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         example: 'Forgotten password request not found.'
                 '500':
