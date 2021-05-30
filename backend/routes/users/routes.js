@@ -400,6 +400,25 @@ const requestPasswordChange = async (req, res) => {
     }
 }
 
+// GET: Get information about specific password reset request
+const getPasswordChangeRequest = async (req, res) => {
+    try {
+        // Find password reset request
+        const passwordRequest = await ForgottenPassword.findById(req.params.id)
+        if (passwordRequest) {
+            res.status(200).json(passwordRequest)
+        } else {
+            res.status(404).json({
+                error: 'Forgotten password request not found.'
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while looking for forgotten password request with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 module.exports = {
     inviteUser,
     checkInvite,
@@ -413,5 +432,6 @@ module.exports = {
     updateSelf,
     changeRole,
     deleteUser,
-    requestPasswordChange
+    requestPasswordChange,
+    getPasswordChangeRequest
 }

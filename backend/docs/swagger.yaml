@@ -1605,7 +1605,7 @@ paths:
             tags:
                 - users
                 - all
-            description: Login user and get JSON Web Token.
+            description: Login user and get JSON Web Token. Will also delete any existing request to change password tied to the user ID.
             operationId: loginUser
             requestBody:
                 description: E-mail and password
@@ -1698,6 +1698,49 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to create a password change request. [SERVER ERROR MESSAGE]'
+    /users/forgotten-password/{id}:
+        get:
+            summary: Get information about "forgotten password" request
+            tags:
+                - users
+                - all
+            description: Retrieves information about a specific request by its ID.
+            operationId: getPasswordChangeRequest
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the request
+                  schema:
+                      type: string
+                      example: 6086c0b2e00c2a888c26af05
+            responses:
+                '200':
+                    description: Successfully retrieved request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ForgottenPassword'
+                '404':
+                    description: Request not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Forgotten password request not found.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while looking for forgotten password request with ID 60856ac06bf41a7270f65e62. [SERVER ERROR MESSAGE]'
     /locations:
         get:
             summary: List all locations

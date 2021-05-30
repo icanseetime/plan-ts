@@ -45,7 +45,7 @@ router.get('/invites/:id', routes.checkInvite)
 router.post('/forgotten-password', routes.requestPasswordChange)
 
 // Get information about password reset request
-router.get('/forgotten-password/:id')
+router.get('/forgotten-password/:id', routes.getPasswordChangeRequest)
 
 // Get users own profile details
 router.get(
