@@ -82,7 +82,7 @@ router.put(
     routes.changeRole
 )
 
-// Reset user password after request
-router.put('/:id/forgotten-password')
+// Update user password (separated for use after forgetting password)
+router.put('/:id/password', routes.updateUserPassword)
 
 module.exports = router

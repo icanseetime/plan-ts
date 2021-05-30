@@ -419,6 +419,43 @@ const getPasswordChangeRequest = async (req, res) => {
     }
 }
 
+const updateUserPassword = async (req, res) => {
+    try {
+        // Check for existing reset and delete
+        await ForgottenPassword.findOneAndDelete({
+            user_id: req.params.id
+        })
+
+        // Check for missing password in request
+        if (!req.body.password) {
+            return res.status(400).json({
+                error: 'You need to include a new password in your request.'
+            })
+        } else {
+            // Update password of the user
+            const user = await User.findOneAndUpdate(
+                { id: req.params.id },
+                { password: req.body.password },
+                { runValidators: true }
+            )
+
+            if (!user) {
+                res.status(404).json({
+                    error: `User with ID ${req.params.id} not found.`
+                })
+            } else {
+                res.status(200).json({
+                    message: `Successfully updated the password of user with ID ${req.params.id}`
+                })
+            }
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to update the password for user with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 module.exports = {
     inviteUser,
     checkInvite,
@@ -433,5 +470,6 @@ module.exports = {
     changeRole,
     deleteUser,
     requestPasswordChange,
-    getPasswordChangeRequest
+    getPasswordChangeRequest,
+    updateUserPassword
 }
