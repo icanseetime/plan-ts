@@ -339,6 +339,10 @@ const deleteUser = async (req, res) => {
         let existingUser = await User.findById(req.params.id)
         if (existingUser) {
             await User.findByIdAndDelete(req.params.id)
+            // Check for existing reset request and delete
+            await ForgottenPassword.findOneAndDelete({
+                user_id: req.params.id
+            })
             res.status(200).json({
                 message: `User with ID ${req.params.id} deleted successfully.`
             })

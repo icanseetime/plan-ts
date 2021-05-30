@@ -1239,7 +1239,7 @@ paths:
             tags:
                 - users
                 - managers
-            description: Delete specific user by their ID
+            description: Delete specific user by their ID. Will also delete any "forgot password" requests tied to the user.
             parameters:
                 - name: id
                   in: path
