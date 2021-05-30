@@ -1,9 +1,9 @@
 openapi: 3.0.0
 servers:
-    - description: localhost:5000
-      url: http://localhost:5000/api
     - description: Plan-ts API
-      url: https://plan-ts.herokuapp.com/
+      url: https://plan-ts.herokuapp.com/api
+    - description: Development testing
+      url: http://localhost:5000/api
 info:
     description: Plant care system
     version: '1.0.0'
@@ -1640,6 +1640,64 @@ paths:
                                     error:
                                         type: string
                                         example: 'Error: Could not find user.'
+    /users/forgotten-password:
+        post:
+            summary: New password reset request
+            tags:
+                - users
+                - all
+            description: Request for when the user has forgotten their password. Deletes any old request associated with the user and creates a new one, as well as emails the user a link where they can reset their password.
+            operationId: requestPasswordChange
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    $ref: '#/components/schemas/User/properties/email'
+            responses:
+                '200':
+                    description: Successfully created request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Successfully created request and sent email to user.'
+                '400':
+                    description: Missing email
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'You need to include an email in your request.'
+                '404':
+                    description: No user connected to the given email
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'User with this email not found.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to create a password change request. [SERVER ERROR MESSAGE]'
     /locations:
         get:
             summary: List all locations
