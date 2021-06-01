@@ -63,7 +63,7 @@ export default function Overview() {
                 if (filterValue !== '') getAllPlantsInBuilding()
             })
             .catch((error) => {
-                console.error(`Error from plant overview: ${error}`)
+                console.error(`Error | ${error}`)
             })
     }
 

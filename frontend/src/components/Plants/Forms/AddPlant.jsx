@@ -19,9 +19,9 @@ export default function AddPlant(props) {
     const [daysBetweenFrt, setDaysbetweenFrt] = useState(1)
     const [waterDueDate, setWaterDueDate] = useState('')
     const [frtDueDate, setFrtDueDate] = useState('')
-    const [waterAmount, setWaterAmount] = useState('')
-    const [fertilizerAmount, setFertilizerAmount] = useState('')
-    const [lightAmount, setLightAmount] = useState('')
+    const [waterAmount, setWaterAmount] = useState(2)
+    const [fertilizerAmount, setFertilizerAmount] = useState(2)
+    const [lightAmount, setLightAmount] = useState(3)
 
     // Relocate
     const [willRelocate, setWillRelocate] = useState(false)

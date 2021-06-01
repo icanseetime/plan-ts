@@ -194,6 +194,7 @@ input[type='range']::-moz-range-thumb {
     .imgSlider, #plantInfoInner {
         grid-template-columns: 1fr;
     }
+    
     .imgSlider .cover, #plantSlider {
         display: grid;
         width: fit-content;
@@ -205,6 +206,7 @@ input[type='range']::-moz-range-thumb {
         min-width: fit-content;
         width: 50vw;
     }
+
     .singlePlantContainer #plantSlider {
         margin-bottom: 10px;
         background-color: #b9c2a6;

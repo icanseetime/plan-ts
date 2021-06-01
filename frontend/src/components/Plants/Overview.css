@@ -1,5 +1,5 @@
 /* img/map and cards*/
-.cover img,
+.cover,
 .location {
     height: 30vh;
     width: 30vh;
@@ -19,9 +19,9 @@
     box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
 .cover,  #plantSlider {
-    margin: 0 auto;
-    height: fit-content;
-    width: fit-content;
+    margin: auto;
+    max-height: 34vh;
+    overflow: hidden;
 }
 .cover img {
     width: 100%;

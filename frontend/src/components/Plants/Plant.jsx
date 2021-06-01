@@ -111,8 +111,9 @@ export default function Plant() {
                                 {SunSlider(plant.health.light.amount)}
                             </div>
                             <div className="cover">
-                                <img
+                                <img 
                                     src={`/assets/uploaded-plants/${plant.picture}`}
+                                    onError={(e)=>{e.target.onerror = null; e.target.src=`/assets/uploaded-plants/no-image.png`}}
                                     alt={plant.picture !== 'no-image.png' ? `Image of ${plant.name}` : 'No image provided'}
                                 />
                             </div>
