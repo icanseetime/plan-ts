@@ -6,9 +6,11 @@
     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;
 }
+
 .location {
     height: 20vh;
 }
+
 #duedatePlant {
     background-color: #b9c2a6;
     line-height: 5px;
@@ -18,25 +20,31 @@
     margin-top: 20px;
     box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
-.cover,  #plantSlider {
+
+.cover,
+#plantSlider {
     margin: auto;
     max-height: 34vh;
     overflow: hidden;
 }
+
 .cover img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 .location {
     margin-top: 8px;
     background-color: #b9c2a6;
 }
+
 .location p,
 .duedate p {
     margin: 3px;
     padding: 0 5px;
 }
+
 .locationInfo {
     display: grid;
     grid-template-columns: 2fr 2fr !important;
@@ -48,13 +56,16 @@
     background-color: #b9c2a6;
     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
 }
+
 .imgLoc {
     margin: 10px;
 }
+
 .sliderLabel {
     font-size: 18px;
     font-family: sans-serif;
 }
+
 .Slider input {
     width: 60%;
 }
@@ -68,16 +79,22 @@
     background-color: #b9c2a6;
     width: 100%;
 }
+
 #plantInfo div {
     padding: 10px;
     height: fit-content;
 }
+
 #plantInfo div p {
     margin: 2px !important;
     height: fit-content !important;
     padding: 0 20px;
 }
-#plantInfo h2 {text-align: center;}
+
+#plantInfo h2 {
+    text-align: center;
+}
+
 .plantName {
     text-align: center;
     padding-top: 10px;
@@ -90,10 +107,12 @@
     grid-template-columns: 2fr 1fr;
     box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
 }
+
 #plantInfoInner div {
     background-color: #d2dac1;
     margin: 0 10px;
 }
+
 .plantsContainer {
     display: grid;
     grid-template-columns: 1fr 1fr !important;
@@ -101,39 +120,47 @@
     margin: auto;
     margin-top: 30px;
 }
+
 .gridBox {
     padding: 5px;
     display: grid;
     grid-template-columns: 2fr 1fr !important;
     width: fit-content;
 }
+
 .gridBox h2 {
     text-align: center;
     font-size: 22px;
     margin: 5px;
 }
+
 .gridBox h3 {
     color: rgb(53, 53, 53);
     font-size: 18px;
     font-weight: normal;
     margin: 0;
 }
+
 .gridBox span {
     font-weight: bold;
 }
+
 .viewPlants div {
     display: grid;
     grid-template-columns: 1fr;
 }
+
 #file {
     margin-top: 10px;
     padding: 15px;
 }
+
 textarea {
     width: 100%;
     padding: 5px;
     margin: 0;
 }
+
 .Slider {
     margin: 0 auto;
 }
@@ -151,6 +178,7 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
 }
+
 #canclebtn {
     font-size: 17px;
     background-color: #b5cc85;
@@ -164,7 +192,9 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
 }
-.viewbtn, .editPlantbtn {
+
+.viewbtn,
+.editPlantbtn {
     text-align: center;
     text-decoration: none;
     font-size: 17px;
@@ -175,9 +205,10 @@ textarea {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     border: black 2px;
     border-radius: 5px;
-    cursor: pointer;    
+    cursor: pointer;
     color: rgb(42, 46, 28);
 }
+
 .viewbtn:hover {
     transition: ease-in-out 0.5s;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
@@ -185,20 +216,34 @@ textarea {
 }
 
 
-/**//**//**//**//**//**//**//**//**//**//**//**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
 
 @media only screen and (max-width: 1400px) {
     .plant {
         width: 620px;
         padding: 10px;
     }
+
     .plantsContainer {
         width: 100%;
         grid-template-columns: 1fr !important;
     }
+
     .imgLoc {
         display: grid;
     }
+
     .Slider {
         width: 90% !important;
     }
@@ -213,22 +258,26 @@ textarea {
         width: 98%;
         grid-template-columns: 1fr !important;
     }
+
     .plant {
         min-width: fit-content !important;
         width: 90% !important;
     }
+
     .cover img {
         width: 310px;
         height: 310px;
     }
+
     .slidersContainer div input {
         min-width: fit-content;
         width: 290px !important;
     }
+
     .location {
         min-width: fit-content;
         width: 100%;
-    } 
+    }
 
     /* Single plant view */
     .singlePlant {
@@ -236,9 +285,11 @@ textarea {
         width: 90% !important;
         font-size: 16px;
     }
+
     .singlePlant h1 {
         font-size: 22px;
     }
+
     .singlePlant h2 {
         font-size: 20px;
     }

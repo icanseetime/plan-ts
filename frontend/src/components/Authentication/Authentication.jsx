@@ -70,7 +70,7 @@ export default function Authentication() {
                         </Link>
                         <NavGuest />
                         <div className="i">
-                            <Link to='/help'>
+                            <Link to="/help">
                                 <h3>i</h3>
                             </Link>
                         </div>
@@ -83,19 +83,37 @@ export default function Authentication() {
                                     error={error}
                                     onSubmit={loginHandler}
                                     password={password}
-                                    setPassword={(v) => { setPassword(v) }}
-                                    setEmail={(v) => { setEmail(v) }}
+                                    setPassword={(v) => {
+                                        setPassword(v)
+                                    }}
+                                    setEmail={(v) => {
+                                        setEmail(v)
+                                    }}
                                     email={email}
                                 />
                             </Route>
-                            <Route path='/plantsoverview' component={Overview} exact />
-                            <Route path="/resetPassword" component={ResetPassword} />
-                            <Route path="/forgotpassword" component={ForgotPassword} exact />
-                            <Route path='/plants/:_id' component={Plant} />
+                            <Route
+                                path="/plantsoverview"
+                                component={Overview}
+                                exact
+                            />
+                            <Route
+                                path="/resetPassword"
+                                component={ResetPassword}
+                            />
+                            <Route
+                                path="/forgotpassword"
+                                component={ForgotPassword}
+                                exact
+                            />
+                            <Route path="/plants/:_id" component={Plant} />
                             <Route path="/help" component={Help} />
                             <Route path="/" component={Landing} exact />
                             {/* Random urls will redirect user to landing */}
-                            <Route path="*" component={() => <Redirect to="/" />} />
+                            <Route
+                                path="*"
+                                component={() => <Redirect to="/" />}
+                            />
                         </Switch>
                     </main>
                     <footer>

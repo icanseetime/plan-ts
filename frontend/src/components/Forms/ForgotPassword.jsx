@@ -1,10 +1,10 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 
-import './Forms.css';
+import './Forms.css'
 
-import Email from './Inputs/Email';
+import Email from './Inputs/Email'
 
 export default function ForgotPassword() {
     const [active, setActive] = useState(false)
@@ -14,10 +14,11 @@ export default function ForgotPassword() {
     const [willRelocate, setWillRelocate] = useState(false)
 
     // Regex for email validation
-    const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const regex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
     const validation = (e) => {
-        let val = e.target.value;
+        let val = e.target.value
         if (regex.test(val)) {
             setActive(true)
             return true
@@ -34,14 +35,17 @@ export default function ForgotPassword() {
         if (active) {
             console.log(email)
             let data = {
-                'email': email
-            };
-            axios.post(`/api/users/forgotten-password`, data)
-                .then(res => {
-                    alert('Check your email and click the link to reset your password.')
+                email: email
+            }
+            axios
+                .post(`/api/users/forgotten-password`, data)
+                .then((res) => {
+                    alert(
+                        'Check your email and click the link to reset your password.'
+                    )
                     setWillRelocate(true)
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log('Error | ', err)
                 })
         }
@@ -55,16 +59,15 @@ export default function ForgotPassword() {
                 <p>Enter your email</p>
             </div>
             <div className="inputs">
-                <Email
-                    email={email}
-                    onChange={(value) => setEmail(value)}
-                />
+                <Email email={email} onChange={(value) => setEmail(value)} />
             </div>
             <button
                 type="submit"
                 disabled={!active}
-                className={active ? "btn" : "btn inactive"}
-            >Send reset request</button>
+                className={active ? 'btn' : 'btn inactive'}
+            >
+                Send reset request
+            </button>
         </form>
     )
 }

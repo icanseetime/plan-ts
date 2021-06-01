@@ -1,60 +1,66 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../utils/context';
-import axios from 'axios';
+import React, { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../../utils/context'
+import axios from 'axios'
 
 //Components
-import EditUser from '../Users/Forms/EditUser';
-import Profile from './Profile';
+import EditUser from '../Users/Forms/EditUser'
+import Profile from './Profile'
 
 export default function ProfileHub() {
-    const authContext = useContext(AuthContext);
+    const authContext = useContext(AuthContext)
 
     const [yourProfile, setYourProfile] = useState('')
-    const [editing, setEditing] = useState(false);
-    const initilizeUser = { _id: null, name: { first: '', last: '' }, email: '', role: '' }
+    const [editing, setEditing] = useState(false)
+    const initilizeUser = {
+        _id: null,
+        name: { first: '', last: '' },
+        email: '',
+        role: ''
+    }
     const [currentUser, setCurrentUser] = useState(initilizeUser)
 
     //GET TOKEN
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     const headers = { Authorization: `Bearer ${token}` }
 
     // API call | Get own profile
     useEffect(() => {
         const getUser = async () => {
-            await axios.get(`/api/users/${authContext.userid}`, { headers })
-                .then(res => {
+            await axios
+                .get(`/api/users/${authContext.userid}`, { headers })
+                .then((res) => {
                     setYourProfile(res.data)
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log('Error | ', err)
                 })
         }
-        getUser();
-    }, []);
+        getUser()
+    }, [])
 
-
-    // Switch to form, for updating own profile 
+    // Switch to form, for updating own profile
     const editUser = (profile) => {
-        setEditing(true);
-        setCurrentUser(profile);
+        setEditing(true)
+        setCurrentUser(profile)
     }
 
     // API call | Update own profile
     const updateUser = async (_id, updateUser) => {
-        setEditing(false);
+        setEditing(false)
         let data = {
-            "email": updateUser.email,
-            "name.first": updateUser.name.first,
-            "name.last": updateUser.name.last
+            email: updateUser.email,
+            'name.first': updateUser.name.first,
+            'name.last': updateUser.name.last
         }
         if (updateUser.password) {
-            data = { ...data, "password": updateUser.password }
+            data = { ...data, password: updateUser.password }
         }
-        await axios.put(`/api/users/${authContext.userid}`, data, { headers })
-            .then(response => {
+        await axios
+            .put(`/api/users/${authContext.userid}`, data, { headers })
+            .then((response) => {
                 setYourProfile(updateUser) // No need to reload page to view change
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log('error! ', err)
             })
     }
@@ -64,10 +70,7 @@ export default function ProfileHub() {
             <h1>Profile</h1>
             {!editing ? (
                 <div>
-                    <Profile
-                        yourProfile={yourProfile}
-                        editUser={editUser}
-                    />
+                    <Profile yourProfile={yourProfile} editUser={editUser} />
                 </div>
             ) : (
                 <div>
@@ -86,6 +89,3 @@ export default function ProfileHub() {
         </div>
     )
 }
-
-
-

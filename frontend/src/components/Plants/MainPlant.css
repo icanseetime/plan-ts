@@ -13,7 +13,7 @@
     background-color: #bec7ac;
     margin: auto;
     margin-bottom: 15px;
-    
+
     padding: 20px 30px;
     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -31,7 +31,8 @@
     grid-template-columns: 1fr;
 }
 
-#formButtons button, #formButtons a  {
+#formButtons button,
+#formButtons a {
     width: 220px;
     border: none;
     margin: 5px auto;
@@ -107,15 +108,18 @@
     margin: auto;
     padding: 0;
 }
+
 .searchInpContainer .inputcontainer {
     display: grid;
     margin: auto;
     grid-template-columns: 90% 10% !important;
 }
+
 .searchInp {
     width: 96% !important;
     font-size: 18px !important;
 }
+
 .searchicon {
     font-size: 24px;
     margin: 0px auto;
@@ -127,6 +131,7 @@
     display: grid;
     text-align: center;
 }
+
 .topOfOverviewPlants .addPlant .btn {
     margin: 20px auto !important;
     width: fit-content;
@@ -145,6 +150,7 @@
     .plantForms {
         width: 82%;
     }
+
     .twoColContainer {
         grid-template-columns: 1fr;
     }

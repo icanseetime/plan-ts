@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
 export const AuthContext = createContext({
     isLoggedIn: false,
@@ -6,6 +6,6 @@ export const AuthContext = createContext({
     plantid: '',
     userid: '',
     role: 'guest',
-    login: () => { },
-    logout: () => { }
-});
+    login: () => {},
+    logout: () => {}
+})

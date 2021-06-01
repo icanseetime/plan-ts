@@ -9,7 +9,7 @@
     margin-bottom: 10px;
     padding: 10px 20px;
     border-radius: 10px;
-    
+
 }
 
 table {
@@ -39,7 +39,9 @@ td:last-child {
     grid-template-columns: 1fr 1fr;
 }
 
-.editbtn, .logout, #delbtnUser{
+.editbtn,
+.logout,
+#delbtnUser {
     cursor: pointer;
     background-color: #cae297;
     border: none;
@@ -53,7 +55,8 @@ td:last-child {
     box-shadow: rgba(0, 0, 0, 0.2) 4px 4px 6px;
 }
 
-.editbtn, #delbtnUser {
+.editbtn,
+#delbtnUser {
     margin-top: 40px;
 }
 
@@ -108,6 +111,7 @@ td:last-child {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
         inset 0px 0px 20px rgba(255, 255, 255, 0.7);
 }
+
 .delbtn:hover {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
         inset 0px 0px 20px rgba(0, 0, 0, 0.4);
@@ -117,7 +121,18 @@ td:last-child {
 
 
 
-/**//**//**//**//**//**//**//**//**//**//**//**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
 
 /* Fix Mobile view. Maybe remove/hide email in the table for space */
 
@@ -125,17 +140,21 @@ td:last-child {
     .tableEmail {
         display: none;
     }
+
     table {
         width: fit-content;
         padding: 5px;
         box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 6px;
     }
+
     td:last-child {
         grid-template-columns: 1fr;
     }
+
     td:last-child button {
         margin: 4px !important;
     }
+
     #delbtnUser {
         padding: .1px !important;
     }
