@@ -9,14 +9,12 @@ export default function MovePlant(props) {
     const [building, setBuilding] = useState('')
 
     const [floors, setFloors] = useState([]);
-    const [floor, setFloor] = useState('');
 
     const [rooms, setRooms] = useState([]);
 
     const [locationObj, setLocationObj] = useState('');
     const [note, setNote] = useState('');
     const [err, setErr] = useState('');
-    //// Everything is placed in order ////
 
     // API Call | Get all locations (buildings)
     const getBuildings = () => {
@@ -49,7 +47,6 @@ export default function MovePlant(props) {
 
     // Floor select
     const handleFloorChange = (e) => {
-        setFloor(e.target.value) // Store value
         getRooms(building, e.target.value) // To new api call
     }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ChangeTime } from '../../utils/functions.jsx';
 
 export default function AllInvites(props) {

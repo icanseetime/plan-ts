@@ -3,7 +3,6 @@ import '../Overview.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-//this: searchbar, searchpage = overview. plantlist = liteplant
 export default function Search(props) {
     const handleSearch = (e) => {
         props.setSearchValue(e.target.value)
