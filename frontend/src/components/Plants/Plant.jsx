@@ -146,6 +146,7 @@ export default function Plant() {
                                 </div>
                                 <div className="mazem">
                                     <iframe
+                                        title='Mazemap of location of plant'
                                         className="mazemap"
                                         frameBorder="0"
                                         src={plant.location.mazemap_embed}
