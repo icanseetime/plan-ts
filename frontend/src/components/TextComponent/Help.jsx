@@ -76,7 +76,7 @@ function Help() {
                     <h2 className="helpHeading">Plant needs</h2>
                     <div className="plantNeedHelpContainer">
                         <div className="plantNeedBox">
-                            <h4 className="helpHeading">Water</h4>
+                            <h3 className="helpHeading">Water</h3>
                             <ol>
                                 <li>A little water </li>
                                 <li> Medium amount of water </li>

@@ -20,11 +20,10 @@ export default function Profile(props) {
                     <span>Name:</span> {profile.name.first} {profile.name.last}
                 </p>
                 <p>
-                    <span>Email:</span> {profile.email}{' '}
+                    <span>Email:</span> {profile.email}
                 </p>
                 <p>
-                    <span>Role:</span>{' '}
-                    {profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}{' '}
+                    <span>Role:</span> {profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}
                 </p>
                 <p>
                     <span>Created at:</span> {ChangeTime(profile.createdAt)}
@@ -34,7 +33,7 @@ export default function Profile(props) {
             <Link to="/"><button onClick={() => handleLogout() } className="btn logout">Logout</button></Link>
         </div>
     ) : (
-        <h3 id="noProfile">PROFILE NOT FOUND</h3>
+        <p className="loading">Loading...</p>
     )
 }
 

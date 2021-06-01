@@ -3,7 +3,7 @@ import './Text.css'
 
 export default function About() {
     return (
-        <div id="aboutcontainer">
+        <div>
             <h1 id="about">About</h1>
             <div className="textcontainer">
                 <div className="textfield">

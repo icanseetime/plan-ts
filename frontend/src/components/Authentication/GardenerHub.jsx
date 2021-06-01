@@ -1,12 +1,8 @@
 import React, { useContext } from 'react';
+import { Switch, Route, Link, Redirect } from "react-router-dom";
+
+// Authentication
 import { AuthContext } from '../../utils/context';
-import {
-  BrowserRouter as Router, //WARNING: router aldri brukt
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
 
 // Components
 import NavGardener from '../Nav/Gardener';
@@ -17,12 +13,12 @@ import Help from '../TextComponent/Help'
 import Tasks from '../Notifications/Notifications';
 import FooterTxt from '../TextComponent/FooterTxt';
 import CountNotifs from '../Notifications/CountNotifs';
+import Plant from '../Plants/Plant';
 
 export default function GardenerHub() {
   const authContext = useContext(AuthContext);
   if (authContext.role === 'gardener') {
     return authContext.isLoggedIn && (
-
       <div>
         <header className="App-header">
           <nav>
@@ -32,34 +28,25 @@ export default function GardenerHub() {
                 alt="Plan-ts logo"
               />
             </Link>
-            <CountNotifs />
             <NavGardener />
-            <Link className="i" to='/help'>
-              <h3>i</h3>
-            </Link>
+            <div>
+              <div className="i">
+                <Link to='/help'>
+                  <h3>i</h3>
+                </Link>
+              </div>
+              <button className="logoutNav" onClick={() => { authContext.logout() }}>Logout</button>
+            </div>
           </nav>
         </header>
         <main>
           <Switch>
-            <Route path='/plants/overview'>
-              <Overview />
-            </Route>
-
-            <Route path='/help'>
-              <Help />
-            </Route>
-
-            <Route path='/profile'>
-              <Profile />
-            </Route>
-
-            <Route path='/tasks'>
-              <Tasks />
-            </Route>
-
-            <Route exact path="/">
-              <Landing />
-            </Route>
+            <Route path='/plantsoverview' component={Overview} exact />
+            <Route path='/plants/:_id' component={Plant} />
+            <Route path='/help' component={Help} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/tasks' component={Tasks} />
+            <Route exact path="/" component={Landing} />
 
             {/* Random urls will redirect user to landing */}
             <Route

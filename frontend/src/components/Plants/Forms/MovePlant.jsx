@@ -16,6 +16,7 @@ export default function MovePlant(props) {
 
     const [locationObj, setLocationObj] = useState('');
     const [note, setNote] = useState('');
+    const [err, setErr] = useState('');
     //// Everything is placed in order ////
 
     // API Call | Get all locations (buildings)
@@ -74,19 +75,22 @@ export default function MovePlant(props) {
     // Upon submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert(`${props.plant.name} has succeessfully been moved`)
-        let body = {
-            user_id: authContext.userid,
-            location: locationObj,
-            note: note
-        };
 
-        axios.put(`/api/plants/${props.plant._id}/move`, body, { headers })
-            .then(res => {
-                console.log('Plant moved successfully')
-                props.onClick();
-            })
-            .catch(err => console.log('Error | ', err))
+        if (locationObj !== '') {
+            let body = {
+                user_id: authContext.userid,
+                location: locationObj,
+                note: note
+            };
+
+            axios.put(`/api/plants/${props.plant._id}/move`, body, { headers })
+                .then(res => {
+                    alert(`${props.plant.name} has succeessfully been moved`)
+                    props.onClick();
+                })
+                .catch(err => console.log('Error | ', err))
+        } else setErr('Please select building, floor and room.')
+
     }
 
     if (buildings.length > 0) {
@@ -96,79 +100,81 @@ export default function MovePlant(props) {
 
                 {/* Building */}
                 <div className="inputs">
-                    <div className="singleInput">
-                        <h3>Select building</h3>
-                        <div className="inputcontainer">
-                            <select
-                                defaultValue
-                                onChange={handleBuildingChange}
-                                name="building"
-                                id="buildingSelect"
-                            >
-                                <option value="">-- Select building --</option>
-                                {buildings &&
-                                    buildings.map((building, idex) => {
+                    <div className="plantForms movePlant">
+                        <div className="singleInput">
+                            <h3>Select building</h3>
+                            <div className="inputcontainer">
+                                <select
+                                    defaultValue
+                                    onChange={handleBuildingChange}
+                                    name="building"
+                                    id="buildingSelect"
+                                > <option value="">-- Select building --</option>
+                                    {buildings &&
+                                        buildings.map((building, idex) => {
+                                            return (
+                                                <option
+                                                    key={building.no}
+                                                    value={building.no}
+                                                >
+                                                    {building.name}
+                                                </option>
+                                            )
+                                        })}
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Floor */}
+                        <div className="singleInput">
+                            <h3>Select floor</h3>
+                            <div className="inputcontainer">
+                                <select
+                                    defaultValue
+                                    onChange={handleFloorChange}
+                                    name="floor"
+                                    id="floorSelect"
+                                >
+                                    <option value="">-- Select floor --</option>
+                                    {floors.map((floor, idex) => {
                                         return (
-                                            <option
-                                                key={building.no}
-                                                value={building.no}
-                                            >
-                                                {building.name}
+                                            <option key={floor} value={floor}>
+                                                {floor}
                                             </option>
                                         )
                                     })}
-                            </select>
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Floor */}
-                    <div className="singleInput">
-                        <h3>Select floor</h3>
-                        <div className="inputcontainer">
-                            <select
-                                defaultValue
-                                onChange={handleFloorChange}
-                                name="floor"
-                                id="floorSelect"
-                            >
-                                <option value="">-- Select floor --</option>
-                                {floors.map((floor, idex) => {
-                                    return (
-                                        <option key={floor} value={floor}>
-                                            {floor}
-                                        </option>
-                                    )
-                                })}
-                            </select>
+                        {/* Room */}
+                        <div className="singleInput">
+                            <h3>Select room</h3>
+                            <div className="inputcontainer">
+                                <select
+                                    defaultValue
+                                    name="room"
+                                    id="roomSelect"
+                                    onChange={handleRoomChange}
+                                >
+                                    <option value="">-- Select room --</option>
+                                    {rooms.map((room, idex) => {
+                                        return (
+                                            <option key={room._id} value={room._id}>
+                                                {room.room}
+                                            </option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <p className="err">{err}</p>
                         </div>
-                    </div>
 
-                    {/* Room */}
-                    <div className="singleInput">
-                        <h3>Select room</h3>
-                        <div className="inputcontainer">
-                            <select
-                                defaultValue
-                                name="room"
-                                id="roomSelect"
-                                onChange={handleRoomChange}
-                            >
-                                <option value="">-- Select room --</option>
-                                {rooms.map((room, idex) => {
-                                    return (
-                                        <option key={room._id} value={room._id}>
-                                            {room.room}
-                                        </option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="singleInput">
-                        <label htmlFor="note">Note</label>
-                        <div className="inputcontainer">
-                            <textarea name="note" id="note" value={note} onChange={(e) => setNote(e.target.value)} />
+                        <div className="singleInput">
+                            <label htmlFor="note">Note</label>
+                            <div className="inputcontainer">
+                                <textarea name="note" id="note" value={note} onChange={(e) => setNote(e.target.value)} />
+                            </div>
                         </div>
                     </div>
                 </div>

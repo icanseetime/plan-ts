@@ -4,7 +4,6 @@ import './Invites.css'
 
 import Email from '../Forms/Inputs/Email';
 import Role from '../Forms/Inputs/Role';
-import { Redirect } from 'react-router';
 
 export default function NewInvite(props) {
     const [email, setEmail] = useState('')
@@ -15,15 +14,12 @@ export default function NewInvite(props) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         await props.sendInvite(email, role, authContext.userid)
-        await window.location.replace("/manageinvites") //ooh herren funke
     };
 
     return (
-        <div className="invites">
+        <div>
             <h1>Send new invite</h1>
-            <form
-                onSubmit={(e)=>handleSubmit(e)}
-            >
+            <form onSubmit={(e)=>handleSubmit(e)} >
                 <div className="inputs">
                 <Email
                     email={email}

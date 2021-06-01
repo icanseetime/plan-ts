@@ -53,14 +53,10 @@ export default function Login(props) {
             className={active ? "btn" : "btn inactive"}
           >Login
       </button>
-
           {/* Forgotten password link */}
-          {/* <div className="passLink">
-            <Link to="/forgotpass">Forgot Password</Link>
-          </div> */}
-
-
-
+          <div className="passLink">
+            <Link to="/forgotpassword">Forgot Password</Link>
+          </div>
         </form>
       )}
       { authContext.isLoggedIn && (<Redirect to='/' />)}

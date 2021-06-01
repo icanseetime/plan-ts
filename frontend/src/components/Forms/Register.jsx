@@ -50,11 +50,11 @@ export default function Register(props) {
                 "role": invInfo.role
             }
             axios.post(`/api/users`, data)
-            .then( res => {
-                console.log('Successfully registered.')
-                return window.location.replace('/')
-            })
-            .catch( err => console.log('Error | ', err))
+                .then(res => {
+                    console.log('Successfully registered.')
+                    return window.location.replace('/')
+                })
+                .catch(err => console.log('Error | ', err))
         } else setError('Something went wrong')
     }
 
@@ -71,34 +71,32 @@ export default function Register(props) {
             </div>
 
             <div className="inputs">
-            <div className="singleInput">
-                <label htmlFor="fname">First name</label>
-                <div className="inputcontainer">
-                    <input
-                        required
-                        type="text"
-                        name="firstName"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        id="fname"
-                    />
-                </div> 
-                </div>
-            <div className="singleInput">
+                <div className="singleInput">
+                    <label htmlFor="fname">First name</label>
+                    <div className="inputcontainer">
+                        <input
+                            required
+                            type="text"
+                            name="firstName"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            id="fname"
+                        />
+                    </div></div>
 
-                <label htmlFor="lname">Last name</label>
-                <div className="inputcontainer">
-                    <input
-                        required
-                        type="text"
-                        name="lastName"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        id="lname"
-                    />
-                </div>
-                </div>
-                
+                <div className="singleInput">
+                    <label htmlFor="lname">Last name</label>
+                    <div className="inputcontainer">
+                        <input
+                            required
+                            type="text"
+                            name="lastName"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            id="lname"
+                        />
+                    </div></div>
+
                 <div className="singleInput">
                     <label> Password </label>
                     <div className="inputcontainer">
@@ -111,24 +109,22 @@ export default function Register(props) {
                             required
                         />
                     </div></div>
-                    <div className="singleInput">
-                        <label> Repeat Password </label>
 
-                        <div className="inputcontainer">
-                            <input
-                                value={passRep}
-                                onChange={(e) => handleChange(e, true)}
-                                placeholder="********"
-                                type="password"
-                                name="passwordrepeat"
-                                required
-                            />
-                        </div></div>
-                        <h4>Passwords {iscorrect ? 'match' : 'do not match'}.</h4>
-                        {error && (<h4 className="error">{error}</h4>)}
-                    
+                <div className="singleInput">
+                    <label> Repeat Password </label>
+                    <div className="inputcontainer">
+                        <input
+                            value={passRep}
+                            onChange={(e) => handleChange(e, true)}
+                            placeholder="********"
+                            type="password"
+                            name="passwordrepeat"
+                            required
+                        />
+                    </div></div>
+                <h4>Passwords {iscorrect ? 'match' : 'do not match'}.</h4>
+                {error && (<h4 className="error">{error}</h4>)}
 
-                
             </div>
             <button
                 type="submit"

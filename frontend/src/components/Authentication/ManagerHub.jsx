@@ -22,6 +22,9 @@ import Invites from '../Invites/InvitesOverview';
 import Plant from '../Plants/Plant'
 import FooterTxt from '../TextComponent/FooterTxt';
 import CountNotifs from '../Notifications/CountNotifs';
+import UsersOverview from '../Users/UsersOverview';
+import AddPlant from '../Plants/Forms/AddPlant';
+import EditPlant from '../Plants/Forms/EditPlant';
 
 // Manager 
 export default function ManagerHub() {
@@ -36,66 +39,45 @@ export default function ManagerHub() {
                 src={`/src/../assets/logo.png`}
                 alt="Plan-ts logo"
               />
-            </Link>            
-            <CountNotifs />
-            <NavManager />
-            <Link className="i" to='/help'>
-              <h3>i</h3>
             </Link>
+            <NavManager />
+            <div className="iAndLogout">
+              <div className="i">
+                <Link to='/help'>
+                  <h3>i</h3>
+                </Link>
+              </div>
+              <button className="logoutNav" onClick={() => { authContext.logout() }}>Logout</button>
+            </div>
           </nav>
         </header>
         <main>
           <Switch>
-            <Route path='/plants/overview'>
-              <Overview />
-            </Route>
-
-            <Route path='/help'>
-              <Help />
-            </Route>
-
-            <Route path='/plant'>
-              <Plant />
-            </Route>
-
-            <Route path='/profile'>
-              <Profile />
-            </Route>
-
-            <Route path='/tasks'>
-              <Tasks />
-            </Route>
-
-            <Route path='/feedback'>
-              <Feedback />
-            </Route>
-
-            <Route path='/settings'>
-              <Settings />
-            </Route>
-
-            <Route path='/manageinvites'>
-              <Invites />
-            </Route>
-
-            <Route exact path="/">
-              <Landing />
-            </Route>
+            <Route path='/login' component={() => <Redirect to='/' />} />
+            <Route path='/plantsoverview' component={Overview} exact />
+            <Route path='/help' component={Help} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/tasks' component={Tasks} />
+            <Route path='/feedback' component={Feedback} />
+            <Route path='/settings' component={Settings} />
+            <Route path='/manageinvites' component={Invites} />
+            <Route path='/usersoverview' component={UsersOverview} />
+            <Route path='/plants/:_id' component={Plant} exact />
+            <Route path='/plantsnew' component={AddPlant} exact />
+            <Route path='/plantsedit/:_id' component={EditPlant} exact />
+            <Route path='/' component={Landing} exact />
 
             {/* Random urls will redirect user to landing */}
-            <Route
-              path="*"
-              exact
+            {/* <Route
+              path='*'
               component={() => <Redirect to='/' />}
-            />
-
+            /> */}
           </Switch>
         </main >
         <footer>
           <FooterTxt />
         </footer>
-      </div >
-
+      </div>
     );
   } else {
     return '';

@@ -4,16 +4,12 @@ form {
     margin: auto;
     display: grid;
     grid-template-columns: 1fr;
-    padding: 20px 35px 10px 15px;
+    padding: 10px;
     box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    
+
 }
 
-h1 {
-    text-align: center;
-    margin-top: 20px !important;
-}
 
 .loginForm {
     margin-top: 250px;
@@ -50,6 +46,9 @@ h1 {
     background-color: #E5E9DD;
     border: none;
 }
+select {
+    width: 100% !important;
+}
 .inputs input:focus { /* Removed dotted border/outline when typing */
     outline: none;
 }
@@ -75,19 +74,22 @@ h1 {
 
 /* Buttons */
 .btn {
-    font-size: 17px;
+    font-size: 16px;
     background-color: #B5CC85;
-    margin: auto;
-    margin-top: 50px;
-    padding: 12px;
-    width: 250px;
+    margin: 5px auto;
+    padding: 8px 16px;
+    width: fit-content;
     box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
     border: black 2px;
     border-radius: 5px;
     cursor: pointer;
-
-    
 }
+
+.dangerBtn {
+    background-color: rgb(180, 84, 84);
+    color: white;
+}
+
 .btn:hover {
     transition: ease-in-out .5s;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 
@@ -108,7 +110,8 @@ h1 {
 .preSet {
     background-color: #E5E9DD;
     padding: 0 20px;
-    color: rgb(75, 75, 75);
+    color: rgb(46, 46, 46);
+    text-align: center;
     border-radius: 10px;
 }
 

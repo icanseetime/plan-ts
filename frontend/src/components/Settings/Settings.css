@@ -1,38 +1,17 @@
-.Allsettings {
-    width: fit-content;
-    min-width: 300px;
-    border-radius: 20px;
-    margin: 10px auto;
-    text-align: center;
-    background-color: rgba(99, 103, 93, 1);
-    padding: 20px;
-    position: relative;
-    top: 10vh;
-    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
-}
-
-.Allsettings h1 {
-    color: rgb(224, 236, 217);
-}
-
 .settingsContainer {
-    color: rgb(224, 236, 217);
     display: grid;
-    justify-content: center;
-    align-content: center;
-    grid-auto-flow: row;
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+
+    color: rgb(28, 29, 28);
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #bec7ac;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
 }
 
 .settingsContainer .btn {
     width: 300px;
     margin: 10px;
-}
-
-@media only screen and (max-width: 600px) {
-    .Allsettings {
-        width: fit-content;
-        padding: 10px;
-        top: -1vh;
-        padding-top: 3vh;
-    }
 }

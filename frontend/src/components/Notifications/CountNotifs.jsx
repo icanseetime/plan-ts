@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios'
 
+// CSS
 import './Notifications.css'
-import { useHistory } from 'react-router-dom';
+
+// Authentication
 import { AuthContext } from '../../utils/context';
 
 export default function CountNotifs() {
@@ -21,7 +24,6 @@ export default function CountNotifs() {
             .catch(err => console.log('Error | ', err))
     }
 
-
     const history = useHistory()
 
     useEffect(() => {
@@ -34,9 +36,9 @@ export default function CountNotifs() {
         getNotificationCount();
     }, [])
 
-    if (count !== '') {
+    if (count !== '' && count) {
         return <p className={authContext.role == 'manager'?("notifCount"):("garnotifCount")}>{count}</p>
     } else {
-        return <p className="notifCount">X</p>
+        return <p className={authContext.role == 'manager'?("notifCount"):("garnotifCount")}>0</p>
     }
 }

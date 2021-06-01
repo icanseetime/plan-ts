@@ -1,4 +1,3 @@
-
 .allInvitesContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -8,13 +7,12 @@
 
 .letter {
     min-width: 90%;
-    background-color: #D2DAC1;
+    background-color: #bec7ac;
+    box-shadow:  2px 2px 6px rgba(0, 0, 0, 0.3);
     margin: 5% auto;
-
     display: grid;
-    grid-template-columns: 1fr;
     margin-bottom: 1vh;
-    padding: .5vh;
+    padding: .3vw;
     border-radius: 10px;
 }
 
@@ -26,15 +24,11 @@
 .textField {
     width: 90%;
     margin: auto;
-    background-color: #E0E3D9;
+    background-color: rgb(222, 228, 210);
     border-radius: 6px;
     padding: 0 5px;
 }
 
-.btnContainer {
-    display: flex; 
-    justify-content: flex-end;
-}
 
 .delbtnInv {
     width: fit-content;
@@ -50,27 +44,26 @@
 
 .btnsContainerInv{
     display: grid;
-    grid-template-columns: 1fr 1fr;
     width: fit-content;
     height: fit-content;
     margin: 20px auto;
 }
+
 .btnsContainerInv button {
-    margin: 10px;
-    max-width: 160px;
+    width: 160px;
+    margin: 5px;
 }
+
 .backBtnContainer {
     width: fit-content;
     margin: auto;
 }
+
 .backBtn {
     margin: auto;
     margin-top: 30px !important;
 }
 
-.invites {
-    padding-top: 30px;
-}
 
 /**//**//**//**//**//**//**//**//**//**//**//**/
 

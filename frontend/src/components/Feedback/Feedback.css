@@ -1,50 +1,20 @@
-
 .feedback {
-    padding-top: 50px;
+    padding-top: 30px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 80%;
     margin: auto;
 }
 
-.letter {
-    width: 50%;
-    background-color: #D2DAC1;
+.letter div {
     margin: auto;
-    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
-    display: grid;
-    grid-template-columns: 1fr;
-    margin-bottom: 1vh;
-    padding: .5vh;
-    border-radius: 10px;
-}
-
-.sender {
-    padding-left: 10px;
-    font-weight: lighter;
-}
-
-.textField {
-    width: 100%;
-    margin: auto !important;
-    background-color: #E0E3D9;
-    border-radius: 6px;
-    padding: 0 5px;
-}
-
-.btnContainer {
-    display: flex; 
-    justify-content: flex-end;
 }
 
 .delbtnMSG {
-    width: fit-content;
-    padding: 5px 15px;
-    margin: 5px;
-    margin-top: 10px;
+    margin-top: 20px !important;
     border: none;
     border-radius: 5px;
-     box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #noMsg {
@@ -53,12 +23,15 @@
 }
 
 #msgBdy {
-    max-width: max-content;
-    min-width: max-content;
+    max-width: 100%;
+    min-width: fit-content;
 }
 
-#new {
+
+#newFeedbackForm {
     text-align: center;
+    background-color: #bec7ac;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /**//**//**//**//**//**//**//**//**//**//**//**/

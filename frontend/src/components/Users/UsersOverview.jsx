@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import EdituserForm from './Forms/EdituserForm';
-import UsersTable from './UsersTable';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+
+import EditUser from './Forms/EditUser';
+import UsersTable from './UsersTable';
+
 import './UserOverview.css';
 
 export default function UsersOverview() {
+  const initilizeUser = { _id: null, firstName: '', lastName: '', email: '', role: '' }
+  const [currentUser, setCurrentUser] = useState(initilizeUser)
 
   const [users, setUsers] = useState('');
   const [editing, setEditing] = useState(false);
-  const initilizeUser = { _id: null, firstName: '', lastName: '', email: '', role: '' }
-  const [currentUser, setCurrentUser] = useState(initilizeUser)
 
   //GET TOKEN
   const token = localStorage.getItem('token');
   const headers = { Authorization: `Bearer ${token}` }
-
 
   // API call | Get all users
   useEffect(() => {
@@ -29,14 +31,6 @@ export default function UsersOverview() {
     }
     getUsers();
   }, []);
-
-
-
-  //add
-  //const addUser = (testuser) => {
-  // testuser._id = testusers.length + 1 //den e bare o du ikke bruke api i think idk
-  // setTestusers([...testusers, testuser])
-  //}
 
   //edit & update
   const editUser = (user) => {
@@ -73,37 +67,31 @@ export default function UsersOverview() {
       .catch(err => {
         console.log('Error | ', err)
       })
-
     setUsers(users.filter((user) => user._id !== _id))
-
   }
-
   return (
-    <div className="crudstuff">
-
+    <div>
       <h1>Manage Users</h1>
-      <div className="bigcontainer">
-
-
-        {editing ? (<div className="editoradd">
-          <div className="smalcontainer">
-            <h2>Update user</h2>
+      {editing ? (
+        <div id="users">
+          <h2>Update user</h2>
+          <div>
             <p>{currentUser.name.first} {currentUser.name.last}</p>
-            <EdituserForm role={true} setEditing={setEditing} currentUser={currentUser} updateUser={updateUser}
-            />
-          </div>          </div>
-
-        ) : (
-
-          <div className="smalcontainer">
-            <h2>All users</h2>
-            <UsersTable users={users} deleteUser={deleteUser} editUser={editUser} />
           </div>
-        )}
-
-      </div>
+          <EditUser
+            role={true}
+            setEditing={setEditing}
+            currentUser={currentUser}
+            updateUser={updateUser}
+          />
+        </div>
+      ) : (
+        <div id="users">
+          <h2>All users</h2>
+          <UsersTable users={users} deleteUser={deleteUser} editUser={editUser} />
+          <Link to='/settings'><button className="btn">Back</button></Link>
+        </div>
+      )}
     </div>
-
-
   )
 }

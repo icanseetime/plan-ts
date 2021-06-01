@@ -1,11 +1,16 @@
 import axios from 'axios'
-import React, { useState, useContext, useEffect } from 'react'
-import Slider from '../Slider'
-import { AuthContext } from '../../../utils/context'
+import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom';
 
-export default function AddPlant(props) {
-    const authContext = useContext(AuthContext)
+// Components
+import Slider from '../Slider'
+
+export default function EditPlant(props) {
+    const path = require('path');
     const plant = props.plant;
+
+    // Relocate
+    const [willRelocate, setWillRelocate] = useState(false)
 
     // General Inputs
     const [plantName, setPlantName] = useState(plant.name)
@@ -16,18 +21,9 @@ export default function AddPlant(props) {
     const [fertilizerAmount, setFertilizerAmount] = useState(plant.health.fertilizer.amount)
     const [lightAmount, setLightAmount] = useState(plant.health.light.amount)
 
-
-    // Location
-    const [buildings, setBuildings] = useState([]);
-    const [building, setBuilding] = useState('')
-    const [floors, setFloors] = useState([]);
-    const [floor, setFloor] = useState('');
-    const [rooms, setRooms] = useState([]);
-    const [room, setRoom] = useState('');
-    const [locationObj, setLocationObj] = useState('');
-
     // Image File
     const [file, setFile] = useState('')
+    const [err, setErr] = useState({ isErr: false, typemsg: '', sizemsg: '' })
 
     //GET TOKEN
     const token = localStorage.getItem('token')
@@ -48,101 +44,72 @@ export default function AddPlant(props) {
         getNotes()
     }, [])
 
+    // API Call | Delete plant
     const deletePlant = async () => {
+        let confirm = window.confirm('Are you sure you want to delete this plant?')
+        if(confirm === true) {
         let id = plant._id
         axios
             .delete(`/api/plants/${id}`, { headers })
             .then((res) => {
                 alert(`"${plant.name}" successfully deleted.`)
-                //props.refresh(false)
-                window.location.replace("/plants/overview") //endre kanskje t state?
+                setWillRelocate(true);
             })
             .catch((err) => {
-                console.log('Error | ', err) 
-            })
+                console.log('Error | ', err)
+            })}
     }
-
-
-
-    //// Everything is placed in order (LOCATION) ////
-    // API Call | Get all locations (buildings)
-    const getBuildings = () => {
-        axios.get('/api/locations/buildings')
-            .then(res => {
-                setBuildings(res.data);
-            })
-            .catch(err => console.log('Error! ', err))
-    };
-
-    // Run getBuildings at start
-    useEffect(() => {
-        getBuildings();
-    }, []);
-
-    // Building select
-    const handleBuildingChange = (e) => {
-        setBuilding(e.target.value) // Store value
-        getFloors(e.target.value)   // To new api call
-    }
-
-    // API Call | Get all floors after selecting building
-    const getFloors = (building) => {
-        axios.get(`/api/locations/${building}/floors`)
-            .then(res => {
-                setFloors(res.data);
-            })
-            .catch(err => console.log('Error! ', err))
-    };
-
-    // Floor select
-    const handleFloorChange = (e) => {
-        setFloor(e.target.value) // Store value
-        getRooms(building, e.target.value) // To new api call
-    }
-
-    // API Call | Get all floors after selecting building
-    const getRooms = (building, floor) => {
-        axios.get(`/api/locations/${building}/${floor}/rooms`) //buildings blir undefined
-            .then(res => {
-                setRooms(res.data);
-            })
-            .catch(err => console.log('Error! ', err))
-    };
-    // Room select
-    const handleRoomChange = (e) => {
-        setLocationObj(e.target.value) // Store value
-    }
-    //// END OF LOCATION HANDLING ////
 
     // Image file handling
     const onPicChange = (e) => {
-        setFile(e.target.files[0])
+        // Type
+        let fileType = path.extname(e.target.files[0].name);
+        let validFileType = false;
+
+        // Size
+        let filesize = e.target.files[0].size;
+        let filesizeMB = Math.round((filesize / 1024) / 1024);
+
+        // Check type
+        switch (fileType) {
+            case '.jpg': validFileType = true; setErr({ isErr: false, typemsg: '' }); break;
+            case '.jpeg': validFileType = true; setErr({ isErr: false, typemsg: '' }); break;
+            case '.png': validFileType = true; setErr({ isErr: false, typemsg: '' }); break;
+            default: setErr({ isErr: true, typemsg: 'Not a valid filetype. Please use JPG or PNG.' }); break;
+        }
+
+        // Check size
+        if (filesizeMB >= 5) { setErr({ isErr: true, sizemsg: 'File too large' }) }
+        else if (filesizeMB <= 5 && validFileType === true) {
+            setFile(e.target.files[0]);
+            setErr({ isErr: false, sizemsg: '' })
+        }
     }
 
-    const refreshSite = () => {
-        
-    }
-
+    // API Call || Upload image
     const onSubmit = async (e) => {
+        e.preventDefault()
         if (file) {
-            e.preventDefault()
-            const formData = new FormData()
-            formData.append('file', file)
-            try {
-                // Upload image file
-                const res = await axios.post('/api/pictures', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${token}`
+            if (err.isErr === true) alert('Please select a valid file.')
+            else {
+                const formData = new FormData()
+                formData.append('file', file)
+                try {
+                    // Upload image file
+                    const res = await axios.post('/api/pictures', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    const { filename } = res.data
+                    await editPlant(e, filename);
+                } catch (err) {
+                    if (err.response.status === 500) {
+                        console.log('Server error', err.response.data.error)
+                    } else {
+                        console.log(err.response.data.error)
                     }
-                })
-                const { filename } = res.data
-                editPlant(e, filename);
-            } catch (err) {
-                if (err.response.status === 500) {
-                    console.log('Server error', err.response.data.error)
-                } else {
-                    console.log(err.response.data.error)
                 }
             }
         } else {
@@ -150,42 +117,43 @@ export default function AddPlant(props) {
         }
     }
 
-    // API Call | Add new plant
+    // API Call | Edit plant
     const editPlant = (e, imgurl) => {
         e.preventDefault()
+        let confirm = window.confirm('Save new plant details?')
+        if(confirm === true) {
         let data = {
             'name': plantName,
             'notes': plantNotes,
-            'picture': plant.picture,
             'waterDaysBetween': daysBetweenWtr,
             'fertilizerDaysBetween': daysBetweenFrt,
             'fertilizerAmount': fertilizerAmount,
             'waterAmount': waterAmount,
             'lightAmount': lightAmount
         };
-
         if (imgurl) {
             data.picture = imgurl
         }
-
         console.log(data)
         axios.put(`/api/plants/${plant._id}`, data, { headers })
-        .then( res => {
-            alert("Successfully updated ", props.plant.name)
-            props.onClick()
-            window.location.reload()
-        })
-        .catch( err => {
-            console.log("Error | ", err)
-        })
+            .then(res => {
+                alert("Successfully updated ", props.plant.name)
+                props.onClick()
+                window.location.reload()
+            })
+            .catch(err => {
+                console.log("Error | ", err)
+            })}
     }
 
     //// RENDER //// 
+    if (willRelocate === true) return <Redirect to="/plantsoverview" />
     return (
         <div className="inputs">
             <h1>Edit plant</h1>
-            <form className="addPlantForm" onSubmit={(e) => onSubmit(e)}>
-                <div id="addPart1">
+            <form onSubmit={(e) => onSubmit(e)}>
+                <div className="plantForms">
+                <div>
                     <div className="singleInput">
                         <label>
                             <span>Plant name:</span>
@@ -209,6 +177,8 @@ export default function AddPlant(props) {
                                 type="file"
                                 onChange={onPicChange}
                             />
+                            <p className="err">{(err.isErr && err.typemsg) && err.typemsg}</p>
+                            <p className="err">{(err.isErr && err.sizemsg) && err.sizemsg}</p>
                         </div>
                     </div>
                     <div className="singleInput">
@@ -220,6 +190,8 @@ export default function AddPlant(props) {
                             <input
                                 className="between"
                                 type="number"
+                                min='1'
+                                max='365'
                                 value={daysBetweenWtr}
                                 onChange={(e) => setDaysbetweenWtr(e.target.value)}
                             />
@@ -231,48 +203,53 @@ export default function AddPlant(props) {
                             <input
                                 className="between"
                                 type="number"
+                                min='1'
+                                max='365'
                                 value={daysBetweenFrt}
                                 onChange={(e) => setDaysbetweenFrt(e.target.value)}
                             />
                         </div>
                     </div>
                 </div>
-
-                <div id="addPart2">
+                <div>
                     <div className="plantNeeds">
                         <Slider
+                            slidervalues={{
+                                water: plant.health.water.amount,
+                                fertilizer: plant.health.fertilizer.amount,
+                                light: plant.health.light.amount
+                            }}
                             setWaterAmount={(v) => setWaterAmount(v)}
                             setFertilizerAmount={(v) => setFertilizerAmount(v)}
                             setLightAmount={(v) => setLightAmount(v)}
                         />
                     </div>
-                        <label><span>Plant Notes</span></label>
-                        <div className="inputcontainer">
-                            <textarea
-                                value={plantNotes}
-                                onChange={(e) => setPlantNotes(e.target.value)}
-                            />
-                        </div>
-
+                    <label><span>Plant Notes</span></label>
+                    <div className="inputcontainer">
+                        <textarea
+                            value={plantNotes}
+                            onChange={(e) => setPlantNotes(e.target.value)}
+                        />
+                    </div>
+                </div>
+                </div>
+                <div id="formButtons">
                     <button
                         type="submit"
-                        className="addPlantBtn"
+                        className="btn"
                     >Update Plant</button>
                     <button
                         onClick={() => deletePlant()}
                         type="button"
-                        className="btn delbtn"
+                        className="btn"
                     >Delete</button>
                     <button
                         onClick={() => props.onClick()}
                         type="submit"
-                        id="canclebtn"
+                        className="btn"
                     >Cancel</button>
-
                 </div>
             </form>
         </div>
     )
-
 }
-//TODO - blir ikke updated før man refresher siden

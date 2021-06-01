@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../utils/context';
 import axios from 'axios';
-import EdituserForm from '../Users/Forms/EdituserForm';
+
+//Components
+import EditUser from '../Users/Forms/EditUser';
 import Profile from './Profile';
 
 export default function ProfileHub() {
@@ -58,7 +60,7 @@ export default function ProfileHub() {
     }
 
     return (
-        <div id="profileContainer">
+        <div>
             <h1>Profile</h1>
             {!editing ? (
                 <div>
@@ -68,8 +70,8 @@ export default function ProfileHub() {
                     />
                 </div>
             ) : (
-                <div className="smalcontainer">
-                    <EdituserForm
+                <div>
+                    <EditUser
                         password={true}
                         email={true}
                         firstname={true}

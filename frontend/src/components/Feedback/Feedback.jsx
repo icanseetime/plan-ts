@@ -10,9 +10,6 @@ export default function Feedback() {
             <div className="feedback">
                 <AllFeedback />
             </div>
-            <div className="backBtnContainer">
-                <Link to='/settings'><button className="btn backBtn">Back</button></Link>
-            </div>
         </div>
     )
 }

@@ -14,6 +14,7 @@ export default function Search(props) {
         // Search after plant name
         <form className="search" onSubmit={(e) => e.preventDefault()}>
             <div className="inputs searchInpContainer">
+            <h3>Search for plant name</h3>
                 <div className="inputcontainer">
                     <input
                         className="searchInp"
@@ -32,30 +33,23 @@ export default function Search(props) {
             </div>
 
             {/* Filter plants */}
-            <div>
                 <div className="inputs">
-                    <div className="singleInput">
-                        <h3>Select building</h3>
-                        <div className="inputcontainer">
-                            <select onChange={(e) => { props.setFilterValue(e.target.value) }}>
-                                <option value="" defaultValue> All Buildings </option>
-                                {props.buildings.map((building, idex) => {
-                                    return (
-                                        <option
-                                            type="radio"
-                                            name="buildSelect"
-                                            value={building.no}
-                                            key={building.no}
-                                        >
-                                            {building.name}
-                                        </option>
-                                    )
-                                })}
-                            </select>
-                        </div>
+                    <h3>Select building</h3>
+                    <div className="inputcontainer filterBuildings">
+                        <select onChange={(e) => { props.setFilterValue(e.target.value) }}>
+                            <option value="" defaultValue> All Buildings </option>
+                            {props.buildings.map((building, i) => {
+                                return (
+                                    <option
+                                        type="radio"
+                                        name="buildSelect"
+                                        value={building.no}
+                                        key={building.no}
+                                    >{building.name}</option>
+                            )})}
+                        </select>
                     </div>
                 </div>
-            </div>
         </form>
     )
 }

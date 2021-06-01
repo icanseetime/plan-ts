@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
+// Components
 import AllNotifications from './AllNotifications';
 import AllDueNotifications from './AllDueNotifications';
-//import { calcDaysRemaining } from '../../utils/functions';
+
+// CSS
 import './Notifications.css';
 
 export default function Notification() {
@@ -43,11 +46,11 @@ export default function Notification() {
 
     if (dueFertilizeNotifications !== '' && notDueFertilizeNotifications !== '') {
         return (
-            <div id="allTasks">
+            <div>
                 <h1>Tasks</h1>
                 <p id="tasksHowTo">
                     When you are done with your task, click the corresponding button
-                    to update the plant's status.
+                    to update the plant status.
             </p>
 
                 <h3 className="dueTime">Due today</h3>
