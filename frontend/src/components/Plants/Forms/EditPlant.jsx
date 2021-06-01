@@ -146,8 +146,9 @@ export default function EditPlant(props) {
     const editPlant = (e, imgurl) => {
         e.preventDefault()
         let confirm = window.confirm('Save new plant details?')
+        let data;
         if (confirm === true) {
-            let data = {
+            data = {
                 name: plantName,
                 notes: plantNotes,
                 waterDaysBetween: daysBetweenWtr,

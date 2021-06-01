@@ -7,7 +7,7 @@ export default function EdituserForm(props) {
 
     useEffect(() => {
         setUser(props.currentUser)
-    }, [props])
+    }, [props]) 
 
     let pass
     let repPas
