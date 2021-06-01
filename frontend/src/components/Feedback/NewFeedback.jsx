@@ -1,7 +1,7 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import axios from 'axios'
+import React, { useState } from 'react'
 
-import Name from '../Forms/Inputs/Name';
+import Name from '../Forms/Inputs/Name'
 
 export default function NewFeedback(props) {
     const [name, setName] = useState('')
@@ -9,20 +9,20 @@ export default function NewFeedback(props) {
 
     //api call TODO: E herren å den andre feedback greia som har memory leak warningen
     const handleSubmit = (e) => {
-        let confirm = window.confirm("Send feedback?");
+        let confirm = window.confirm('Send feedback?')
         if (confirm === true) {
-            e.preventDefault();
+            e.preventDefault()
 
             let data = {
-                "name": name,
-                "plant_id": props.plant._id,
-                "message_body": messageBody
+                name: name,
+                plant_id: props.plant._id,
+                message_body: messageBody
             }
             axios.post('/api/feedback', data)
                 .then(res => {
                     props.onClick()
                 })
-                .catch(err => console.log(err))
+                .catch((err) => console.log(err))
         }
     }
 
@@ -34,24 +34,30 @@ export default function NewFeedback(props) {
                 <div className="singleInput">
                     <label>Feedback</label>
                     <div className="inputcontainer">
-                    <textarea
-                        onChange={(e) => setMessageBody(e.target.value)}
-                        value={messageBody}
-                        name="message_body"
-                        id="msgBdy"
-                        cols="30"
-                        rows="7"
-                        required
-                    ></textarea>
+                        <textarea
+                            onChange={(e) => setMessageBody(e.target.value)}
+                            value={messageBody}
+                            name="message_body"
+                            id="msgBdy"
+                            cols="30"
+                            rows="7"
+                            required
+                        ></textarea>
                     </div>
                 </div>
-                <button type="submit" className="updatebtn"> Send </button>
+                <button type="submit" className="updatebtn">
+                    {' '}
+                    Send{' '}
+                </button>
             </div>
             <button
                 type="button"
                 onClick={() => props.onClick()}
                 className="updatebtn"
-            > Cancel </button>
+            >
+                {' '}
+                Cancel{' '}
+            </button>
         </form>
     )
 }

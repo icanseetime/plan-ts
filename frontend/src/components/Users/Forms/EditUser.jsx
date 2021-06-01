@@ -9,11 +9,11 @@ export default function EdituserForm(props) {
         setUser(props.currentUser)
     }, [props])
 
-    let pass;
-    let repPas;
+    let pass
+    let repPas
 
     const handleChange = async (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         if (name === 'email') {
             await setUser({ ...user, [name]: value })
         }
@@ -21,27 +21,26 @@ export default function EdituserForm(props) {
             await setUser({ ...user, [name]: value })
         }
         if (name === 'first') {
-            await setUser({ ...user, name: { ...user.name, 'first': value } })
+            await setUser({ ...user, name: { ...user.name, first: value } })
         }
         if (name === 'last') {
-            await setUser({ ...user, name: { ...user.name, 'last': value } })
+            await setUser({ ...user, name: { ...user.name, last: value } })
         }
         if (name === 'password') {
-            pass = value;
+            pass = value
         }
         if (name === 'passwordrepeat') {
-            repPas = value;
+            repPas = value
         }
 
         if (pass && repPas) {
             if (pass !== repPas || repPas !== pass) await setIscorrect(false)
             if (pass === repPas && repPas === pass) {
-                await setIscorrect(true);
+                await setIscorrect(true)
                 await setUser({ ...user, password: pass })
             }
         }
     }
-
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -113,7 +112,9 @@ export default function EdituserForm(props) {
                                 name="role"
                                 required
                             >
-                                <option value="" disabled>-- Select a role --</option>
+                                <option value="" disabled>
+                                    -- Select a role --
+                                </option>
                                 <option value="gardener">Gardener</option>
                                 <option value="manager">Manager</option>
                             </select>
@@ -126,9 +127,9 @@ export default function EdituserForm(props) {
                         <div className="singleInput">
                             <hr />
                             <p>
-                                Leave password inputs empty if you do not want to
-                                change your password.
-                        </p>
+                                Leave password inputs empty if you do not want
+                                to change your password.
+                            </p>
                             <label> New Password </label>
                             <div className="inputcontainer">
                                 <input
@@ -170,4 +171,4 @@ export default function EdituserForm(props) {
             </form>
         </div>
     )
-};
+}

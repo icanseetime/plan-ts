@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 export default function Slider(props) {
-
     // For EditPlant - Set existing values if they exist.
-    let slidervalues; 
-    slidervalues = props.slidervalues ? props.slidervalues : null;
+    let slidervalues
+    slidervalues = props.slidervalues ? props.slidervalues : null
     const [water, setWater] = useState(slidervalues ? slidervalues.water : '')
-    const [fertilizer, FertilizerAmount] = useState(slidervalues ? slidervalues.fertilizer : '')
+    const [fertilizer, FertilizerAmount] = useState(
+        slidervalues ? slidervalues.fertilizer : ''
+    )
     const [light, setLight] = useState(slidervalues ? slidervalues.light : '')
 
     const handleWater = (e) => {
@@ -26,11 +27,11 @@ export default function Slider(props) {
 
     return (
         <div className="slidersContainer">
-                <h3>Set the needs of the plant</h3>
+            <h3>Set the needs of the plant</h3>
             <label htmlFor="watrSlide">Water (1-3):</label>
             <input
                 className="watrSlide"
-                name='waterSlider'
+                name="waterSlider"
                 type="range"
                 value={water}
                 onChange={handleWater}
@@ -39,7 +40,7 @@ export default function Slider(props) {
             ></input>
             <label htmlFor="fertilizerSlider">Fertilizer (1-3):</label>
             <input
-                name='fertilizerSlider'
+                name="fertilizerSlider"
                 className="fertSlider"
                 type="range"
                 value={fertilizer}
@@ -49,7 +50,7 @@ export default function Slider(props) {
             ></input>
             <label htmlFor="lightSlider">Sunlight (1-5):</label>
             <input
-                name='lightSlider'
+                name="lightSlider"
                 className="light"
                 type="range"
                 value={light}

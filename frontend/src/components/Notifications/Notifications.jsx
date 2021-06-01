@@ -1,57 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 // Components
-import AllNotifications from './AllNotifications';
-import AllDueNotifications from './AllDueNotifications';
+import AllNotifications from './AllNotifications'
+import AllDueNotifications from './AllDueNotifications'
 
 // CSS
-import './Notifications.css';
+import './Notifications.css'
 
 export default function Notification() {
-
-    const [notDueFertilizeNotifications, setNotDueFertilizeNotifications] = useState('')
+    const [notDueFertilizeNotifications, setNotDueFertilizeNotifications] =
+        useState('')
     const [notDueWaterNotifications, setNotDueWaterNotifications] = useState('')
 
-    const [dueFertilizeNotifications, setDueFertilizeNotifications] = useState('')
+    const [dueFertilizeNotifications, setDueFertilizeNotifications] =
+        useState('')
     const [dueWaterNotifications, setDueWaterNotifications] = useState('')
 
-    //GET TOKEN 
-    const token = localStorage.getItem('token');
+    //GET TOKEN
+    const token = localStorage.getItem('token')
     const headers = { Authorization: `Bearer ${token}` }
 
     useEffect(() => {
-        getAllNotifications();
+        getAllNotifications()
     }, [])
 
-    // API Call | Get plants 
+    // API Call | Get plants
     const getAllNotifications = () => {
         // Get plants due in three or less days
-        axios.get('/api/plants/notifications?days=3', { headers })
-            .then(res => {
-                let notifications = res.data;
-                setNotDueFertilizeNotifications(notifications.fertilize);
+        axios
+            .get('/api/plants/notifications?days=3', { headers })
+            .then((res) => {
+                let notifications = res.data
+                setNotDueFertilizeNotifications(notifications.fertilize)
                 setNotDueWaterNotifications(notifications.water)
             })
-            .catch(err => console.log('Error! ', err))
+            .catch((err) => console.log('Error! ', err))
 
-        axios.get('/api/plants/notifications', { headers })
-            .then(res => {
-                let notifications = res.data;
-                setDueFertilizeNotifications(notifications.fertilize);
+        axios
+            .get('/api/plants/notifications', { headers })
+            .then((res) => {
+                let notifications = res.data
+                setDueFertilizeNotifications(notifications.fertilize)
                 setDueWaterNotifications(notifications.water)
             })
-            .catch(err => console.log('Error! ', err))
-    };
+            .catch((err) => console.log('Error! ', err))
+    }
 
-    if (dueFertilizeNotifications !== '' && notDueFertilizeNotifications !== '') {
+    if (
+        dueFertilizeNotifications !== '' &&
+        notDueFertilizeNotifications !== ''
+    ) {
         return (
             <div>
                 <h1>Tasks</h1>
                 <p id="tasksHowTo">
-                    When you are done with your task, click the corresponding button
-                    to update the plant status.
-            </p>
+                    When you are done with your task, click the corresponding
+                    button to update the plant status.
+                </p>
 
                 <h3 className="dueTime">Due today</h3>
                 <AllDueNotifications

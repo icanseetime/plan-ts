@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import './Forms.css';
+import './Forms.css'
 import Email from '../../Forms/Inputs/Email'
 
 export default function ForgotPassword() {
@@ -10,18 +10,19 @@ export default function ForgotPassword() {
         <form>
             <h1>Forgot Password</h1>
             <div className="preSet">
-                <p>Enter your email, and you will be send a link to reset your password.</p>
+                <p>
+                    Enter your email, and you will be send a link to reset your
+                    password.
+                </p>
             </div>
             <div className="inputs">
-            <Email 
-                    email={email} 
-                    onChange={(value) => setEmail(value)} 
-                />
+                <Email email={email} onChange={(value) => setEmail(value)} />
             </div>
             <button 
                 type="submit" 
                 className="btn"
-                >Send
+            >
+                Send
             </button>
         </form>
     )

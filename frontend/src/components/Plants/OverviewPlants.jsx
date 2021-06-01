@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom'
 
 // CSS
 import './Overview.css'
@@ -33,7 +33,8 @@ export default function Overview() {
 
     // API Call | Get all locations (buildings)
     const getBuildings = () => {
-        axios.get('/api/locations/buildings')
+        axios
+            .get('/api/locations/buildings')
             .then((res) => {
                 setBuildings(res.data)
             })
@@ -42,7 +43,8 @@ export default function Overview() {
 
     // API Call | Get all locations
     const getLocations = () => {
-        axios.get('/api/locations')
+        axios
+            .get('/api/locations')
             .then((res) => {
                 setLocations(res.data)
             })
@@ -52,10 +54,12 @@ export default function Overview() {
     // API Call | Get all plants - On load -> load all plants in db
     const getAllPlants = (searchValue) => {
         let search = ''
-        if (searchValue != '' && searchValue != undefined) search = `/search?searchField=${searchValue}`
+        if (searchValue != '' && searchValue != undefined)
+            search = `/search?searchField=${searchValue}`
         else if (searchValue == '') search = ''
 
-        axios.get(`/api/plants${search}`)
+        axios
+            .get(`/api/plants${search}`)
             .then((res) => {
                 const allPlants = res.data
                 setPlants(allPlants)
@@ -101,17 +105,13 @@ export default function Overview() {
                         />
                         {authContext.role === 'manager' && (
                             <div className="addPlant">
-                            <Link
-                                to="/plantsnew"
-                                className="btn"
-                            >Add new plant</Link>
+                                <Link to="/plantsnew" className="btn">
+                                    Add new plant
+                                </Link>
                             </div>
                         )}
                     </div>
-                    <AllPlants
-                        plants={plants}
-                        locations={locations}
-                    />
+                    <AllPlants plants={plants} locations={locations} />
                 </Route>
             </Switch>
         </div>

@@ -59,6 +59,7 @@ footer img {
         padding-bottom: 90px;
     }
 }
+
 @media only screen and (max-width: 500px) {
     main {
         min-height: 110vh;

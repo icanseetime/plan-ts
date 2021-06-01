@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import './Forms.css'
 
 export default function AdduserForm(props) {
@@ -16,7 +16,7 @@ export default function AdduserForm(props) {
     const [error, setError] = useState('')
 
     const handleChange = async (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         if (name === 'email') {
             await setUser({ ...user, [name]: value })
         }
@@ -26,13 +26,12 @@ export default function AdduserForm(props) {
     }
 
     const onSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (user.email && user.role) {
-            handleChange(e, props.addUser(user));
+            handleChange(e, props.addUser(user))
         } else {
             setError('You have to fill inn all the fields to add a new user')
         }
-
     }
 
     return (
@@ -56,27 +55,21 @@ export default function AdduserForm(props) {
                         value={user.role}
                         onChange={handleChange}
                         name="role"
-                        required>
-                        <option value="" disabled>--Choose a role--</option>
+                        required
+                    >
+                        <option value="" disabled>
+                            --Choose a role--
+                        </option>
                         <option value="gardener">Gardener</option>
                         <option value="manager">Manager</option>
                     </select>
-
                 </div>
 
-                <button
-                    type="submit"
-                    className="btn"
-                >Add user</button>
-                <div className="error">
-                    {error}
-                </div>
-
-
+                <button type="submit" className="btn">
+                    Add user
+                </button>
+                <div className="error">{error}</div>
             </form>
-
         </div>
-
-
     )
-};
+}

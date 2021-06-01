@@ -24,6 +24,7 @@ nav ul {
     min-height: 55px;
     padding: 0;
 }
+
 nav a {
     text-decoration: none;
     color: white;
@@ -42,6 +43,7 @@ nav a:hover {
     border: none;
     z-index: 1;
 }
+
 #logo img {
     width: 100px;
     background-color: rgba(99, 103, 93);
@@ -88,12 +90,15 @@ nav a:hover {
     padding: 2px 30px;
 
 }
+
 .i::after {
     padding: 0 !important;
     margin: 0;
 }
 
-.i a:hover { border: none; }
+.i a:hover {
+    border: none;
+}
 
 .i a:hover h3 {
     transition: 0.3s ease-in;
@@ -121,21 +126,37 @@ nav a:hover {
 .plantovw a::after {
     content: 'Plant Overview';
 }
+
 .tasks a::after {
     content: 'Tasks';
 }
+
 .msgs a::after {
     content: 'Messages';
 }
+
 .settings a::after {
     content: 'Settings';
 }
+
 .profile a::after {
     content: 'Profile';
 }
 
-/**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/ /**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
 @media only screen and (max-width: 1000px) {
+
     /* Icons | Text*/
     .mob div a {
         border-bottom: none;
@@ -174,6 +195,7 @@ nav a:hover {
     .plantovw a::after {
         content: '';
     }
+
     .mainicon {
         border-radius: 50%;
         background-color: #dff0ae;
@@ -191,6 +213,7 @@ nav a:hover {
     .tasks a::after {
         content: '';
     }
+
     .tasks {
         background-image: url('../../assets/navicons/tasks.png');
     }
@@ -198,6 +221,7 @@ nav a:hover {
     .msgs a::after {
         content: '';
     }
+
     .msgs {
         background-image: url('../../assets/navicons/msgs.png');
     }
@@ -205,6 +229,7 @@ nav a:hover {
     .settings a::after {
         content: '';
     }
+
     .settings {
         background-image: url('../../assets/navicons/sett.png');
     }
@@ -212,6 +237,7 @@ nav a:hover {
     .profile a::after {
         content: '';
     }
+
     .profile {
         background-image: url('../../assets/navicons/prfl.png');
     }
@@ -223,6 +249,7 @@ nav a:hover {
 }
 
 @media only screen and (max-width: 600px) {
+
     /* Navigation Style */
     nav {
         width: 100%;
@@ -233,9 +260,11 @@ nav a:hover {
         display: grid;
         grid-template-columns: 1fr;
     }
+
     nav ul {
         font-size: 30px;
     }
+
     .mob {
         position: fixed;
         bottom: -2%;
@@ -248,6 +277,7 @@ nav a:hover {
         background-color: rgba(0, 0, 0, 0.6);
         border-radius: 50px;
     }
+
     .mob ul {
         width: 100%;
     }
@@ -258,6 +288,7 @@ nav a:hover {
         position: relative;
         bottom: 20px;
     }
+
     #logo img {
         width: 75px;
         padding: 8px;
@@ -271,13 +302,14 @@ nav a:hover {
         height: fit-content;
         width: fit-content;
     }
+
     .i {
         position: fixed;
         bottom: 0;
         top: 0;
         left: -90vw;
     }
-    
+
     nav div button {
         margin-top: 1vh;
     }

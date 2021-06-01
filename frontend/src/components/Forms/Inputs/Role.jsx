@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default function Role(props) {
     return (
@@ -9,8 +9,10 @@ export default function Role(props) {
                     value={props.role}
                     onChange={(e) => props.onChange(e.target.value)}
                     required
-                >   
-                    <option value="" disabled>--Choose a role--</option>
+                >
+                    <option value="" disabled>
+                        --Choose a role--
+                    </option>
                     <option value="gardener">Gardener</option>
                     <option value="manager">Manager</option>
                 </select>
