@@ -53,8 +53,9 @@ export default function Feedback() {
                         <h4>Message sent at {ChangeTime(message.createdAt)}</h4>
                     </div>
                 </div>
-                )
-            }
             )
-    } else { return <h3 id="noMsg">No Feedback</h3> }
+        })
+    } else {
+        return <h3 id="noMsg">No Feedback</h3>
+    }
 }

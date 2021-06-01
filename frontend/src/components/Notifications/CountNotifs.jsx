@@ -38,8 +38,28 @@ export default function CountNotifs() {
     }, [])
 
     if (count !== '' && count) {
-        return <p className={authContext.role === 'manager'?("notifCount"):("garnotifCount")}>{count}</p>
+        return (
+            <p
+                className={
+                    authContext.role === 'manager'
+                        ? 'notifCount'
+                        : 'garnotifCount'
+                }
+            >
+                {count}
+            </p>
+        )
     } else {
-        return <p className={authContext.role === 'manager'?("notifCount"):("garnotifCount")}>0</p>
+        return (
+            <p
+                className={
+                    authContext.role === 'manager'
+                        ? 'notifCount'
+                        : 'garnotifCount'
+                }
+            >
+                0
+            </p>
+        )
     }
 }

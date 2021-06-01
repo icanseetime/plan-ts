@@ -1,5 +1,5 @@
-import React from 'react';
-import { ChangeTime } from '../../utils/functions.jsx';
+import React from 'react'
+import { ChangeTime } from '../../utils/functions.jsx'
 
 export default function AllInvites(props) {
     const invites = props.invites

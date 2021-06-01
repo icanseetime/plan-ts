@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import '../../Forms/Forms.css';
+import React, { useState, useEffect } from 'react'
+import '../../Forms/Forms.css'
 
 export default function EdituserForm(props) {
     const [user, setUser] = useState(props.currentUser)
-    const [iscorrect, setIscorrect] = useState(false);
+    const [iscorrect, setIscorrect] = useState(false)
 
     useEffect(() => {
         setUser(props.currentUser)
-    }, [props]) 
+    }, [props])
 
     let pass
     let repPas

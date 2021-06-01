@@ -39,17 +39,23 @@ export default function Plant() {
     const headers = { Authorization: `Bearer ${token}` }
 
     // API Call | Get one plant
-    useEffect(() => {
-        getHistory(_id)
-        getNotes(_id)
-        axios.get(`/api/plants/${_id}`)
-            .then(async (res) => {
-                await setPlant(res.data)
-            })
-            .catch((err) => {
-                console.log('Error | ', err)
-            })
-    }, _id, historyArray, notes);
+    useEffect(
+        () => {
+            getHistory(_id)
+            getNotes(_id)
+            axios
+                .get(`/api/plants/${_id}`)
+                .then(async (res) => {
+                    await setPlant(res.data)
+                })
+                .catch((err) => {
+                    console.log('Error | ', err)
+                })
+        },
+        _id,
+        historyArray,
+        notes
+    )
 
     // API Call || Get plant's history
     const getHistory = (id) => {
@@ -228,7 +234,7 @@ export default function Plant() {
                                 </div>
                                 <div className="mazem">
                                     <iframe
-                                        title='Mazemap of location of plant'
+                                        title="Mazemap of location of plant"
                                         className="mazemap"
                                         frameBorder="0"
                                         src={plant.location.mazemap_embed}
@@ -253,26 +259,71 @@ export default function Plant() {
                             <div className="history">
                                 <h2>History</h2>
                                 <div className="innerHistory">
-                                    {history ? 
-                                    history >=0 ?  <p>No history</p> :
-                                    ( history.map((history) => {
-                                            return (
-                                                <div className="historyCard" key={history._id}>
-                                                    <p>Plant was <span>{history.type.charAt(0).toUpperCase() + history.type.slice(1)}{history.type === 'water' ? 'ed' : 'd'}</span> at {ChangeTime(history.date)} by {history.user_id ? (
-                                                        <> {history.user_id.name.first} {history.user_id.name.last}</>
-                                                    ) : ( <>unknown</>
-                                                    )}</p>
-                                                    {history.note && (
-                                                        <>
-                                                            <h4>Note:</h4>
-                                                            <p>{history.note}</p>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            )
-                                        })
-                                    ) : getHistory() + (
-                                        <p>Loading history...</p>
+                                    {history ? (
+                                        history >= 0 ? (
+                                            <p>No history</p>
+                                        ) : (
+                                            history.map((history) => {
+                                                return (
+                                                    <div
+                                                        className="historyCard"
+                                                        key={history._id}
+                                                    >
+                                                        <p>
+                                                            Plant was{' '}
+                                                            <span>
+                                                                {history.type
+                                                                    .charAt(0)
+                                                                    .toUpperCase() +
+                                                                    history.type.slice(
+                                                                        1
+                                                                    )}
+                                                                {history.type ===
+                                                                'water'
+                                                                    ? 'ed'
+                                                                    : 'd'}
+                                                            </span>{' '}
+                                                            at{' '}
+                                                            {ChangeTime(
+                                                                history.date
+                                                            )}{' '}
+                                                            by{' '}
+                                                            {history.user_id ? (
+                                                                <>
+                                                                    {' '}
+                                                                    {
+                                                                        history
+                                                                            .user_id
+                                                                            .name
+                                                                            .first
+                                                                    }{' '}
+                                                                    {
+                                                                        history
+                                                                            .user_id
+                                                                            .name
+                                                                            .last
+                                                                    }
+                                                                </>
+                                                            ) : (
+                                                                <>unknown</>
+                                                            )}
+                                                        </p>
+                                                        {history.note && (
+                                                            <>
+                                                                <h4>Note:</h4>
+                                                                <p>
+                                                                    {
+                                                                        history.note
+                                                                    }
+                                                                </p>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                )
+                                            })
+                                        )
+                                    ) : (
+                                        getHistory() + <p>Loading history...</p>
                                     )}
                                 </div>
                             </div>

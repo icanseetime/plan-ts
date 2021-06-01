@@ -21,22 +21,24 @@ export default function AllDueNotifications(props) {
             let data = { user_id: authContext.userid } // To see who completed the task
 
             // Water tasks
-            if (taskType === "water") {
-                axios.put(`/api/plants/${plant_id}/water`, data, { headers })
-                    .then(res => {
-                        props.reload();
+            if (taskType === 'water') {
+                axios
+                    .put(`/api/plants/${plant_id}/water`, data, { headers })
+                    .then((res) => {
+                        props.reload()
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         console.log('Error | ', err)
                     })
 
                 // Fertilization tasks
-            } else if (taskType === "fertilize") {
-                axios.put(`/api/plants/${plant_id}/fertilize`, data, { headers })
-                    .then(res => {
-                        props.reload();
+            } else if (taskType === 'fertilize') {
+                axios
+                    .put(`/api/plants/${plant_id}/fertilize`, data, { headers })
+                    .then((res) => {
+                        props.reload()
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         console.log('Error | ', err)
                     })
             }

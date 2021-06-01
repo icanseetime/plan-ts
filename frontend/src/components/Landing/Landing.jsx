@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 
 import { AuthContext } from '../../utils/context'
 import './Landing.css'
 import About from '../TextComponent/About'
 
 export default function Landing() {
-    const authContext = useContext(AuthContext);
+    const authContext = useContext(AuthContext)
 
-    let button;
+    let button
     if (!authContext.isLoggedIn) {
         button = (
             <Link to="/login">

@@ -69,7 +69,7 @@ export default function Invites() {
     useEffect(() => {
         getInvites()
     }, [])
-    
+
     return (
         <div>
             <Switch>

@@ -196,9 +196,10 @@ export default function AddPlant(props) {
         if (imgurl) {
             data.picture = imgurl
         }
-        axios.post(`/api/plants`, data, { headers })
-            .then(res => {
-                alert("Successfully added ", plantName)
+        axios
+            .post(`/api/plants`, data, { headers })
+            .then((res) => {
+                alert('Successfully added ', plantName)
                 setWillRelocate(true)
             })
             .catch((err) => {

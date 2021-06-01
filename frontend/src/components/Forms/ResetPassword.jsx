@@ -31,9 +31,9 @@ export default function ResetPassword() {
 
     useEffect(() => {
         // Get request object id from url
-        let reqObj_id = window.location.pathname;
-        reqObj_id = reqObj_id.slice(15, 100);
-        fetchResetInfo(reqObj_id);
+        let reqObj_id = window.location.pathname
+        reqObj_id = reqObj_id.slice(15, 100)
+        fetchResetInfo(reqObj_id)
     }, [])
 
     const fetchResetInfo = (reqObj_id) => {
@@ -47,8 +47,8 @@ export default function ResetPassword() {
 
     const ResetPassword = (e) => {
         e.preventDefault()
-        let confirm = window.confirm('Reset password?');
-        if(confirm === true) {
+        let confirm = window.confirm('Reset password?')
+        if (confirm === true) {
             let data = {
                 password: password
             }

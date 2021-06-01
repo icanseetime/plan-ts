@@ -71,7 +71,7 @@ export default function Authentication() {
                             </Link>
                             <NavGuest />
                             <div className="i">
-                                <Link to='/help'>
+                                <Link to="/help">
                                     <h3>i</h3>
                                 </Link>
                             </div>

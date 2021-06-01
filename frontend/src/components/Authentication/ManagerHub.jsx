@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../../utils/context';
-import { Link, Route, Switch, Redirect } from "react-router-dom";
+import React, { useContext } from 'react'
+import { AuthContext } from '../../utils/context'
+import { Link, Route, Switch, Redirect } from 'react-router-dom'
 
 // Components
-import NavManager from '../Nav/Manager';
-import Landing from '../Landing/Landing';
-import Tasks from '../Notifications/Notifications';
-import Overview from '../Plants/OverviewPlants';
-import Profile from '../Profile/ProfileHub';
-import Help from '../TextComponent/Help';
-import Settings from '../Settings/AllSettings';
-import Feedback from '../Feedback/Feedback';
-import Invites from '../Invites/InvitesOverview';
+import NavManager from '../Nav/Manager'
+import Landing from '../Landing/Landing'
+import Tasks from '../Notifications/Notifications'
+import Overview from '../Plants/OverviewPlants'
+import Profile from '../Profile/ProfileHub'
+import Help from '../TextComponent/Help'
+import Settings from '../Settings/AllSettings'
+import Feedback from '../Feedback/Feedback'
+import Invites from '../Invites/InvitesOverview'
 import Plant from '../Plants/Plant'
-import FooterTxt from '../TextComponent/FooterTxt';
-import UsersOverview from '../Users/UsersOverview';
-import AddPlant from '../Plants/Forms/AddPlant';
-import EditPlant from '../Plants/Forms/EditPlant';
+import FooterTxt from '../TextComponent/FooterTxt'
+import UsersOverview from '../Users/UsersOverview'
+import AddPlant from '../Plants/Forms/AddPlant'
+import EditPlant from '../Plants/Forms/EditPlant'
 
 // Manager
 export default function ManagerHub() {
@@ -89,16 +89,20 @@ export default function ManagerHub() {
                             />
                             <Route path="/" component={Landing} exact />
 
-            {/* Random urls will redirect user to landing */}
-            <Route path='*' component={() => <Redirect to='/' />} />
-          </Switch>
-        </main >
-        <footer>
-          <FooterTxt />
-        </footer>
-      </div>
-    ));
-  } else {
-    return '';
-  }
+                            {/* Random urls will redirect user to landing */}
+                            <Route
+                                path="*"
+                                component={() => <Redirect to="/" />}
+                            />
+                        </Switch>
+                    </main>
+                    <footer>
+                        <FooterTxt />
+                    </footer>
+                </div>
+            )
+        )
+    } else {
+        return ''
+    }
 }

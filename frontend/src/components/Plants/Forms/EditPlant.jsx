@@ -146,7 +146,7 @@ export default function EditPlant(props) {
     const editPlant = (e, imgurl) => {
         e.preventDefault()
         let confirm = window.confirm('Save new plant details?')
-        let data;
+        let data
         if (confirm === true) {
             data = {
                 name: plantName,
@@ -172,14 +172,15 @@ export default function EditPlant(props) {
                     console.log('Error | ', err)
                 })
         }
-        axios.put(`/api/plants/${plant._id}`, data, { headers })
-            .then(res => {
-                alert("Successfully updated ", props.plant.name)
+        axios
+            .put(`/api/plants/${plant._id}`, data, { headers })
+            .then((res) => {
+                alert('Successfully updated ', props.plant.name)
                 props.onClick()
                 window.location.reload()
             })
-            .catch(err => {
-                console.log("Error | ", err)
+            .catch((err) => {
+                console.log('Error | ', err)
             })
     }
 

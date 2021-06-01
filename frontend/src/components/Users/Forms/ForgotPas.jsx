@@ -4,7 +4,7 @@ import './Forms.css'
 import Email from '../../Forms/Inputs/Email'
 
 export default function ForgotPassword() {
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('')
 
     return (
         <form>
@@ -18,10 +18,7 @@ export default function ForgotPassword() {
             <div className="inputs">
                 <Email email={email} onChange={(value) => setEmail(value)} />
             </div>
-            <button 
-                type="submit" 
-                className="btn"
-            >
+            <button type="submit" className="btn">
                 Send
             </button>
         </form>

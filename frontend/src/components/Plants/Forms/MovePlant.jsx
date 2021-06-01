@@ -8,13 +8,13 @@ export default function MovePlant(props) {
     const [buildings, setBuildings] = useState([])
     const [building, setBuilding] = useState('')
 
-    const [floors, setFloors] = useState([]);
+    const [floors, setFloors] = useState([])
 
-    const [rooms, setRooms] = useState([]);
+    const [rooms, setRooms] = useState([])
 
-    const [locationObj, setLocationObj] = useState('');
-    const [note, setNote] = useState('');
-    const [err, setErr] = useState('');
+    const [locationObj, setLocationObj] = useState('')
+    const [note, setNote] = useState('')
+    const [err, setErr] = useState('')
 
     // API Call | Get all locations (buildings)
     const getBuildings = () => {

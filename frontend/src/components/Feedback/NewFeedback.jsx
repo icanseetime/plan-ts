@@ -18,8 +18,9 @@ export default function NewFeedback(props) {
                 plant_id: props.plant._id,
                 message_body: messageBody
             }
-            axios.post('/api/feedback', data)
-                .then(res => {
+            axios
+                .post('/api/feedback', data)
+                .then((res) => {
                     props.onClick()
                 })
                 .catch((err) => console.log(err))

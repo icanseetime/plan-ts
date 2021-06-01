@@ -10,9 +10,9 @@ import Landing from '../Landing/Landing'
 import Overview from '../Plants/OverviewPlants'
 import Profile from '../Profile/ProfileHub'
 import Help from '../TextComponent/Help'
-import Tasks from '../Notifications/Notifications';
-import FooterTxt from '../TextComponent/FooterTxt';
-import Plant from '../Plants/Plant';
+import Tasks from '../Notifications/Notifications'
+import FooterTxt from '../TextComponent/FooterTxt'
+import Plant from '../Plants/Plant'
 
 export default function GardenerHub() {
     const authContext = useContext(AuthContext)
@@ -59,17 +59,20 @@ export default function GardenerHub() {
                             <Route path="/tasks" component={Tasks} />
                             <Route exact path="/" component={Landing} />
 
-            {/* Random urls will redirect user to landing */}
-            <Route path="*" component={() => <Redirect to="/" />} />
-          </Switch>
-        </main>
-        <footer>
-          <FooterTxt />
-        </footer>
-      </div >
-
-        ));
-  } else {
-    return '';
-  }
+                            {/* Random urls will redirect user to landing */}
+                            <Route
+                                path="*"
+                                component={() => <Redirect to="/" />}
+                            />
+                        </Switch>
+                    </main>
+                    <footer>
+                        <FooterTxt />
+                    </footer>
+                </div>
+            )
+        )
+    } else {
+        return ''
+    }
 }
