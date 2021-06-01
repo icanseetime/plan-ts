@@ -61,7 +61,3 @@ export default function Feedback() {
             ))
     } else { return <h3 id="noMsg">No Feedback</h3> }
 }
-
-
-
-

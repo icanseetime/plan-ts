@@ -134,7 +134,6 @@ export default function EditPlant(props) {
         if (imgurl) {
             data.picture = imgurl
         }
-        console.log(data)
         axios.put(`/api/plants/${plant._id}`, data, { headers })
             .then(res => {
                 alert("Successfully updated ", props.plant.name)

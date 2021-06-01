@@ -12,7 +12,6 @@ export default function MovePlant(props) {
     const [floor, setFloor] = useState('');
 
     const [rooms, setRooms] = useState([]);
-    const [room, setRoom] = useState('');
 
     const [locationObj, setLocationObj] = useState('');
     const [note, setNote] = useState('');

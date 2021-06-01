@@ -17,28 +17,31 @@ export default function AllDueNotifications(props) {
 
     const completeTask = (plant_id, taskType) => {
         let confirm = window.confirm('Please confirm completion')
-        if(confirm === true){
-        let data = { user_id: authContext.userid } // To see who completed the task
-        // Water tasks
-        if (taskType === "water") {
-            axios.put(`/api/plants/${plant_id}/water`, data, { headers })
-                .then(res => {
-                    //alert('Plant has been watered!')
-                    props.reload();
-                })
-                .catch(err => {
-                    console.log('Error | ', err)
-                })
-        // Fertilization tasks
-        } else if (taskType === "fertilize") {
-            axios.put(`/api/plants/${plant_id}/fertilize`, data, { headers })
-                .then(res => {
-                    //alert('Plant has been fertilized!')
-                    props.reload();
-                })
-                .catch(err => {
-                    console.log('Error | ', err)
-        })}}}
+        if (confirm === true) {
+            let data = { user_id: authContext.userid } // To see who completed the task
+
+            // Water tasks
+            if (taskType === "water") {
+                axios.put(`/api/plants/${plant_id}/water`, data, { headers })
+                    .then(res => {
+                        props.reload();
+                    })
+                    .catch(err => {
+                        console.log('Error | ', err)
+                    })
+
+                // Fertilization tasks
+            } else if (taskType === "fertilize") {
+                axios.put(`/api/plants/${plant_id}/fertilize`, data, { headers })
+                    .then(res => {
+                        props.reload();
+                    })
+                    .catch(err => {
+                        console.log('Error | ', err)
+                    })
+            }
+        }
+    }
 
     let wTasksList; // Water tasks list
     if (wTasks.length > 0) {
@@ -57,7 +60,8 @@ export default function AllDueNotifications(props) {
                     onClick={() => completeTask(task._id, 'water')}
                 >Complete task</button>
             </div>
-    ))}
+        ))
+    }
 
     let fTasksList; // Fertilization tasks list
     if (fTasks.length > 0) {
@@ -77,7 +81,8 @@ export default function AllDueNotifications(props) {
                     onClick={() => completeTask(task._id, 'fertilize')}
                 >Complete task</button>
             </div>
-    ))}
+        ))
+    }
 
     if (!wTasksList && !fTasksList) {
         return (<p className="dueTime" >No current tasks</p>)

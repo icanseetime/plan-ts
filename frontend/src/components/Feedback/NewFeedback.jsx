@@ -20,7 +20,6 @@ export default function NewFeedback(props) {
             }
             axios.post('/api/feedback', data)
                 .then(res => {
-                    console.log(res.data)
                     props.onClick()
                 })
                 .catch(err => console.log(err))

@@ -172,11 +172,9 @@ export default function AddPlant(props) {
         if (imgurl) {
             data.picture = imgurl
         }
-        console.log(data)
         axios.post(`/api/plants`, data, { headers })
             .then(res => {
                 alert("Successfully added ", plantName)
-                //props.setIsAdding(false)
                 setWillRelocate(true)
             })
             .catch(err => {
@@ -211,7 +209,6 @@ export default function AddPlant(props) {
                                     <label htmlFor="imgFile">Upload image</label>
                                     <div>
                                         <input
-                                            required
                                             name="imgFile"
                                             id="file"
                                             type="file"

@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../../Forms/Forms.css';
 
-
-//fecth data with API https://dev.to/sanderdebr/creating-a-crud-app-in-react-with-hooks-3jml
-
 export default function EdituserForm(props) {
     const [user, setUser] = useState(props.currentUser)
     const [iscorrect, setIscorrect] = useState(false);
-    //const [pass, setPass] = useState('')
-    //const [repPas, setRepPas] = useState('')
-
 
     useEffect(() => {
         setUser(props.currentUser)

@@ -38,7 +38,6 @@ export default function Plant() {
         getNotes(_id)
         axios.get(`/api/plants/${_id}`)
             .then(async (res) => {
-                // Set plant object as state
                 await setPlant(res.data)
             })
             .catch((err) => {
@@ -53,8 +52,6 @@ export default function Plant() {
                 let resp = res.data.history;
                 let histArr = resp.reverse();
                 setHistoryArray(histArr)
-
-                console.log(histArr)
             })
             .catch((err) => console.log('Error | ', err))
     }
@@ -174,7 +171,7 @@ export default function Plant() {
                                     ( history.map((history) => {
                                             return (
                                                 <div className="historyCard" key={history._id}>
-                                                    <p>Plant was <span>{history.type.charAt(0).toUpperCase() + history.type.slice(1)}{history.type == 'water' ? 'ed' : 'd'}</span> at {ChangeTime(history.date)} by {history.user_id ? (
+                                                    <p>Plant was <span>{history.type.charAt(0).toUpperCase() + history.type.slice(1)}{history.type === 'water' ? 'ed' : 'd'}</span> at {ChangeTime(history.date)} by {history.user_id ? (
                                                         <> {history.user_id.name.first} {history.user_id.name.last}</>
                                                     ) : ( <>unknown</>
                                                     )}</p>

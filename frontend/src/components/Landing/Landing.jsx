@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 import { AuthContext } from "../../utils/context";
 import './Landing.css';
@@ -8,24 +7,6 @@ import About from '../TextComponent/About';
 
 export default function Landing() {
     const authContext = useContext(AuthContext);
-
-    // const [user, setUser] = useState() //WARNING: src\components\Landing\Landing.jsx
-    // //Line 13: 12: 'user' is assigned a value but never - kanskje d som skape login error greia? no idea lol
-    // useEffect(() => {
-    //     const config = {
-    //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    //     }
-    //     // API Call || Login user
-    //     axios.get('/api/users/login', config)
-    //         .then(
-    //             res => {
-    //                 setUser(res.data)
-    //             },
-    //             err => {
-    //                 console.log(err)
-    //             }
-    //         )
-    // }, [])
 
     let button;
     if (!authContext.isLoggedIn) {

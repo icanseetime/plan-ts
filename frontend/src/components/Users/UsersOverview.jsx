@@ -40,6 +40,8 @@ export default function UsersOverview() {
 
   //API CALL | update users
   const updateUser = async (_id, updateUser) => {
+    let confirm = window.confirm('Are you sure you want to update this user?')
+    if(confirm === true) {
     setEditing(false);
 
     let data = {
@@ -53,21 +55,20 @@ export default function UsersOverview() {
       .catch(err => {
         console.log('error! ', err)
       })
-  }
+  }}
 
-  //API CALL | delete
-
-  // TODO | ALL DELETE -> add 'are you sure'
   const deleteUser = async (_id) => {
+    let confirm = window.confirm('Are you sure you want to delete this user?')
+    if(confirm === true) {
     setEditing(false)
     await axios.delete(`/api/users/${_id}/manage`, { headers })
       .then(res => {
-        alert('user deleted')
+        alert('User deleted')
       })
       .catch(err => {
         console.log('Error | ', err)
       })
-    setUsers(users.filter((user) => user._id !== _id))
+    setUsers(users.filter((user) => user._id !== _id))}
   }
   return (
     <div>

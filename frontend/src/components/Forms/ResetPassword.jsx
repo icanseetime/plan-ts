@@ -27,7 +27,6 @@ export default function ResetPassword() {
         // Get request object id from url
         let reqObj_id = window.location.pathname;
         reqObj_id = reqObj_id.slice(15, 100);
-        console.log(reqObj_id)
         fetchResetInfo(reqObj_id);
     }, [])
 
@@ -35,15 +34,12 @@ export default function ResetPassword() {
         axios.get(`/api/users/forgotten-password/${reqObj_id}`)
             .then(res => {
                 setResetInfo(res.data)
-                console.log(res.data)
             })
             .catch(err => console.log('Error | ', err))
     }
 
     const ResetPassword = (e) => {
         e.preventDefault()
-        console.log(password)
-        console.log(resetInfo.user_id)
         let confirm = window.confirm('Reset password?');
         if(confirm === true) {
             let data = {

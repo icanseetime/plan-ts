@@ -61,20 +61,22 @@ export default function Authentication() {
             {/* Guest page / Not logged in page */}
             {!authContext.isLoggedIn && (
                 <div>
-                    <nav>
-                        <Link id="logo" to="/">
-                            <img
-                                src={`/src/../assets/logo.png`}
-                                alt="Plan-ts logo"
-                            />
-                        </Link>
-                        <NavGuest />
-                        <div className="i">
-                            <Link to='/help'>
-                                <h3>i</h3>
+                    <header className="App-header">
+                        <nav>
+                            <Link id="logo" to="/">
+                                <img
+                                    src={`/src/../assets/logo.png`}
+                                    alt="Plan-ts logo"
+                                />
                             </Link>
-                        </div>
-                    </nav>
+                            <NavGuest />
+                            <div className="i">
+                                <Link to='/help'>
+                                    <h3>i</h3>
+                                </Link>
+                            </div>
+                        </nav>
+                    </header>
                     <main>
                         <Switch>
                             <Route path="/register" component={Register} />

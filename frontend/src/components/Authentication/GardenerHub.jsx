@@ -12,7 +12,6 @@ import Profile from '../Profile/ProfileHub';
 import Help from '../TextComponent/Help'
 import Tasks from '../Notifications/Notifications';
 import FooterTxt from '../TextComponent/FooterTxt';
-import CountNotifs from '../Notifications/CountNotifs';
 import Plant from '../Plants/Plant';
 
 export default function GardenerHub() {
@@ -49,12 +48,7 @@ export default function GardenerHub() {
             <Route exact path="/" component={Landing} />
 
             {/* Random urls will redirect user to landing */}
-            <Route
-              path="*"
-              exact
-              component={() => <Redirect to='/' />}
-            />
-
+            <Route path="*" component={() => <Redirect to="/" />} />
           </Switch>
         </main>
         <footer>

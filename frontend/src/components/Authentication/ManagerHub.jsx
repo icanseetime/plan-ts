@@ -1,18 +1,11 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../utils/context';
-import {
-  BrowserRouter as Router,//WARNING: Router blir ikke brukt?
-  Link,
-  Route,
-  Switch,
-  Redirect
-}
-  from "react-router-dom";
+import { Link, Route, Switch, Redirect } from "react-router-dom";
 
 // Components
 import NavManager from '../Nav/Manager';
 import Landing from '../Landing/Landing';
-import Tasks from '../Notifications/Notifications'; //endre
+import Tasks from '../Notifications/Notifications';
 import Overview from '../Plants/OverviewPlants';
 import Profile from '../Profile/ProfileHub';
 import Help from '../TextComponent/Help';
@@ -21,7 +14,6 @@ import Feedback from '../Feedback/Feedback';
 import Invites from '../Invites/InvitesOverview';
 import Plant from '../Plants/Plant'
 import FooterTxt from '../TextComponent/FooterTxt';
-import CountNotifs from '../Notifications/CountNotifs';
 import UsersOverview from '../Users/UsersOverview';
 import AddPlant from '../Plants/Forms/AddPlant';
 import EditPlant from '../Plants/Forms/EditPlant';
@@ -68,10 +60,7 @@ export default function ManagerHub() {
             <Route path='/' component={Landing} exact />
 
             {/* Random urls will redirect user to landing */}
-            {/* <Route
-              path='*'
-              component={() => <Redirect to='/' />}
-            /> */}
+            <Route path='*' component={() => <Redirect to='/' />} />
           </Switch>
         </main >
         <footer>

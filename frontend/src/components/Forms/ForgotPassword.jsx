@@ -30,9 +30,7 @@ export default function ForgotPassword() {
     // API Call || Send new password request (email)
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(active)
         if (active) {
-            console.log(email)
             let data = {
                 'email': email
             };
