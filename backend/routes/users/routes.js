@@ -265,24 +265,28 @@ const updateSelf = async (req, res) => {
                 error: 'No access.'
             })
         }
+
         // Make sure no one tries to change their own role
         if (req.body.role) {
             return res.status(400).json({
                 error: 'You can not change your own user role.'
             })
         }
+
         // Make sure there are update values provided
         if (Object.keys(req.body).length == 0) {
             return res.status(400).json({
                 error: 'You need to include update values in a request body.'
             })
         }
+
         // Update user
         const user = await User.findOneAndUpdate(
             { _id: req.params.id },
             req.body,
             { runValidators: true }
         )
+
         // Check for found/updated user and send response to client
         if (!user) {
             res.status(404).json({

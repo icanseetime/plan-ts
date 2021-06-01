@@ -1,9 +1,6 @@
 const fs = require('fs')
 const randomGen = require('generate-password')
 
-// TODO
-// Check that image has filetype .png .jpg .jpeg
-
 // Upload image to React picture-folder
 const uploadFile = (req, res) => {
     if (!req.files) {
