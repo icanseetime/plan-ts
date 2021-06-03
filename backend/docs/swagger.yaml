@@ -126,52 +126,43 @@ paths:
                                         properties:
                                             _id:
                                                 type: string
+                                                example: 607dde78081f316f0473f7fb
                                             name:
-                                                type: string
+                                                $ref: '#/components/schemas/Plant/properties/name'
                                             location:
-                                                type: string
+                                                $ref: '#/components/schemas/Plant/properties/location'
                                             picture:
-                                                type: string
+                                                $ref: '#/components/schemas/Plant/properties/picture'
                                             health:
-                                                type: object
-                                                properties:
-                                                    water:
-                                                        type: object
-                                                        properties:
-                                                            days_between:
-                                                                type: number
-                                                            amount:
-                                                                type: number
-                                                            due:
-                                                                type: string
-                                                                format: date-time
-                                                    fertilizer:
-                                                        type: object
-                                                        properties:
-                                                            days_between:
-                                                                type: number
-                                                            amount:
-                                                                type: number
-                                                            due:
-                                                                type: string
-                                                                format: date-time
-                                                    light:
-                                                        type: object
-                                                        properties:
-                                                            amount:
-                                                                type: number
+                                                $ref: '#/components/schemas/Plant/properties/health'
                                             createdAt:
-                                                type: string
-                                                format: date-time
+                                                $ref: '#/components/schemas/Plant/properties/createdAt'
                                             updatedAt:
-                                                type: string
-                                                format: date-time
+                                                $ref: '#/components/schemas/Plant/properties/updatedAt'
                                             __v:
                                                 type: number
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
+                '409':
+                    description: Plant name is not unique
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'A plant with this name already exists in the database.'
                 '500':
-                    description: Something went wrong on the server. Will include error message from server
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to add Calathea Medallion to the database. [SERVER ERROR MESSAGE]'
     /plants/notifications:
         get:
             summary: Get plants that have tasks due
@@ -1144,7 +1135,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         enum:
                                             - You can not change your own user role.
@@ -1160,7 +1151,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         example: 'Could not find user with ID 606b7b5993e1ee1504b037e1.'
                 '500':
@@ -1170,7 +1161,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         example: 'Something went wrong while trying to update user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
         delete:
@@ -1772,7 +1763,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         example: 'You need to include an email in your request.'
                 '404':
@@ -1782,7 +1773,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         example: 'User with this email not found.'
                 '500':
@@ -2353,7 +2344,6 @@ paths:
             summary: Upload picture
             tags:
                 - pictures
-                - plants
                 - managers
             description: Upload pictures of plants
             operationId: uploadFile
@@ -2399,7 +2389,6 @@ paths:
             summary: Delete picture file
             tags:
                 - pictures
-                - plants
                 - managers
             description: Delete existing picture by filename
             operationId: deleteFile
