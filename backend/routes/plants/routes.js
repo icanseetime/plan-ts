@@ -189,7 +189,7 @@ const createPlant = async (req, res) => {
         })
     } catch (err) {
         res.status(500).json({
-            error: `There was an error adding ${req.body.name} to the database. [${err}]`
+            error: `Something went wrong while trying to add ${req.body.name} to the database. [${err}]`
         })
     }
 }
