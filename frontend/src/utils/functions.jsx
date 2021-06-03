@@ -5,7 +5,6 @@ export const ChangeTime = (timestamp) => {
         month: '2-digit',
         day: '2-digit'
     }).format(timestamp)
-    //hour: '2-digit', minute: '2-digit', second: '2-digit' - om vi vil ha klokkeslett å
     return date
 }
 export const WaterSlider = (data) => {

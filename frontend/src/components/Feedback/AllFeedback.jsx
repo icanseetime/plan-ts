@@ -52,6 +52,12 @@ export default function Feedback() {
                         </p>
                         <h4>Message sent at {ChangeTime(message.createdAt)}</h4>
                     </div>
+                    <button
+                        onClick={() => deleteFeedback(message._id)}
+                        className="delbtn delbtnMSG"
+                    >
+                        Delete
+                    </button>
                 </div>
             )
         })
