@@ -66,7 +66,7 @@ export default function Plant(props) {
                             <div className="imgLoc">
                                 <div className="cover">
                                     <img
-                                        src={`/assets/uploaded-plants/${plant.picture}`}
+                                        src={`https://plan-ts.s3.eu-north-1.amazonaws.com/${plant.picture}`}
                                         alt={
                                             plant.picture !== 'no-image.png'
                                                 ? `Image of ${plant.name}`

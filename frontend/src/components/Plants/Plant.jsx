@@ -127,10 +127,10 @@ export default function Plant() {
                             </div>
                             <div className="cover">
                                 <img
-                                    src={`/assets/uploaded-plants/${plant.picture}`}
+                                    src={`https://plan-ts.s3.eu-north-1.amazonaws.com/${plant.picture}`}
                                     onError={(e) => {
                                         e.target.onerror = null
-                                        e.target.src = `/assets/uploaded-plants/no-image.png`
+                                        e.target.src = `https://plan-ts.s3.eu-north-1.amazonaws.com/no-image.png`
                                     }}
                                     alt={
                                         plant.picture !== 'no-image.png'
