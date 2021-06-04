@@ -3,7 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Packages and services
-const path = require('path')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
