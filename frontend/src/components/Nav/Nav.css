@@ -1,10 +1,10 @@
-
 /* Navigation Style */
-
 nav {
     width: 100%;
     position: fixed;
     top: 0;
+    min-height: 60px;
+    padding-top: 10px;
     height: 9vh;
     background: rgba(99, 103, 93, 1);
     box-shadow: rgba(0, 0, 0, 0.3) 2px 6px 9px;
@@ -22,7 +22,9 @@ nav ul {
     font-size: 20px;
     max-height: 55px;
     min-height: 55px;
+    padding: 0;
 }
+
 nav a {
     text-decoration: none;
     color: white;
@@ -32,7 +34,7 @@ nav a {
 }
 
 nav a:hover {
-    transition: .3s ease-in;
+    transition: 0.3s ease-in;
     border-bottom: rgb(165, 221, 113) solid 1px;
 }
 
@@ -41,6 +43,7 @@ nav a:hover {
     border: none;
     z-index: 1;
 }
+
 #logo img {
     width: 100px;
     background-color: rgba(99, 103, 93);
@@ -49,57 +52,188 @@ nav a:hover {
     box-shadow: rgba(51, 51, 51, 0.4) 2px 6px 9px;
 }
 
-/* Help */
-.i:hover { border: none; }
+/* Help | Logout */
+.i {
+    border: none;
+
+    width: 20px;
+    height: 20px;
+
+    margin: 0 auto;
+
+    position: relative;
+    top: -2vh;
+    right: -4vw;
+}
+
 .i h3 {
     border: solid white 2px;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
 
+    margin-block-start: -.9em;
+    margin-block-end: -.9em;
+
     color: white;
     text-align: center;
-    font-size: 18px;
 
-    height: 100%;
     width: 100%;
+    height: 100%;
 }
 
-.i:hover h3 {
-    transition: .3s ease-in;
+.i a {
+    margin: 0;
+    border: none;
+    padding: 2px 30px;
+
+}
+
+.i::after {
+    padding: 0 !important;
+    margin: 0;
+}
+
+.i a:hover {
+    border: none;
+}
+
+.i a:hover h3 {
+    transition: 0.3s ease-in;
     border: solid rgb(165, 221, 113) 2px;
     color: rgb(165, 221, 113);
 }
 
-.i {
+.logoutNav {
+    color: white;
     border: none;
-    min-width: 26px;
-    min-height: 26px;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 14px;
+    border-bottom: solid 1px white;
+    border-radius: 2px;
+    cursor: pointer;
+    text-align: center;
+}
 
-    position: relative;
-    bottom: 2vh;
-    right: -2vh;
+.logoutNav:hover {
+    border-bottom: solid 1px rgb(165, 221, 113);
+    transition: ease-in-out 0.5s;
 }
 
 /* icons | text */
-.plantovw::after {
+.plantovw a::after {
     content: 'Plant Overview';
 }
-.tasks::after {
+
+.tasks a::after {
     content: 'Tasks';
 }
-.msgs::after {
+
+.msgs a::after {
     content: 'Messages';
 }
-.settings::after {
+
+.settings a::after {
     content: 'Settings';
 }
-.profile::after {
+
+.profile a::after {
     content: 'Profile';
 }
 
-/**//**//**//**//**//**//**//**//**//**//**//**/
+@media only screen and (max-width: 1000px) {
 
-@media only screen and (max-width: 500px) {
+    /* Icons | Text*/
+    .mob div a {
+        border-bottom: none;
+        position: relative;
+    }
+
+    .liteicon a {
+        padding: 9px 22px;
+        border-radius: 50%;
+
+        top: 4px;
+        left: -5px;
+    }
+
+    .mainicon a {
+        padding: 19px 32.5px;
+        border-radius: 50%;
+
+        top: 14px;
+        left: -5px;
+    }
+
+    .liteicon {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: #d7dfc0;
+        padding: 5px;
+        background-size: 75%;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+        bottom: -4px;
+    }
+
+    .plantovw a::after {
+        content: '';
+    }
+
+    .mainicon {
+        border-radius: 50%;
+        background-color: #dff0ae;
+        background-image: url('../../assets/navicons/ovw.png');
+        background-size: 80%;
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 5px;
+        width: 55px;
+        height: 55px;
+        position: relative;
+        bottom: 30%;
+    }
+
+    .tasks a::after {
+        content: '';
+    }
+
+    .tasks {
+        background-image: url('../../assets/navicons/tasks.png');
+    }
+
+    .msgs a::after {
+        content: '';
+    }
+
+    .msgs {
+        background-image: url('../../assets/navicons/msgs.png');
+    }
+
+    .settings a::after {
+        content: '';
+    }
+
+    .settings {
+        background-image: url('../../assets/navicons/sett.png');
+    }
+
+    .profile a::after {
+        content: '';
+    }
+
+    .profile {
+        background-image: url('../../assets/navicons/prfl.png');
+    }
+
+    .i {
+        top: -3vh;
+        right: -3vw;
+    }
+}
+
+@media only screen and (max-width: 600px) {
 
     /* Navigation Style */
     nav {
@@ -107,18 +241,20 @@ nav a:hover {
         height: 6vh;
         padding: 0;
         margin: 0;
-        
+
         display: grid;
         grid-template-columns: 1fr;
     }
+
     nav ul {
         font-size: 30px;
     }
+
     .mob {
-        position: fixed; 
+        position: fixed;
         bottom: -2%;
         left: 1%;
-        
+
         width: 98%;
         padding: 0;
 
@@ -126,75 +262,56 @@ nav a:hover {
         background-color: rgba(0, 0, 0, 0.6);
         border-radius: 50px;
     }
+
     .mob ul {
         width: 100%;
     }
 
     /* Logo */
-
     #logo {
         margin: auto;
         position: relative;
         bottom: 20px;
     }
+
     #logo img {
         width: 75px;
         padding: 8px;
     }
 
-    /* help */
-    .i {
-        width: 20px;
-        height: 20px;
+    /* help | logout */
+    .logoutNav {
+        position: absolute;
+        top: 1.1vh;
+        left: 81vw;
+        height: fit-content;
+        width: fit-content;
+    }
 
+    .i {
         position: fixed;
         bottom: 0;
-        top: -22px;
-        right: 10px;
+        top: 0;
+        left: -90vw;
     }
 
-    /* Icons | Text*/
-    .liteicon {        
-        width: 34px;
-        height: 34px;
+    nav div button {
+        margin-top: 1vh;
+    }
+
+    .liteicon a {
+        padding: 2px 22px;
         border-radius: 50%;
-        background-color: #D7DFC0;
-        padding: 5px;
-        background-size: 75%; 
-        background-repeat: 
-        no-repeat; 
-        background-position: center; 
-        position: relative;
-        bottom: -4px;
+
+        top: -3px;
+        left: -5px;
     }
-    
-    .plantovw::after { content: ''; }
-    .mainicon {
+
+    .mainicon a {
+        padding: 12px 32.5px;
         border-radius: 50%;
-        background-color: #DFF0AE;
-        background-image: url("../../assets/navicons/ovw.png");
-        background-size: 80%; 
-        background-repeat: no-repeat; 
-        background-position: center; 
-        padding: 5px;
-        width: 55px;        
-        height: 55px;
-        position: relative;
-        bottom: 30%;
+
+        top: 7px;
+        left: -5px;
     }
-
-    .tasks::after { content: ''; }
-    .tasks { background-image: url("../../assets/navicons/tasks.png");}
-
-    .msgs::after { content: ''; }
-    .msgs { background-image: url("../../assets/navicons/msgs.png"); }
-
-    .settings::after { content: ''; }
-    .settings { background-image: url("../../assets/navicons/sett.png"); }
-
-    .profile::after { content: ''; }
-    .profile { background-image: url("../../assets/navicons/prfl.png"); }
-
-
-
 }

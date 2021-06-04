@@ -1,0 +1,157 @@
+/* Main container */
+.overviewPlants {
+    padding-top: 50px;
+}
+
+/* Error in forms */
+.err {
+    color: red;
+}
+
+/* Add plant form */
+.plantForms {
+    background-color: #bec7ac;
+    margin: auto;
+    margin-bottom: 15px;
+
+    padding: 20px 30px;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+
+    width: 60%;
+}
+
+.twoColContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#formButtons {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+#formButtons button,
+#formButtons a {
+    width: 220px;
+    border: none;
+    margin: 5px auto;
+}
+
+#formButtons button:nth-child(2) {
+    margin-top: 10px;
+    color: white;
+    background: rgb(200, 36, 36);
+}
+
+#formButtons button:last-child {
+    margin-top: 30px;
+}
+
+.singlePlantContainer form {
+    width: 70%;
+    background: none;
+    box-shadow: none;
+}
+
+.movePlant {
+    grid-template-columns: 1fr;
+}
+
+.movePlant #formButtons button {
+    width: 100px !important;
+}
+
+#plantNotes {
+    resize: none;
+    width: 96%;
+    height: 100px;
+}
+
+/* Plant cards background */
+.plant {
+    background-color: #d2dac1;
+    width: 620px;
+    padding: 10px;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+/* Single plant */
+.singlePlantContainer {
+    margin-top: 12vh;
+}
+
+/* Search and add plant btn */
+.topOfOverviewPlants {
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+}
+
+.search {
+    background: none;
+    box-shadow: none;
+    width: 90%;
+}
+
+.filterBuildings {
+    margin: auto !important;
+}
+
+.searchInpContainer {
+    min-width: fit-content !important;
+    margin: auto;
+    padding: 0;
+}
+
+.searchInpContainer .inputcontainer {
+    display: grid;
+    margin: auto;
+    grid-template-columns: 90% 10% !important;
+}
+
+.searchInp {
+    width: 96% !important;
+    font-size: 18px !important;
+}
+
+.searchicon {
+    font-size: 24px;
+    margin: 0px auto;
+    padding: 3px;
+}
+
+/* Add plant btn */
+.topOfOverviewPlants .addPlant {
+    display: grid;
+    text-align: center;
+}
+
+.topOfOverviewPlants .addPlant .btn {
+    margin: 20px auto !important;
+    width: fit-content;
+    color: black;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 1300px) {
+    .singlePlantContainer form {
+        width: 80%;
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+    .plantForms {
+        width: 82%;
+    }
+
+    .twoColContainer {
+        grid-template-columns: 1fr;
+    }
+}

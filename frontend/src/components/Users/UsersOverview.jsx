@@ -1,109 +1,125 @@
-import React, { useState, useEffect } from 'react';
-import EdituserForm from './Forms/EdituserForm';
-import UsersTable from './UsersTable';
-import axios from 'axios';
-import './UserOverview.css';
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+
+import EditUser from './Forms/EditUser'
+import UsersTable from './UsersTable'
+
+import './UserOverview.css'
 
 export default function UsersOverview() {
-
-  const [users, setUsers] = useState('');
-  const [editing, setEditing] = useState(false);
-  const initilizeUser = { _id: null, firstName: '', lastName: '', email: '', role: '' }
-  const [currentUser, setCurrentUser] = useState(initilizeUser)
-
-  //GET TOKEN
-  const token = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` }
-
-
-  // API call | Get all users
-  useEffect(() => {
-    const getUsers = async () => {
-      await axios.get(`/api/users`, { headers })
-        .then(res => {
-          setUsers(res.data);
-        })
-        .catch(err => {
-          console.log('Error | ', err)
-        })
+    const initilizeUser = {
+        _id: null,
+        firstName: '',
+        lastName: '',
+        email: '',
+        role: ''
     }
-    getUsers();
-  }, []);
+    const [currentUser, setCurrentUser] = useState(initilizeUser)
 
+    const [users, setUsers] = useState('')
+    const [editing, setEditing] = useState(false)
 
+    //GET TOKEN
+    const token = localStorage.getItem('token')
+    const headers = { Authorization: `Bearer ${token}` }
 
-  //add
-  //const addUser = (testuser) => {
-  // testuser._id = testusers.length + 1 //den e bare o du ikke bruke api i think idk
-  // setTestusers([...testusers, testuser])
-  //}
+    // API call | Get all users
+    useEffect(() => {
+        const getUsers = async () => {
+            await axios
+                .get(`/api/users`, { headers })
+                .then((res) => {
+                    setUsers(res.data)
+                })
+                .catch((err) => {
+                    console.log('Error | ', err)
+                })
+        }
+        getUsers()
+    }, [])
 
-  //edit & update
-  const editUser = (user) => {
-    setEditing(true);
-    setCurrentUser(user);
-  }
-
-  //API CALL | update users
-  const updateUser = async (_id, updateUser) => {
-    setEditing(false);
-
-    let data = {
-      "role": updateUser.role,
+    //edit & update
+    const editUser = (user) => {
+        setEditing(true)
+        setCurrentUser(user)
     }
 
-    await axios.put(`/api/users/${_id}/role`, data, { headers })
-      .then(response => {
-        setUsers(users.map((user) => (user._id === currentUser._id ? updateUser : user)))
-      })
-      .catch(err => {
-        console.log('error! ', err)
-      })
-  }
+    //API CALL | update users
+    const updateUser = async (_id, updateUser) => {
+        let confirm = window.confirm(
+            'Are you sure you want to update this user?'
+        )
+        if (confirm === true) {
+            setEditing(false)
 
-  //API CALL | delete
+            let data = {
+                role: updateUser.role
+            }
 
-  // TODO | ALL DELETE -> add 'are you sure'
-  const deleteUser = async (_id) => {
-    setEditing(false)
-    await axios.delete(`/api/users/${_id}/manage`, { headers })
-      .then(res => {
-        alert('user deleted')
-      })
-      .catch(err => {
-        console.log('Error | ', err)
-      })
+            await axios
+                .put(`/api/users/${_id}/role`, data, { headers })
+                .then((response) => {
+                    setUsers(
+                        users.map((user) =>
+                            user._id === currentUser._id ? updateUser : user
+                        )
+                    )
+                })
+                .catch((err) => {
+                    console.log('error! ', err)
+                })
+        }
+    }
 
-    setUsers(users.filter((user) => user._id !== _id))
-
-  }
-
-  return (
-    <div className="crudstuff">
-
-      <h1>Manage Users</h1>
-      <div className="bigcontainer">
-
-
-        {editing ? (<div className="editoradd">
-          <div className="smalcontainer">
-            <h2>Update user</h2>
-            <p>{currentUser.name.first} {currentUser.name.last}</p>
-            <EdituserForm role={true} setEditing={setEditing} currentUser={currentUser} updateUser={updateUser}
-            />
-          </div>          </div>
-
-        ) : (
-
-          <div className="smalcontainer">
-            <h2>All users</h2>
-            <UsersTable users={users} deleteUser={deleteUser} editUser={editUser} />
-          </div>
-        )}
-
-      </div>
-    </div>
-
-
-  )
+    const deleteUser = async (_id) => {
+        let confirm = window.confirm(
+            'Are you sure you want to delete this user?'
+        )
+        if (confirm === true) {
+            setEditing(false)
+            await axios
+                .delete(`/api/users/${_id}/manage`, { headers })
+                .then((res) => {
+                    alert('User deleted')
+                })
+                .catch((err) => {
+                    console.log('Error | ', err)
+                })
+            setUsers(users.filter((user) => user._id !== _id))
+        }
+    }
+    return (
+        <div>
+            <h1>Manage Users</h1>
+            {editing ? (
+                <div id="users">
+                    <h2>Update user</h2>
+                    <div>
+                        <p>
+                            {currentUser.name.first} {currentUser.name.last}
+                        </p>
+                    </div>
+                    <EditUser
+                        role={true}
+                        setEditing={setEditing}
+                        currentUser={currentUser}
+                        updateUser={updateUser}
+                    />
+                </div>
+            ) : (
+                <div id="users">
+                    <h2>All users</h2>
+                    <UsersTable
+                        users={users}
+                        deleteUser={deleteUser}
+                        editUser={editUser}
+                    />
+                    <Link to="/settings">
+                        <button className="btn">Back</button>
+                    </Link>
+                </div>
+            )}
+        </div>
+    )
 }

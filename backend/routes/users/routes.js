@@ -5,9 +5,10 @@ const jwt = require('jsonwebtoken')
 // Database schemas
 const User = require('../../models/User')
 const Invite = require('../../models/Invite')
+const ForgottenPassword = require('../../models/ForgottenPassword')
 
 // Services
-const mailInvite = require('../../services/email')
+const { mailInvite, mailPasswordRequest } = require('../../services/email')
 
 // POST: Invite new user
 const inviteUser = async (req, res) => {
@@ -169,6 +170,12 @@ const loginUser = async (req, res, next) => {
                     if (error) {
                         return next(error)
                     }
+
+                    // Check for existing password reset request and delete
+                    await ForgottenPassword.findOneAndDelete({
+                        user_id: user._id
+                    })
+
                     // Generate and return JWT
                     const body = {
                         _id: user._id,
@@ -258,24 +265,28 @@ const updateSelf = async (req, res) => {
                 error: 'No access.'
             })
         }
+
         // Make sure no one tries to change their own role
         if (req.body.role) {
             return res.status(400).json({
                 error: 'You can not change your own user role.'
             })
         }
+
         // Make sure there are update values provided
         if (Object.keys(req.body).length == 0) {
             return res.status(400).json({
                 error: 'You need to include update values in a request body.'
             })
         }
+
         // Update user
         const user = await User.findOneAndUpdate(
             { _id: req.params.id },
             req.body,
             { runValidators: true }
         )
+
         // Check for found/updated user and send response to client
         if (!user) {
             res.status(404).json({
@@ -299,8 +310,7 @@ const changeRole = async (req, res) => {
         // Check that new role is included in request
         if (!req.body.role) {
             res.status(400).json({
-                error:
-                    'You need to include the new role in the body of your request.'
+                error: 'You need to include the new role in the body of your request.'
             })
         } else {
             // Update role of the user by ID
@@ -326,6 +336,28 @@ const changeRole = async (req, res) => {
     }
 }
 
+// DELETE: Delete own user
+const deleteSelf = async (req, res) => {
+    try {
+        // Check that the user is changing their own profile
+        if (req.user._id != req.params.id) {
+            return res.status(400).json({
+                error: 'No access.'
+            })
+        }
+
+        // Delete user
+        await User.findByIdAndDelete(req.params.id)
+        res.status(200).json({
+            message: `User with ID ${req.params.id} deleted successfully.`
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to delete the user with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
 // DELETE: Delete user by ID
 const deleteUser = async (req, res) => {
     try {
@@ -333,6 +365,10 @@ const deleteUser = async (req, res) => {
         let existingUser = await User.findById(req.params.id)
         if (existingUser) {
             await User.findByIdAndDelete(req.params.id)
+            // Check for existing reset request and delete
+            await ForgottenPassword.findOneAndDelete({
+                user_id: req.params.id
+            })
             res.status(200).json({
                 message: `User with ID ${req.params.id} deleted successfully.`
             })
@@ -344,6 +380,116 @@ const deleteUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             error: `Something went wrong while trying to delete the user. [${err}]`
+        })
+    }
+}
+
+// POST: Create new password change request
+const requestPasswordChange = async (req, res) => {
+    try {
+        if (!req.body.email) {
+            return res.status(400).json({
+                error: 'You need to include an email in your request.'
+            })
+        }
+
+        // Find info about the user email that was submitted
+        const user = await User.findOne({ email: req.body.email })
+        if (!user) {
+            return res.status(404).json({
+                error: 'User with this email not found.'
+            })
+        }
+
+        // Check for existing reset and delete
+        await ForgottenPassword.findOneAndDelete({
+            user_id: user._id
+        })
+
+        // Create new request object in database
+        const newPasswordRequest = new ForgottenPassword({
+            user_id: user._id
+        })
+        const passwordRequest = await newPasswordRequest.save()
+
+        // Send reset password-email to user
+        mailPasswordRequest(
+            user.email,
+            user.name.first,
+            user.name.last,
+            passwordRequest._id
+        )
+
+        // Send success message and reset object to client-side
+        res.status(200).json({
+            message: 'Successfully created request and sent email to user.'
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to create a password change request. [${err}]`
+        })
+    }
+}
+
+// GET: Get information about specific password reset request
+const getPasswordChangeRequest = async (req, res) => {
+    try {
+        // Find password reset request
+        const passwordRequest = await ForgottenPassword.findById(req.params.id)
+        if (passwordRequest) {
+            res.status(200).json(passwordRequest)
+        } else {
+            res.status(404).json({
+                error: 'Forgotten password request not found.'
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while looking for forgotten password request with ID ${req.params.id}. [${err}]`
+        })
+    }
+}
+
+// PUT: Update user password after forgotten password request
+const updateUserPassword = async (req, res) => {
+    try {
+        // Check for existing reset and delete
+        const requestCheck = await ForgottenPassword.findOneAndDelete({
+            user_id: req.params.id
+        })
+        // Prevent password change if no request existed
+        if (!requestCheck) {
+            return res.status(404).json({
+                error: `There was no password reset request connected to user with ID ${req.params.id}.`
+            })
+        }
+
+        // Check for missing password in request
+        if (!req.body.password) {
+            return res.status(400).json({
+                error: 'You need to include a new password in your request.'
+            })
+        }
+
+        // Update password of the user
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.id },
+            { password: req.body.password },
+            { runValidators: true }
+        )
+
+        if (!user) {
+            res.status(404).json({
+                error: `User with ID ${req.params.id} not found.`
+            })
+        } else {
+            res.status(200).json({
+                message: `Successfully updated the password of user with ID ${req.params.id}.`
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: `Something went wrong while trying to update the password for user with ID ${req.params.id}. [${err}]`
         })
     }
 }
@@ -360,5 +506,9 @@ module.exports = {
     getUser,
     updateSelf,
     changeRole,
-    deleteUser
+    deleteSelf,
+    deleteUser,
+    requestPasswordChange,
+    getPasswordChangeRequest,
+    updateUserPassword
 }

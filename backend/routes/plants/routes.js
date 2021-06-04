@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 // Database schemas
 const Plant = require('../../models/Plant')
 
@@ -102,8 +104,7 @@ const pastDue = async (req, res) => {
             res.status(200).json({ water: waterDue, fertilize: fertilizeDue })
         } else {
             res.status(404).json({
-                error:
-                    'Could not find any plants with tasks past due at this time.'
+                error: 'Could not find any plants with tasks past due at this time.'
             })
         }
     } catch (err) {
@@ -188,7 +189,7 @@ const createPlant = async (req, res) => {
         })
     } catch (err) {
         res.status(500).json({
-            error: `There was an error adding ${req.body.name} to the database. [${err}]`
+            error: `Something went wrong while trying to add ${req.body.name} to the database. [${err}]`
         })
     }
 }
@@ -258,16 +259,14 @@ const updatePlant = async (req, res) => {
         // Make sure there is no location in the request
         if (req.body.location) {
             return res.status(400).json({
-                error:
-                    'Request should not include location. Use route for moving plants to update the location.'
+                error: 'Request should not include location. Use route for moving plants to update the location.'
             })
         }
 
         // Make sure history is not updated manually
         if (req.body.history) {
             return res.status(400).json({
-                error:
-                    'Request should not include history. History array will be updated automatically in other routes.'
+                error: 'Request should not include history. History array will be updated automatically in other routes.'
             })
         }
 
@@ -279,6 +278,16 @@ const updatePlant = async (req, res) => {
                 runValidators: true
             }
         )
+
+        // Delete old picture file if there is a new one
+        if (req.body.picture && plant.picture !== 'no-image.png') {
+            await fs.unlink(
+                `${__dirname}/../../../frontend/public/assets/uploaded-plants/${plant.picture}`,
+                (err) => {
+                    if (err) throw err
+                }
+            )
+        }
 
         // Check for found/updated plant and send response to client
         if (!plant) {
@@ -415,7 +424,19 @@ const deletePlant = async (req, res) => {
         // Check that plant exists in DB
         let existingPlant = await Plant.findById(req.params.id)
         if (existingPlant) {
+            // Delete plant
             await Plant.findByIdAndDelete(req.params.id)
+
+            // Delete picture file connected to plant
+            if (existingPlant.picture !== 'no-image.png') {
+                await fs.unlink(
+                    `${__dirname}/../../../frontend/public/assets/uploaded-plants/${existingPlant.picture}`,
+                    (err) => {
+                        if (err) throw err
+                    }
+                )
+            }
+
             res.status(200).json({
                 message: `Plant with ID ${req.params.id} deleted successfully.`
             })

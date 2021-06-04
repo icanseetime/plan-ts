@@ -12,9 +12,9 @@
     "frontend-start": "cd frontend && npm run start",
     "full-start": "concurrently -n 'backend,frontend' -c 'yellow,blue' \"npm run backend-start\" \"npm run frontend-start\"",
     "full-install": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "full-build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "build": "cd frontend && npm run build",
     "heroku-install": "cd backend && npm install && cd ../frontend && npm install",
-    "heroku-postbuild": "npm run heroku-install && npm run full-build"
+    "heroku-postbuild": "npm run heroku-install && npm run build"
   },
   "devDependencies": {
     "concurrently": "^6.0.1"

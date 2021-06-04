@@ -1,0 +1,251 @@
+/* Buttons */
+.wtrbtn,
+.fertbtn,
+.moveFeedbackBtn {
+    background-color: #8ccdd4;
+    font-size: 17px;
+    margin: 10px;
+    padding: 10px;
+    width: 141px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    border: black 1px;
+    cursor: pointer;
+}
+
+.fertbtn {
+    background-color: #a89787;
+}
+
+.moveFeedbackBtn {
+    background-color: #bcc5a8;
+}
+
+.plantButtons .taskbtns div {
+    margin: 0px auto !important;
+    width: fit-content;
+}
+
+.wtrbtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+
+.fertbtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+
+.off:hover {
+    cursor: default;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+.moveFeedbackBtn:hover {
+    transition: ease-in-out 0.5s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+
+.editPlantbtn {
+    background-color: #bcc5a8 !important;
+    width: 141px !important;
+}
+
+/* Mazemap */
+.mazemap {
+    height: 400px;
+    width: 350px;
+}
+
+/* Slider */
+.dueslide {
+    background-color: #b9c2a6;
+    box-shadow: 0 14px 14px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    margin: 10px;
+    min-width: fit-content;
+    padding: 10px;
+}
+
+#plantSlider {
+    text-align: center;
+    min-width: fit-content;
+    width: 90%;
+    margin: auto;
+}
+
+.imgSlider {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    width: 100%;
+}
+
+.iconLeft {
+    height: 20px;
+}
+
+.iconRight {
+    height: 20px;
+}
+
+.light,
+.watrSlide,
+.fertSlider {
+    height: 15px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.light {
+    background: -webkit-gradient(linear,
+            left top,
+            right top,
+            from(rgb(231, 231, 230)),
+            to(rgb(239, 243, 15)));
+}
+
+.watrSlide {
+    background: -webkit-gradient(linear,
+            left top,
+            right top,
+            from(rgb(167, 208, 241)),
+            to(rgb(16, 28, 187)));
+}
+
+.fertSlider {
+    background: -webkit-gradient(linear,
+            left top,
+            right top,
+            from(rgb(163, 138, 67)),
+            to(rgb(44, 30, 12)));
+}
+
+input[type='range'] {
+    -webkit-appearance: none;
+    -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.35));
+}
+
+input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 60%;
+    background: white;
+}
+
+input[type='range']::-moz-range-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid black;
+}
+
+.addNeed {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.between {
+    text-align: center;
+}
+
+/* Single plant view */
+.singlePlant {
+    /* Outermost container */
+    width: 800px;
+}
+
+.singlePlant h1 {
+    font-size: 28px;
+}
+
+.notes,
+.history {
+    margin: auto;
+    font-size: 18px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    background-color: #b9c2a6;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.history {
+    max-height: 500px;
+    padding-bottom: 20px;
+}
+
+.innerHistory {
+    max-height: 380px;
+    height: fit-content;
+    overflow: auto;
+}
+
+.historyCard,
+.noteCard {
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: #d6e2bc;
+    margin: 10px auto;
+    width: 60%;
+    border-radius: 5px;
+    height: fit-content;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr !important;
+}
+
+.historyCard {
+    grid-template-columns: 1fr !important;
+}
+
+@media only screen and (max-width: 700px) {
+
+    .imgSlider,
+    #plantInfoInner {
+        grid-template-columns: 1fr;
+    }
+
+    .imgSlider .cover,
+    #plantSlider {
+        display: grid;
+        width: fit-content;
+        height: fit-content;
+        margin: 5px auto;
+    }
+
+    .singlePlantContainer .sliderContainer div input {
+        min-width: fit-content;
+        width: 50vw;
+    }
+
+    .singlePlantContainer #plantSlider {
+        margin-bottom: 10px;
+        background-color: #b9c2a6;
+        border-radius: 5px;
+        padding-bottom: 25px;
+        box-shadow: 0 10px 10px 0 rgb(0 0 0 / 20%);
+        width: 98%;
+    }
+
+    #plantInfo div p {
+        padding: 0;
+    }
+
+    .historyCard,
+    .noteCard {
+        width: 90%;
+    }
+
+    .mazemap {
+        height: 300px;
+        width: 100%;
+    }
+}

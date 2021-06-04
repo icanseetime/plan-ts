@@ -1,42 +1,65 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
+// CSS
 import './Notifications.css'
-import { useHistory } from 'react-router-dom';
-import { AuthContext } from '../../utils/context';
+
+// Authentication
+import { AuthContext } from '../../utils/context'
 
 export default function CountNotifs() {
-    const [count, setCount] = useState() //TODO FIX MEMORY LEAK WARNINGEN
+    const [count, setCount] = useState()
     const authContext = useContext(AuthContext)
 
     //GET TOKEN
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     const headers = { Authorization: `Bearer ${token}` }
 
     const getNotificationCount = () => {
-        axios.get(`/api/plants/notifications/count`, { headers })
-            .then(res => {
+        axios
+            .get(`/api/plants/notifications/count`, { headers })
+            .then((res) => {
                 setCount(res.data.count)
             })
-            .catch(err => console.log('Error | ', err))
+            .catch((err) => console.log('Error | ', err))
     }
-
 
     const history = useHistory()
 
     useEffect(() => {
         return history.listen(() => {
-            getNotificationCount();
+            getNotificationCount()
         })
     }, [history])
 
     useEffect(() => {
-        getNotificationCount();
+        getNotificationCount()
     }, [])
 
-    if (count !== '') {
-        return <p className={authContext.role == 'manager'?("notifCount"):("garnotifCount")}>{count}</p>
+    if (count !== '' && count) {
+        return (
+            <p
+                className={
+                    authContext.role === 'manager'
+                        ? 'notifCount'
+                        : 'garnotifCount'
+                }
+            >
+                {count}
+            </p>
+        )
     } else {
-        return <p className="notifCount">X</p>
+        return (
+            <p
+                className={
+                    authContext.role === 'manager'
+                        ? 'notifCount'
+                        : 'garnotifCount'
+                }
+            >
+                0
+            </p>
+        )
     }
 }

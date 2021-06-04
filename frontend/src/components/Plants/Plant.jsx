@@ -1,268 +1,437 @@
-// Detailed overview of a single plant
 import React, { useEffect, useState, useContext } from 'react'
-//import AllPlants from './AllPlants';
-import NewFeedback from '../Feedback/NewFeedback'
-import { AuthContext } from '../../utils/context'
-
-import {
-    ChangeTime, WaterSlider, FertSlider, SunSlider, calcDaysRemaining
-} from '../../utils/functions.jsx'
-import MovePlant from './Forms/MovePlant'
+import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import AddPlant from './Forms/AddPlant'
-import EditPlant from './Forms/EditPlant'
 
-export default function Plant(props) {
+// Functions
+import { AuthContext } from '../../utils/context'
+import {
+    ChangeTime,
+    WaterSlider,
+    FertSlider,
+    SunSlider,
+    calcDaysRemaining
+} from '../../utils/functions.jsx'
+
+// Components
+import EditPlant from './Forms/EditPlant'
+import MovePlant from './Forms/MovePlant'
+import NewFeedback from '../Feedback/NewFeedback'
+
+// Detailed overview of a single plant
+export default function Plant() {
     const authContext = useContext(AuthContext)
+
     const [sendingFeedback, setSendingFeedback] = useState(false)
     const [movingPlant, setMovingPlant] = useState(false)
     const [editingPlant, setEditingPlant] = useState(false)
+
     const [historyArray, setHistoryArray] = useState([])
     const [notes, setNotes] = useState('')
+    const [plant, setPlant] = useState()
+
+    // Get plant's id based on state sent along with Link
+    const location = useLocation()
+    const { _id } = location.state
 
     //GET TOKEN
     const token = localStorage.getItem('token')
     const headers = { Authorization: `Bearer ${token}` }
 
-    const getHistory = () => {
+    // API Call | Get one plant
+    useEffect(
+        () => {
+            getHistory(_id)
+            getNotes(_id)
+            axios
+                .get(`/api/plants/${_id}`)
+                .then(async (res) => {
+                    await setPlant(res.data)
+                })
+                .catch((err) => {
+                    console.log('Error | ', err)
+                })
+        },
+        _id,
+        historyArray,
+        notes
+    )
+
+    // API Call || Get plant's history
+    const getHistory = (id) => {
         axios
-            .get(`/api/plants/${props.plant._id}/history`, { headers })
-            .then((res) => setHistoryArray(res.data))
+            .get(`/api/plants/${id}/history`, { headers })
+            .then((res) => {
+                let resp = res.data.history
+                let histArr = resp.reverse()
+                setHistoryArray(histArr)
+            })
             .catch((err) => console.log('Error | ', err))
     }
-    const getNotes = () => {
-        if (props.plant !== undefined) {
-            axios
-                .get(`/api/plants/${props.plant._id}/notes`, { headers })
-                .then((res) => setNotes(res.data.notes))
-                .catch((err) => console.log('Error | ', err))
-        } else {
-            setNotes('Loading notes...')
+
+    // API Call || Get plant's notes
+    const getNotes = (id) => {
+        axios
+            .get(`/api/plants/${id}/notes`, { headers })
+            .then((res) => setNotes(res.data.notes))
+            .catch((err) => console.log('Error | ', err))
+    }
+
+    // API Call || Complete a task and update database
+    const completeTask = (taskType) => {
+        let confirm = window.confirm('Please confirm completion')
+        if (confirm === true) {
+            let data = { user_id: authContext.userid } // To see who completed the task
+
+            // Water tasks
+            if (taskType === 'water') {
+                axios
+                    .put(`/api/plants/${_id}/water`, data, { headers })
+                    .then((res) => {
+                        alert('Plant has been watered!')
+                        window.location.reload(false)
+                    })
+                    .catch((err) => {
+                        console.log('Error | ', err)
+                    })
+                // Fertilization tasks
+            } else if (taskType === 'fertilize') {
+                axios
+                    .put(`/api/plants/${_id}/fertilize`, data, { headers })
+                    .then((res) => {
+                        alert('Plant has been fertilized!')
+                        window.location.reload(false)
+                    })
+                    .catch((err) => {
+                        console.log('Error | ', err)
+                    })
+            }
         }
     }
 
-    useEffect(() => {
-        getHistory()
-        getNotes()
-    }, [])
-
-    const displayPlant = (props) => {
-        const plant = props.plant
-        const history = historyArray.history
-
+    // Render
+    if (plant) {
+        let history = historyArray
         let waterDue = calcDaysRemaining(plant.health.water.due)
         let fertDue = calcDaysRemaining(plant.health.fertilizer.due)
-
-        if (plant) {
-            return (
-                <div>
-                    {!sendingFeedback && !movingPlant && !editingPlant && (
-                        <div className="plant singlePlant">
-                            <h1 className="plantName">{plant.name}</h1>
-                            <div className="imgSlider">
-                                <div id="plantSlider">
-                                    <h2>Plant needs:</h2>
-                                    <span>Water</span>
-                                    {WaterSlider(plant.health.water.amount)}
-                                    <span>Fertilizer</span>
-                                    {FertSlider(plant.health.fertilizer.amount)}
-                                    <span>Sunlight</span>
-                                    {SunSlider(plant.health.light.amount)}
-                                </div>
-                                <div id="coverPlant">
-                                    <img
-                                        src={`/assets/uploaded-plants/${plant.picture}`}
-                                        alt={plant.picture !== 'no-image.png' ? `Image of ${plant.name}` : 'No image provided'}
-                                    />
-                                </div>
+        return (
+            <div className="singlePlantContainer">
+                {!sendingFeedback && !movingPlant && !editingPlant && (
+                    <div className="plant singlePlant">
+                        <h1>{plant.name}</h1>
+                        <div className="imgSlider">
+                            <div id="plantSlider">
+                                <h2>Plant needs:</h2>
+                                {WaterSlider(plant.health.water.amount)}
+                                {FertSlider(plant.health.fertilizer.amount)}
+                                {SunSlider(plant.health.light.amount)}
                             </div>
-                            <div id="duedatePlant">
-                                {waterDue >= 1 ? (
-                                    <p className="watr">
-                                        Water the plant in{' '} <span>{waterDue}</span> day{waterDue !== 1 ? 's' : ''}!
-                                    </p>
-                                ) : (
-                                    <p className="watr">
-                                        Water the plant today!
-                                    </p>
-                                )}
-                                {fertDue >= 1 ? (
-                                    <p className="watr">
-                                        Fertilize the plant in{' '} <span>{fertDue}</span> day{fertDue !== 1 ? 's' : ''}!
-                                    </p>
-                                ) : (
-                                    <p className="watr">
-                                        Fertilize the plant today!
-                                    </p>
-                                )}
+                            <div className="cover">
+                                <img
+                                    src={`/assets/uploaded-plants/${plant.picture}`}
+                                    onError={(e) => {
+                                        e.target.onerror = null
+                                        e.target.src = `/assets/uploaded-plants/no-image.png`
+                                    }}
+                                    alt={
+                                        plant.picture !== 'no-image.png'
+                                            ? `Image of ${plant.name}`
+                                            : 'No image provided'
+                                    }
+                                />
                             </div>
-                            <div id="plantInfo">
-                                <h2>Information about {plant.name}</h2>
-                                <div id="plantInfoInner">
-                                    <div>
-                                        <div>
-                                            <h3>Location:</h3>
-                                            <div className="miniCard">
-                                                <p>{plant.location.building.name}</p>
-                                                <p>{plant.location.floor}</p>
-                                                <p>{plant.location.room}</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h3>Watering and fertilization</h3>
-                                            <div className="miniCard">
-                                                <p> Needs water every <span>{plant.health.water.days_between}</span> day </p>
-                                                <p className="fert">
-                                                    Needs fertilizer every <span>{plant.health.fertilizer.days_between}</span> day
-                                                </p>
-                                                <p>
-                                                    Next water due date is: <span>{ChangeTime(plant.health.water.due)}</span>
-                                                </p>
-                                                <p className="fert">
-                                                    Next fertilizer due date is: <span>{ChangeTime(plant.health.fertilizer.due)}</span>
-                                                </p>
-                                                <p>
-                                                    The plant was added: {ChangeTime(plant.createdAt)}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="mazem">
-                                        <iframe
-                                            className="mazemap"
-                                            frameBorder="0"
-                                            scrolling="no"
-                                            marginHeight="0"
-                                            marginWidth="0"
-                                            src={plant.location.mazemap_embed}
-                                            allow="geolocation"
-                                        ></iframe>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            {authContext.role !== 'guest' && (
-                                <div className="notes">
-                                    <h2>Notes</h2>
-                                    {notes !== undefined ? (
-                                        <p>{notes}</p>
-                                    ) : (
-                                        <p>Loading notes...</p>
-                                    )}
-                                </div>
+                        </div>
+                        <div id="duedatePlant">
+                            {waterDue >= 1 ? (
+                                <p className="watr">
+                                    Water the plant in <span>{waterDue}</span>{' '}
+                                    day{waterDue !== 1 ? 's' : ''}!
+                                </p>
+                            ) : (
+                                <p className="watr">
+                                    Water the plant <span>today</span>!
+                                </p>
                             )}
-                            {authContext.role !== 'guest' && (
-                                <div className="history">
-                                    <h2>History</h2>
-                                    <div className="innerHistory">
-                                        {history ? (
+                            {fertDue >= 1 ? (
+                                <p className="watr">
+                                    Fertilize the plant in{' '}
+                                    <span>{fertDue}</span> day
+                                    {fertDue !== 1 ? 's' : ''}!
+                                </p>
+                            ) : (
+                                <p className="watr">
+                                    Fertilize the plant <span>today</span>!
+                                </p>
+                            )}
+                        </div>
+                        <div id="plantInfo">
+                            <h2>Information about {plant.name}</h2>
+                            <div id="plantInfoInner">
+                                <div>
+                                    <div>
+                                        <h3>Location:</h3>
+                                        <div className="miniCard">
+                                            <p>
+                                                {plant.location.building.name}
+                                            </p>
+                                            <p>{plant.location.floor}</p>
+                                            <p>{plant.location.room}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3>Watering and fertilization</h3>
+                                        <div className="miniCard">
+                                            <p>
+                                                {' '}
+                                                Needs water every{' '}
+                                                <span>
+                                                    {
+                                                        plant.health.water
+                                                            .days_between
+                                                    }
+                                                </span>{' '}
+                                                day{' '}
+                                            </p>
+                                            <p className="fert">
+                                                {' '}
+                                                Needs fertilizer every{' '}
+                                                <span>
+                                                    {
+                                                        plant.health.fertilizer
+                                                            .days_between
+                                                    }
+                                                </span>{' '}
+                                                day{' '}
+                                            </p>
+                                            <p>
+                                                {' '}
+                                                Next water due date is:{' '}
+                                                <span>
+                                                    {ChangeTime(
+                                                        plant.health.water.due
+                                                    )}
+                                                </span>{' '}
+                                            </p>
+                                            <p className="fert">
+                                                {' '}
+                                                Next fertilizer due date is:{' '}
+                                                <span>
+                                                    {ChangeTime(
+                                                        plant.health.fertilizer
+                                                            .due
+                                                    )}
+                                                </span>{' '}
+                                            </p>
+                                            <p>
+                                                {' '}
+                                                The plant was added:{' '}
+                                                {ChangeTime(
+                                                    plant.createdAt
+                                                )}{' '}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mazem">
+                                    <iframe
+                                        title="Mazemap of location of plant"
+                                        className="mazemap"
+                                        frameBorder="0"
+                                        src={plant.location.mazemap_embed}
+                                        allow="geolocation"
+                                    ></iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                        {authContext.role !== 'guest' && ( // Notes
+                            <div className="notes">
+                                <h2>Notes</h2>
+                                {!notes && <p>No notes</p>}
+                                {notes !== undefined ? (
+                                    <p>{notes}</p>
+                                ) : (
+                                    <p>Loading notes...</p>
+                                )}
+                            </div>
+                        )}
+                        {authContext.role !== 'guest' && ( // History
+                            <div className="history">
+                                <h2>History</h2>
+                                <div className="innerHistory">
+                                    {history ? (
+                                        history >= 0 ? (
+                                            <p>No history</p>
+                                        ) : (
                                             history.map((history) => {
                                                 return (
-                                                    <div className="historyCard" key={history._id}>
-                                                        <p>Plant was <span>{history.type.charAt(0).toUpperCase() + history.type.slice(1)}{history.type == 'water' ? 'ed' : 'd'}</span> at {ChangeTime(history.date)} by {history.user_id ? (
-                                                            <> {history.user_id.name.first} {history.user_id.name.last}</>
-                                                        ) : (
-                                                            <>unknown</>
-                                                        )}</p>
+                                                    <div
+                                                        className="historyCard"
+                                                        key={history._id}
+                                                    >
+                                                        <p>
+                                                            Plant was{' '}
+                                                            <span>
+                                                                {history.type
+                                                                    .charAt(0)
+                                                                    .toUpperCase() +
+                                                                    history.type.slice(
+                                                                        1
+                                                                    )}
+                                                                {history.type ===
+                                                                'water'
+                                                                    ? 'ed'
+                                                                    : 'd'}
+                                                            </span>{' '}
+                                                            at{' '}
+                                                            {ChangeTime(
+                                                                history.date
+                                                            )}{' '}
+                                                            by{' '}
+                                                            {history.user_id ? (
+                                                                <>
+                                                                    {' '}
+                                                                    {
+                                                                        history
+                                                                            .user_id
+                                                                            .name
+                                                                            .first
+                                                                    }{' '}
+                                                                    {
+                                                                        history
+                                                                            .user_id
+                                                                            .name
+                                                                            .last
+                                                                    }
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    DELETED USER
+                                                                </>
+                                                            )}
+                                                        </p>
                                                         {history.note && (
                                                             <>
                                                                 <h4>Note:</h4>
-                                                                <p>{history.note}</p>
+                                                                <p>
+                                                                    {
+                                                                        history.note
+                                                                    }
+                                                                </p>
                                                             </>
-
                                                         )}
                                                     </div>
                                                 )
                                             })
-                                        ) : (
-                                            <p>Loading history...</p>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-                            <div className="buttons">
-                                <div
-                                    className={authContext.role != 'guest' ? 'taskbtns' : 'taskbtn'} >
-                                    {authContext.role !== 'guest' && ( //TODO ikke la hover funke når dæm e disabled
-                                        <div id="taskL">
-                                            <button
-                                                disabled={waterDue >= 2 ? true : false}
-                                                className={!waterDue >= 2 ? 'wtrbtn' : 'wtrbtn off'}
-                                            //onClick={}
-                                            > Water </button>
-                                            <button
-                                                disabled={fertDue >= 2 ? true : false}
-                                                className={!fertDue >= 2 ? 'fertbtn' : 'fertbtn off'}
-                                            > Fertilize </button>
-                                        </div>
+                                        )
+                                    ) : (
+                                        getHistory() + <p>Loading history...</p>
                                     )}
-                                    <div id="taskR">
-                                        {authContext.role !== 'guest' && (
-                                            <button
-                                                onClick={() =>
-                                                    setMovingPlant(true)
-                                                }
-                                                className="mvebtn"
-                                            > Move Plant </button>
-                                        )}
-                                        <button
-                                            onClick={() =>
-                                                setSendingFeedback(true)
-                                            }
-                                            className="fbbtn"
-                                        > Send Feedback </button>
-                                    </div>
                                 </div>
                             </div>
-                            {authContext.role === 'manager' && (
-                                <button
-                                    onClick={() => setEditingPlant(true)}
-                                    className="viewbtn"
-                                > Edit Plant </button>
-                            )}
+                        )}
+                        <div className="plantButtons">
+                            <div className="taskbtns">
+                                {authContext.role !== 'guest' && (
+                                    <div>
+                                        <button
+                                            disabled={
+                                                waterDue >= 2 ? true : false
+                                            }
+                                            className={
+                                                !waterDue >= 2
+                                                    ? 'wtrbtn'
+                                                    : 'wtrbtn off'
+                                            }
+                                            onClick={() =>
+                                                completeTask('water')
+                                            }
+                                        >
+                                            {' '}
+                                            Water{' '}
+                                        </button>
+                                        <button
+                                            disabled={
+                                                fertDue >= 2 ? true : false
+                                            }
+                                            className={
+                                                !fertDue >= 2
+                                                    ? 'fertbtn'
+                                                    : 'fertbtn off'
+                                            }
+                                            onClick={() =>
+                                                completeTask('fertilize')
+                                            }
+                                        >
+                                            {' '}
+                                            Fertilize{' '}
+                                        </button>
+                                    </div>
+                                )}
+                                <div>
+                                    {authContext.role !== 'guest' && (
+                                        <button
+                                            onClick={() => setMovingPlant(true)}
+                                            className="moveFeedbackBtn"
+                                        >
+                                            {' '}
+                                            Move Plant{' '}
+                                        </button>
+                                    )}
+                                    <button
+                                        onClick={() => setSendingFeedback(true)}
+                                        className="moveFeedbackBtn"
+                                    >
+                                        {' '}
+                                        Send Feedback{' '}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {authContext.role === 'manager' && (
                             <button
-                                onClick={() => props.onClick()}
-                                className="viewbtn"
-                            > Back </button>
-                        </div>
-                    )}
-                    {sendingFeedback && (
-                        <div>
-                            <NewFeedback
-                                plant={props.plant}
-                                onClick={() => setSendingFeedback(false)}
-                            />
-                        </div>
-                    )}
-                    {movingPlant && (
-                        <div>
-                            <MovePlant
-                                onClick={() => setMovingPlant(false)}
-                                locations={props.locations}
-                                buildings={props.buildings}
-                                plant={props.plant}
-                            />
-                        </div>
-                    )}
-                    {editingPlant && (
-                        <div>
-                            <EditPlant
-                                refresh={props.refresh}
-                                onClick={() => setEditingPlant(false)}
-                                locations={props.locations}
-                                buildings={props.buildings}
-                                plant={props.plant}
-                            />
-                        </div>
-                    )}
-                </div>
-            )
-        } else {
-            return <h3>No plants availible yet.</h3>
-        }
-    }
+                                onClick={() => setEditingPlant(true)}
+                                className="editPlantbtn"
+                            >
+                                Edit Plant
+                            </button>
+                        )}
 
-    return <div>{displayPlant(props)}</div>
+                        <Link className="viewbtn" to="/plantsoverview">
+                            Back
+                        </Link>
+                    </div>
+                )}
+                {sendingFeedback && (
+                    <div>
+                        <NewFeedback
+                            plant={plant}
+                            onClick={() => setSendingFeedback(false)}
+                        />
+                    </div>
+                )}
+                {movingPlant && (
+                    <div>
+                        <MovePlant
+                            onClick={() => setMovingPlant(false)}
+                            plant={plant}
+                        />
+                    </div>
+                )}
+                {editingPlant && (
+                    <div>
+                        <EditPlant
+                            onClick={() => setEditingPlant(false)}
+                            plant={plant}
+                        />
+                    </div>
+                )}
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <p className="loading">Loading...</p>
+            </div>
+        )
+    }
 }

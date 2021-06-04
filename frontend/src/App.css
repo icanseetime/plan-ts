@@ -14,13 +14,20 @@ body {
 }
 
 main {
-    margin-top: 10vh;
+    margin-top: 12vh;
     min-height: 90vh;
 }
+
 main .container {
     height: 700px;
     min-height: 100%;
 }
+
+h1 {
+    text-align: center;
+    margin-top: 20px !important;
+}
+
 .loading {
     text-align: center;
     background-color: rgba(99, 103, 93, 1);
@@ -33,20 +40,26 @@ main .container {
     margin: 50px auto;
 }
 
-select:hover, select:focus, select:active {
-    background-color: none;
-    border: none;
-}
+
 
 footer {
     background-color: rgba(99, 103, 93, 1);
-    color: rgb(182, 182, 182);
+    color: rgb(235, 235, 235);
+    text-align: right;
 }
+
+footer img {
+    width: 40%;
+    margin: 0 30%;
+    filter: brightness(0%);
+}
+
 @media only screen and (max-width: 800px) {
     footer {
         padding-bottom: 90px;
     }
 }
+
 @media only screen and (max-width: 500px) {
     main {
         min-height: 110vh;

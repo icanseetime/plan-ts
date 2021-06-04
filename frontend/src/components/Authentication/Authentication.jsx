@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { Link, Route, Switch, Redirect } from 'react-router-dom'
+import axios from 'axios'
+
+// Authentication
 import { AuthContext } from '../../utils/context'
 
-import axios from 'axios'
+// CSS
 import '../Nav/Nav.css'
 
+// Components
 import NavGuest from '../Nav/Guest'
 import GardenerHub from './GardenerHub'
 import ManagerHub from './ManagerHub'
@@ -12,13 +16,16 @@ import Login from '../Forms/Login'
 import Landing from '../Landing/Landing'
 import Overview from '../Plants/OverviewPlants'
 import Register from '../Forms/Register'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
 import Help from '../TextComponent/Help'
 import FooterTxt from '../TextComponent/FooterTxt'
-library.add(fas)
+import Plant from '../Plants/Plant'
+import ResetPassword from '../Forms/ResetPassword'
+import ForgotPassword from '../Forms/ForgotPassword'
 
+// Font Awesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+library.add(fas)
 
 export default function Authentication() {
     const authContext = useContext(AuthContext)
@@ -54,48 +61,61 @@ export default function Authentication() {
             {/* Guest page / Not logged in page */}
             {!authContext.isLoggedIn && (
                 <div>
-                    <nav>
-                        <Link id="logo" to="/">
-                            <img
-                                src={`/src/../assets/logo.png`}
-                                alt="Plan-ts logo"
-                            />
-                        </Link>
-                        <NavGuest />
-                        <Link className="i" to="/help">
-                            <h3>i</h3>
-                        </Link>
-                    </nav> 
+                    <header className="App-header">
+                        <nav>
+                            <Link id="logo" to="/">
+                                <img
+                                    src={`/src/../assets/logo.png`}
+                                    alt="Plan-ts logo"
+                                />
+                            </Link>
+                            <NavGuest />
+                            <div className="i">
+                                <Link to="/help">
+                                    <h3>i</h3>
+                                </Link>
+                            </div>
+                        </nav>
+                    </header>
                     <main>
                         <Switch>
-                            <Route path="/register">
-                                <Register />
-                            </Route>
+                            <Route path="/register" component={Register} />
                             <Route path="/login">
                                 <Login
                                     error={error}
                                     onSubmit={loginHandler}
                                     password={password}
-                                    setPassword={(v) => { setPassword(v) }}
-                                    setEmail={(v) => { setEmail(v) }}
+                                    setPassword={(v) => {
+                                        setPassword(v)
+                                    }}
+                                    setEmail={(v) => {
+                                        setEmail(v)
+                                    }}
                                     email={email}
                                 />
                             </Route>
-                            <Route path="/plants/overview">
-                                <Overview />
-                            </Route>
-                            <Route path="/help">
-                                <Help />
-                            </Route>
-                            <Route path="/" exact>
-                                <Landing />
-                            </Route>
-                            {/* Random urls will redirect user to landing */}
-                            {/* <Route
-                                path="*"
+                            <Route
+                                path="/plantsoverview"
+                                component={Overview}
                                 exact
+                            />
+                            <Route
+                                path="/resetPassword"
+                                component={ResetPassword}
+                            />
+                            <Route
+                                path="/forgotpassword"
+                                component={ForgotPassword}
+                                exact
+                            />
+                            <Route path="/plants/:_id" component={Plant} />
+                            <Route path="/help" component={Help} />
+                            <Route path="/" component={Landing} exact />
+                            {/* Random urls will redirect user to landing */}
+                            <Route
+                                path="*"
                                 component={() => <Redirect to="/" />}
-                            /> */}
+                            />
                         </Switch>
                     </main>
                     <footer>
@@ -106,10 +126,10 @@ export default function Authentication() {
 
             {/* Gardener and manager pages start */}
             {authContext.isLoggedIn && (
-                <div>
+                <>
                     <GardenerHub />
                     <ManagerHub />
-                </div>
+                </>
             )}
         </div>
     )

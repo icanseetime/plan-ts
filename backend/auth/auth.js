@@ -9,19 +9,6 @@ const formFields = {
     passwordField: 'password'
 }
 
-// Signup strategy
-passport.use(
-    'signup',
-    new LocalStrategy(formFields, async (email, password, done) => {
-        try {
-            const user = await User.create({ email, password })
-            return done(null, user)
-        } catch (err) {
-            done(err)
-        }
-    })
-)
-
 // Login strategy
 passport.use(
     'login',

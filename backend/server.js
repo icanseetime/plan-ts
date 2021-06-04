@@ -7,7 +7,8 @@ const path = require('path')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const cors = require('cors')
+const path = require('path')
+// const cors = require('cors')
 const passport = require('passport')
 require('./auth/auth')
 const fileUpload = require('express-fileupload')
@@ -25,7 +26,7 @@ const picturesRouter = require('./routes/pictures')
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cors())
+// app.use(cors())
 app.use(passport.initialize())
 app.use(fileUpload())
 
@@ -37,13 +38,12 @@ mongoose.connect(process.env.DATABASE_URL, {
     useFindAndModify: false
 })
 const db = mongoose.connection
-db.on('error', (error) => console.error('❌ Database connection\n', error)) // TODO: remove all emojis at the end of project
-db.on('open', () => console.log('✅ Database connection'))
+db.on('error', (error) => console.error('Database connection failed\n', error))
+db.on('open', () => console.log('Connected to database'))
 
 // Documentation
 let documentation
 if (process.env.NODE_ENV === 'production') {
-    // TODO
     documentation = yaml.load('./backend/docs/swagger.yaml')
 } else {
     documentation = yaml.load('./docs/swagger.yaml')
@@ -58,12 +58,9 @@ app.use('/api/feedback', feedbackRouter)
 app.use('/api/pictures', picturesRouter)
 app.use('/api/docs', swagger.serve, swagger.setup(documentation))
 
-// Test
+// Serve client from backend in production
 if (process.env.NODE_ENV === 'production') {
-    // Have Node serve the files for our built React app
     app.use(express.static('./frontend/build'))
-
-    // All other GET requests not handled before will return our React app
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, './frontend/build', 'index.html'))
     })
@@ -76,6 +73,6 @@ app.use((err, req, res, next) => {
 })
 
 // Server
-app.listen(process.env.PORT || 5000, () =>
-    console.log(`✅ Server running [👂:${process.env.PORT || 5000}]`)
+app.listen(process.env.PORT, () =>
+    console.log(`Server running on port ${process.env.PORT}`)
 )

@@ -1,6 +1,8 @@
 openapi: 3.0.0
 servers:
-    - description: localhost:5000
+    - description: Plan-ts API
+      url: https://plan-ts.herokuapp.com/api
+    - description: Development testing
       url: http://localhost:5000/api
 info:
     description: Plant care system
@@ -124,52 +126,43 @@ paths:
                                         properties:
                                             _id:
                                                 type: string
+                                                example: 607dde78081f316f0473f7fb
                                             name:
-                                                type: string
+                                                $ref: '#/components/schemas/Plant/properties/name'
                                             location:
-                                                type: string
+                                                $ref: '#/components/schemas/Plant/properties/location'
                                             picture:
-                                                type: string
+                                                $ref: '#/components/schemas/Plant/properties/picture'
                                             health:
-                                                type: object
-                                                properties:
-                                                    water:
-                                                        type: object
-                                                        properties:
-                                                            days_between:
-                                                                type: number
-                                                            amount:
-                                                                type: number
-                                                            due:
-                                                                type: string
-                                                                format: date-time
-                                                    fertilizer:
-                                                        type: object
-                                                        properties:
-                                                            days_between:
-                                                                type: number
-                                                            amount:
-                                                                type: number
-                                                            due:
-                                                                type: string
-                                                                format: date-time
-                                                    light:
-                                                        type: object
-                                                        properties:
-                                                            amount:
-                                                                type: number
+                                                $ref: '#/components/schemas/Plant/properties/health'
                                             createdAt:
-                                                type: string
-                                                format: date-time
+                                                $ref: '#/components/schemas/Plant/properties/createdAt'
                                             updatedAt:
-                                                type: string
-                                                format: date-time
+                                                $ref: '#/components/schemas/Plant/properties/updatedAt'
                                             __v:
                                                 type: number
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
+                '409':
+                    description: Plant name is not unique
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'A plant with this name already exists in the database.'
                 '500':
-                    description: Something went wrong on the server. Will include error message from server
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to add Calathea Medallion to the database. [SERVER ERROR MESSAGE]'
     /plants/notifications:
         get:
             summary: Get plants that have tasks due
@@ -1142,7 +1135,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         enum:
                                             - You can not change your own user role.
@@ -1158,7 +1151,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         example: 'Could not find user with ID 606b7b5993e1ee1504b037e1.'
                 '500':
@@ -1168,9 +1161,49 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    error:
                                         type: string
                                         example: 'Something went wrong while trying to update user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
+        delete:
+            summary: Delete own user
+            tags:
+                - users
+                - self
+            description: Delete own user profile.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+                      example: 6086c0b2e00c2a888c26af05
+            operationId: deleteSelf
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: 'Successfully deleted the user.'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'User with ID 606b7b5993e1ee1504b037e1 deleted successfully.'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '500':
+                    description: Server error.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to delete the user with ID 606b7b5993e1ee1504b037e1. [SERVER ERROR MESSAGE]'
     /users/{id}/manage:
         get:
             summary: Get information about specific user
@@ -1237,7 +1270,7 @@ paths:
             tags:
                 - users
                 - managers
-            description: Delete specific user by their ID
+            description: Delete specific user by their ID. Will also delete any "forgot password" requests tied to the user.
             parameters:
                 - name: id
                   in: path
@@ -1353,6 +1386,63 @@ paths:
                                     error:
                                         type: string
                                         example: 'Something went wrong while trying to update the user role. [SERVER ERROR MESSAGE]'
+    /users/{id}/password:
+        put:
+            summary: Update users password after "forgot password" request
+            tags:
+                - users
+                - all
+            description: Will check for the password reset request and delete it. If found, it will update the users password in the database.
+            operationId: updateUserPassword
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the user
+                  schema:
+                      type: string
+                      example: 6086c0b2e00c2a888c26af05
+            responses:
+                '200':
+                    description: Successful password update
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Successfully updated the password of user with ID 6086c0b2e00c2a888c26af05.'
+                '400':
+                    description: New password not included
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'You need to include a new password in your request.'
+                '404':
+                    description: Reset request or user not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'There was no password reset request connected to user with ID 6086c0b2e00c2a888c26af05.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to update the password for user with ID 60856ac06bf41a7270f65e62. [SERVER ERROR MESSAGE]'
     /users/invites:
         get:
             summary: List user invites
@@ -1603,7 +1693,7 @@ paths:
             tags:
                 - users
                 - all
-            description: Login user and get JSON Web Token.
+            description: Login user and get JSON Web Token. Will also delete any existing request to change password tied to the user ID.
             operationId: loginUser
             requestBody:
                 description: E-mail and password
@@ -1638,6 +1728,107 @@ paths:
                                     error:
                                         type: string
                                         example: 'Error: Could not find user.'
+    /users/forgotten-password:
+        post:
+            summary: New password reset request
+            tags:
+                - users
+                - all
+            description: Request for when the user has forgotten their password. Deletes any old request associated with the user and creates a new one, as well as emails the user a link where they can reset their password.
+            operationId: requestPasswordChange
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    $ref: '#/components/schemas/User/properties/email'
+            responses:
+                '200':
+                    description: Successfully created request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: 'Successfully created request and sent email to user.'
+                '400':
+                    description: Missing email
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'You need to include an email in your request.'
+                '404':
+                    description: No user connected to the given email
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'User with this email not found.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while trying to create a password change request. [SERVER ERROR MESSAGE]'
+    /users/forgotten-password/{id}:
+        get:
+            summary: Get information about "forgotten password" request
+            tags:
+                - users
+                - all
+            description: Retrieves information about a specific request by its ID.
+            operationId: getPasswordChangeRequest
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ObjectID of the request
+                  schema:
+                      type: string
+                      example: 6086c0b2e00c2a888c26af05
+            responses:
+                '200':
+                    description: Successfully retrieved request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ForgottenPassword'
+                '404':
+                    description: Request not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Forgotten password request not found.'
+                '500':
+                    description: Server error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    error:
+                                        type: string
+                                        example: 'Something went wrong while looking for forgotten password request with ID 60856ac06bf41a7270f65e62. [SERVER ERROR MESSAGE]'
     /locations:
         get:
             summary: List all locations
@@ -2153,7 +2344,6 @@ paths:
             summary: Upload picture
             tags:
                 - pictures
-                - plants
                 - managers
             description: Upload pictures of plants
             operationId: uploadFile
@@ -2199,7 +2389,6 @@ paths:
             summary: Delete picture file
             tags:
                 - pictures
-                - plants
                 - managers
             description: Delete existing picture by filename
             operationId: deleteFile
@@ -2499,6 +2688,30 @@ components:
                     type: string
                     description: 'The message from the user'
                     example: 'This plant looks like it is dying'
+                createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Date and time the object was created. Automatically generated.'
+                updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Date and time the object was last updated. Automatically generated.'
+                __v:
+                    type: number
+        ForgottenPassword:
+            type: object
+            description: Requests users make when they forget their passwords
+            required:
+                - user_id
+            properties:
+                _id:
+                    type: string
+                    description: 'Unique identifier. ObjectID automatically generated by MongoDB'
+                    example: '60856ac06bf41a7270f65e62'
+                user_id:
+                    type: string
+                    description: 'The Object ID representing the user the email belongs to'
+                    example: '606b7b5993e1ee1504b037e1'
                 createdAt:
                     type: string
                     format: date-time

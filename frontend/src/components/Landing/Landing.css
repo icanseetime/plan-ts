@@ -23,7 +23,8 @@
     border-radius: 10px;
 }
 
-.loginbtn, .logoutbtn {
+.loginbtn,
+.logoutbtn {
     width: 50%;
     margin: auto;
 }
@@ -51,18 +52,19 @@
     width: 100%;
 }
 
-/**//**//**//**//**//**//**//**//**//**//**//**/
-
 @media only screen and (max-width: 500px) {
 
     .welcome {
         width: 80%;
         margin-top: 10px;
     }
-    .loginbtn, .logoutbtn {
+
+    .loginbtn,
+    .logoutbtn {
         margin-top: 50px !important;
         width: 130px !important;
     }
+
     .container {
         grid-template-columns: 1fr;
     }

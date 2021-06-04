@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 export default function Password(props) {
-    const [iscorrect, setIscorrect] = useState(props.repeatPass ? false : true);
-    const [returnValid, setReturnValid] = useState(false)
+    const [iscorrect, setIscorrect] = useState(props.repeatPass ? false : true)
 
     const handleChange = (e, type) => {
         if (props.repeatPass === true) {
-            props.password === e.target.value ? setIscorrect(true) : setIscorrect(false);
-            type || props.onChange(e.target.value);
+            props.password === e.target.value
+                ? setIscorrect(true)
+                : setIscorrect(false)
+            type || props.onChange(e.target.value)
             if (iscorrect === true) {
-                setReturnValid(true);
+                props.confirmRepeat(true)
             } else if (iscorrect === false) {
-                setReturnValid(false);
+                props.confirmRepeat(false)
             }
-            props.confirmRepeat(returnValid)
-
         } else if (!props.repeatPass) {
-            type || props.onChange(e.target.value);
+            type || props.onChange(e.target.value)
         }
-
     }
 
     return (
@@ -28,7 +26,7 @@ export default function Password(props) {
                 <div className="inputcontainer">
                     <input
                         value={props.password}
-                        onChange={e => handleChange(e, false)}
+                        onChange={(e) => handleChange(e, false)}
                         placeholder="********"
                         type="password"
                         name="password"
@@ -36,7 +34,7 @@ export default function Password(props) {
                     />
                 </div>
             </div>
-            { props.repeatPass &&
+            {props.repeatPass && (
                 <div className="singleInput">
                     <label> Repeat Password: </label>
                     <div className="inputcontainer">
@@ -45,13 +43,14 @@ export default function Password(props) {
                             placeholder="********"
                             type="password"
                             name="passwordrepeat"
-                            confirmRepeat={() => props.confirmRepeat(returnValid)}
                             required
                         />
                     </div>
                 </div>
-            }
-            { props.repeatPass && <h4>Passwords {iscorrect ? 'match' : 'do not match'}.</h4>}
+            )}
+            {props.repeatPass && (
+                <h4>Passwords {iscorrect ? 'match' : 'do not match'}.</h4>
+            )}
         </div>
     )
 }

@@ -1,11 +1,7 @@
-#allTasks {
-    padding-top: 50px;
-}
-
 .tasksContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: #D2DAC1;
+    background-color: #bec7ac;
     min-width: fit-content;
     width: 60%;
     margin: auto;
@@ -13,14 +9,13 @@
 }
 
 .tasksContainer:first-of-type {
-    background-color: #bfcf9d;
+    background-color: #c5d3aa;
     padding: 20px;
 }
-/* ^ Basic temp shit for å se stuff idk */
 
 .oneTask {
     border-radius: 20px;
-    background-color: #E0E3D9;
+    background-color: #e0e3d9;
     margin: 16px 8px;
     padding: 10px;
 
@@ -31,6 +26,12 @@
 .oneTask button {
     margin: 10px auto;
     margin-top: 40px;
+}
+
+.taskName {
+    padding: 5px 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
 }
 
 .tasksContainer h3 {
@@ -46,7 +47,6 @@
     background-color: #fffffea1;
     padding: 2px 10px;
     border-radius: 5px;
-   
 }
 
 .oneTask .sliderContainer {
@@ -54,9 +54,15 @@
     margin: 20px auto;
 }
 
+.oneTask .sliderContainer div {
+    display: grid;
+    margin: auto;
+    grid-template-columns: 1fr 6fr 1fr;
+}
+
 .oneTask .sliderContainer input {
-    width: 30vh;  
-    margin-left: 4vh; 
+    width: 100%;
+    margin: auto;
 }
 
 .oneTask .sliderContainer input:focus {
@@ -64,16 +70,9 @@
 }
 
 .oneTask .sliderContainer img {
-    margin: 0;
-    width: 2.5vh; 
-    height: 2.5vh; 
-    position: relative;
-    left: -3vh;
-    top: .4vh;
-}
-
-.oneTask .sliderContainer img:first-of-type {
-    left: -34vh;
+    padding: 5px;
+    width: 2.5vh;
+    height: 2.5vh;
 }
 
 #tasksHowTo {
@@ -81,10 +80,10 @@
     border-radius: 5px;
     padding: 10px;
     font-size: 18px;
-    background-color: #D2DAC1;
+    background-color: #d2dac1;
     width: fit-content;
     margin: auto;
-     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 6px;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 6px;
 }
 
 .dueTime {
@@ -92,47 +91,22 @@
 }
 
 /* Notification count */
-.notifCount, .garnotifCount {
-    position: relative; 
-    bottom: 1.5vh; 
-    left: 16.5%; 
+.notifCount,
+.garnotifCount {
+    position: relative;
+    bottom: 50px;
+    left: 88%;
     z-index: 100;
-    width: 20px;
-    height: 20px;
+    min-width: 20px;
+    width: fit-content;
+    min-height: 20px;
     font-size: 16px;
     border-radius: 50%;
-    background-color: rgb(95, 52, 52);
-    color: white;   
+    background-color: rgb(138, 61, 61);
+    color: white;
     text-align: center;
-    padding: 1px;
-    padding-bottom: 3px;
+    padding: 3px;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 6px;
-}
-.garnotifCount {
-    left: 20%; 
-}
-.tasksNotifics {
-    position: relative;
-    top: 1.4vh;
-}
-
-/**//**//**//**//**//**//**//**//**//**//**//**/
-
-@media only screen and (max-width: 1000px) {
-    
-.oneTask .sliderContainer {
-    width: fit-content;
-    margin: 10px auto;
-}
-
-.oneTask .sliderContainer input {
-    width: 15vh;  
-}
-
-.oneTask .sliderContainer img:first-of-type {
-    left: -19vh;
-}
-
 }
 
 @media only screen and (max-width: 600px) {
@@ -141,23 +115,67 @@
         margin: 5px auto;
     }
 
+    .oneTask {
+        width: fit-content;
+        padding: 25px;
+        margin: 5px auto;
+    }
+
+    .taskName {
+        padding: 2px 10px;
+        font-size: 17px;
+    }
+
+    .tasksContainer {
+        grid-template-columns: 1fr;
+        padding: 0;
+        margin: 0 auto;
+        width: fit-content;
+    }
+
+    .oneTask .sliderContainer {
+        width: fit-content;
+        margin: 0px auto;
+    }
+
+    .oneTask .btn {
+        margin: 5px auto;
+    }
+
+    .tasksContainer .locInfo p {
+        font-size: 14px;
+    }
+
+    .tasksContainer .locInfo h3 {
+        font-size: 16px;
+    }
+
     .oneTask .sliderContainer input {
-        width: 13vh;  
+        width: 50vw;
+        margin: 10px auto;
     }
-    
+
     .oneTask .sliderContainer img {
-        display: none;
+        left: 2vw;
+        top: 0.4vw;
     }
-    .notifCount, .garnotifCount {
-        position: fixed; 
-        bottom: 4%; 
-        left: 12%; 
+
+    .oneTask .sliderContainer img:first-of-type {
+        left: -52vw;
+    }
+
+    .notifCount,
+    .garnotifCount {
+        position: fixed;
+        bottom: 4%;
+        left: 12%;
         z-index: 100;
         width: 20px;
         height: 20px;
         font-size: 16px;
     }
+
     .garnotifCount {
-        left: 18%; 
+        left: 18%;
     }
 }

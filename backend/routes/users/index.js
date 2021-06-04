@@ -41,6 +41,12 @@ router.delete(
 // Check for invite
 router.get('/invites/:id', routes.checkInvite)
 
+// Create request for new password
+router.post('/forgotten-password', routes.requestPasswordChange)
+
+// Get information about password reset request
+router.get('/forgotten-password/:id', routes.getPasswordChangeRequest)
+
 // Get users own profile details
 router.get(
     '/:id',
@@ -53,6 +59,13 @@ router.put(
     '/:id',
     passport.authenticate('all-users', { session: false }),
     routes.updateSelf
+)
+
+// Delete own user profile
+router.delete(
+    '/:id',
+    passport.authenticate('all-users', { session: false }),
+    routes.deleteSelf
 )
 
 // Get user by ID
@@ -75,5 +88,8 @@ router.put(
     passport.authenticate('manager', { session: false }),
     routes.changeRole
 )
+
+// Update user password (only when password reset request has been made)
+router.put('/:id/password', routes.updateUserPassword)
 
 module.exports = router
