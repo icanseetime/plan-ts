@@ -48,7 +48,6 @@
 .locationInfo {
     display: grid;
     grid-template-columns: 2fr 2fr !important;
-    /* margin: auto; om på midten*/
     margin-left: 5px;
     margin-top: 20px;
     width: 100%;
@@ -214,20 +213,6 @@ textarea {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
         inset 0px 0px 20px rgba(255, 255, 255, 0.7);
 }
-
-
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
 
 @media only screen and (max-width: 1400px) {
     .plant {

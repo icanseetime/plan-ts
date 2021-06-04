@@ -7,7 +7,6 @@ export default function NewFeedback(props) {
     const [name, setName] = useState('')
     const [messageBody, setMessageBody] = useState('')
 
-    //api call TODO: E herren å den andre feedback greia som har memory leak warningen
     const handleSubmit = (e) => {
         let confirm = window.confirm('Send feedback?')
         if (confirm === true) {

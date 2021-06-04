@@ -39,7 +39,7 @@ export default function AddPlant(props) {
 
     //GET TOKEN
     const token = localStorage.getItem('token')
-    const headers = { Authorization: `Bearer ${token}` } // Just in case :P
+    const headers = { Authorization: `Bearer ${token}` }
 
     //// Everything is placed in order (LOCATION) ////
     // API Call | Get all locations (buildings)
@@ -81,7 +81,7 @@ export default function AddPlant(props) {
     // API Call | Get all floors after selecting building
     const getRooms = (building, floor) => {
         axios
-            .get(`/api/locations/${building}/${floor}/rooms`) //buildings blir undefined
+            .get(`/api/locations/${building}/${floor}/rooms`)
             .then((res) => {
                 setRooms(res.data)
             })

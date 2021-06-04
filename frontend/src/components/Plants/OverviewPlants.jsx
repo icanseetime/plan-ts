@@ -29,7 +29,7 @@ export default function Overview() {
         getAllPlants()
         getBuildings()
         getLocations()
-    }, []) // [] Necesarry so the code do not run in an infinite loop, tells it to only run on render
+    }, [])
 
     // API Call | Get all locations (buildings)
     const getBuildings = () => {
@@ -71,7 +71,7 @@ export default function Overview() {
             })
     }
 
-    // Get all plants - On filter -> load all plants in x building WIP
+    // Get all plants - On filter -> load all plants in x building
     const getAllPlantsInBuilding = () => {
         if (filterValue === '') {
             setPlants(plantsDEFAULT)

@@ -32,7 +32,6 @@ export default function Plant() {
     // Get plant's id based on state sent along with Link
     const location = useLocation()
     const { _id } = location.state
-    //console.log('id: ', _id)
 
     //GET TOKEN
     const token = localStorage.getItem('token')
@@ -305,7 +304,9 @@ export default function Plant() {
                                                                     }
                                                                 </>
                                                             ) : (
-                                                                <>unknown</>
+                                                                <>
+                                                                    DELETED USER
+                                                                </>
                                                             )}
                                                         </p>
                                                         {history.note && (
@@ -332,7 +333,6 @@ export default function Plant() {
                             <div className="taskbtns">
                                 {authContext.role !== 'guest' && (
                                     <div>
-                                        {/* Add requests here. */}
                                         <button
                                             disabled={
                                                 waterDue >= 2 ? true : false
@@ -434,6 +434,4 @@ export default function Plant() {
             </div>
         )
     }
-    //}
-    //return <div>{displayPlant()}</div>
 }

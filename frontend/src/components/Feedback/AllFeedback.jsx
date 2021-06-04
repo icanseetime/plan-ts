@@ -41,14 +41,18 @@ export default function Feedback() {
 
     if (feedback && feedback.length > 0) {
         return feedback.map((message, index) => {
-            if (message.plant_id === null) return '' // Messages regarding non-existing plants will not show.
             return (
                 <div className="letter" key={message._id}>
                     <h3 className="sender">{message.name}</h3>
                     <div className="textField">
                         <p>{message.message_body}</p>
                         <p>
-                            Regarding <em>{message.plant_id.name}</em>
+                            Regarding{' '}
+                            {message.plant_id ? (
+                                <em>{message.plant_id.name}</em>
+                            ) : (
+                                <span id="delFeedName">DELETED PLANT</span>
+                            )}
                         </p>
                         <h4>Message sent at {ChangeTime(message.createdAt)}</h4>
                     </div>

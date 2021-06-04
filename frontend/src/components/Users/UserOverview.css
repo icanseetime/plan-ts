@@ -117,25 +117,6 @@ td:last-child {
         inset 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
 
-
-
-
-
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-
-/* Fix Mobile view. Maybe remove/hide email in the table for space */
-
 @media only screen and (max-width: 600px) {
     .tableEmail {
         display: none;

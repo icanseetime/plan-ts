@@ -9,7 +9,7 @@ import './Notifications.css'
 import { AuthContext } from '../../utils/context'
 
 export default function CountNotifs() {
-    const [count, setCount] = useState() //TODO FIX MEMORY LEAK WARNINGEN
+    const [count, setCount] = useState()
     const authContext = useContext(AuthContext)
 
     //GET TOKEN

@@ -8,7 +8,6 @@ export default function FooterTxt() {
             <img
                 src={`/src/../assets/ntnu_logo.png`}
                 alt="NTNU logo, Norwegian University of Science and Technology"
-                id="ntnuLogo"
             />
         </div>
     )

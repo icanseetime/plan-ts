@@ -53,9 +53,6 @@ nav a:hover {
 }
 
 /* Help | Logout */
-/* .iAndLogout {
-} */
-
 .i {
     border: none;
 
@@ -143,18 +140,6 @@ nav a:hover {
     content: 'Profile';
 }
 
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
 @media only screen and (max-width: 1000px) {
 
     /* Icons | Text*/

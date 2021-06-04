@@ -109,19 +109,6 @@
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 6px;
 }
 
-
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
 @media only screen and (max-width: 600px) {
     .oneTask .sliderContainer {
         width: fit-content;

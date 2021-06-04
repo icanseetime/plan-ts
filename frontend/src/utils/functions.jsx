@@ -102,13 +102,12 @@ export const SunSlider = (data) => {
 }
 
 export const calcDaysRemaining = (date) => {
-    // Math.round(Math.abs((firstDate - secondDate) / oneDay));
     const oneDay = 24 * 60 * 60 * 1000 // Hours * min * sec * millisec
 
     const today = new Date(Date.now())
     const dueDay = new Date(date)
 
-    let result // TODO fix this shit : )
+    let result
 
     if (today <= dueDay) {
         result = Math.round(Math.abs((today - dueDay) / oneDay)) // Find days remaining

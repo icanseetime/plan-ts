@@ -33,7 +33,7 @@ export default function EditPlant(props) {
 
     //GET TOKEN
     const token = localStorage.getItem('token')
-    const headers = { Authorization: `Bearer ${token}` } // Just in case :P
+    const headers = { Authorization: `Bearer ${token}` }
 
     // Get plant's notes
     const getNotes = () => {

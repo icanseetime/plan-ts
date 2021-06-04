@@ -10,6 +10,10 @@
     margin: auto;
 }
 
+#delFeedName {
+    color: rgb(180, 84, 84);
+}
+
 .delbtnMSG {
     margin-top: 20px !important;
     border: none;
@@ -34,19 +38,6 @@
     background-color: #bec7ac;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
-
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
-/**/
 
 @media only screen and (max-width:800px) {
     .feedback {

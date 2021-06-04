@@ -4,8 +4,6 @@ import { Redirect } from 'react-router-dom'
 
 import './Forms.css'
 
-import Password from './Inputs/Password'
-
 export default function ResetPassword() {
     const [password, setPassword] = useState('')
     const [passRep, setPassRep] = useState('')

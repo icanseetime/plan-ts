@@ -79,8 +79,6 @@ const App = () => {
             </AuthContext.Provider>
         </div>
     )
-
-    // Add forgot password AND register to App(or maybe authentication)
 }
 
 export default App

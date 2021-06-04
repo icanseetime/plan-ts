@@ -55,7 +55,7 @@ export default function MovePlant(props) {
     // API Call | Get all floors after selecting building
     const getRooms = (building, floor) => {
         axios
-            .get(`/api/locations/${building}/${floor}/rooms`) //buildings blir undefined
+            .get(`/api/locations/${building}/${floor}/rooms`)
             .then((res) => {
                 setRooms(res.data)
             })
@@ -64,7 +64,6 @@ export default function MovePlant(props) {
     // Room select
     const handleRoomChange = (e) => {
         setLocationObj(e.target.value) // Store value
-        //saveNewLocation( building, e.target.value) // To new api call
     }
 
     //GET TOKEN
