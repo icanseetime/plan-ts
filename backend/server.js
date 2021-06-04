@@ -7,7 +7,6 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const path = require('path')
-// const cors = require('cors')
 const passport = require('passport')
 require('./auth/auth')
 const fileUpload = require('express-fileupload')
@@ -25,7 +24,6 @@ const picturesRouter = require('./routes/pictures')
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-// app.use(cors())
 app.use(passport.initialize())
 app.use(fileUpload())
 
@@ -41,12 +39,7 @@ db.on('error', (error) => console.error('Database connection failed\n', error))
 db.on('open', () => console.log('Connected to database'))
 
 // Documentation
-let documentation
-if (process.env.NODE_ENV === 'production') {
-    documentation = yaml.load('./backend/docs/swagger.yaml')
-} else {
-    documentation = yaml.load('./docs/swagger.yaml')
-}
+let documentation = yaml.load(`${process.env.SERVED_PATH}/docs/swagger.yaml`)
 
 // Endpoints
 app.use('/api', apiRouter)
