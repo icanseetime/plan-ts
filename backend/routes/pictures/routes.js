@@ -1,7 +1,16 @@
-const fs = require('fs')
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
 const randomGen = require('generate-password')
+const AWS = require('aws-sdk')
 
-// Upload image to React picture-folder
+// Connection to AWS S3
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS,
+    secretAccessKey: process.env.AWS_SECRET
+})
+
+// Upload image to AWS
 const uploadFile = (req, res) => {
     if (!req.files) {
         return res
@@ -21,20 +30,24 @@ const uploadFile = (req, res) => {
     // Get file extension
     const ext = file.name.slice(file.name.indexOf('.'))
 
-    // Upload file to React folder
-    file.mv(
-        `${__dirname}/../../../frontend/public/assets/uploaded-plants/${randomFilename}${ext}`,
-        (err) => {
+    // Upload file
+    s3.upload(
+        {
+            Bucket: process.env.AWS_BUCKET,
+            Key: `${randomFilename}${ext}`,
+            Body: file.data
+        },
+        (err, data) => {
             if (err) {
                 return res.status(500).json({
                     error: `Something went wrong while trying to upload the file. [${err}]`
                 })
+            } else {
+                res.status(200).json({
+                    message: 'File successfully uploaded.',
+                    filename: `${randomFilename}${ext}`
+                })
             }
-
-            res.status(200).json({
-                message: 'File successfully uploaded.',
-                filename: `${randomFilename}${ext}`
-            })
         }
     )
 }
@@ -48,12 +61,16 @@ const deleteFile = async (req, res) => {
             })
         }
 
-        await fs.unlink(
-            `${__dirname}/../../../frontend/public/assets/uploaded-plants/${req.body.picture}`,
-            (err) => {
+        s3.deleteObject(
+            {
+                Bucket: process.env.AWS_BUCKET,
+                Key: req.body.picture
+            },
+            (err, data) => {
                 if (err) throw err
             }
         )
+
         res.status(200).json({ message: 'File successfully deleted.' })
     } catch (err) {
         res.status(500).json({

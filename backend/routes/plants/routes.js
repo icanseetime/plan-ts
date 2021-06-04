@@ -1,7 +1,16 @@
-const fs = require('fs')
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
+const AWS = require('aws-sdk')
 
 // Database schemas
 const Plant = require('../../models/Plant')
+
+// Connection to AWS S3
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS,
+    secretAccessKey: process.env.AWS_SECRET
+})
 
 // List plants based on query (no query = all plants)
 const listPlants = async (req, res) => {
@@ -280,10 +289,13 @@ const updatePlant = async (req, res) => {
         )
 
         // Delete old picture file if there is a new one
-        if (req.body.picture && plant.picture !== 'no-image.png') {
-            await fs.unlink(
-                `${__dirname}/../../../frontend/public/assets/uploaded-plants/${plant.picture}`,
-                (err) => {
+        if (plant.picture !== 'no-image.png') {
+            await s3.deleteObject(
+                {
+                    Bucket: process.env.AWS_BUCKET,
+                    Key: plant.picture
+                },
+                (err, data) => {
                     if (err) throw err
                 }
             )
@@ -429,9 +441,12 @@ const deletePlant = async (req, res) => {
 
             // Delete picture file connected to plant
             if (existingPlant.picture !== 'no-image.png') {
-                await fs.unlink(
-                    `${__dirname}/../../../frontend/public/assets/uploaded-plants/${existingPlant.picture}`,
-                    (err) => {
+                await s3.deleteObject(
+                    {
+                        Bucket: process.env.AWS_BUCKET,
+                        Key: existingPlant.picture
+                    },
+                    (err, data) => {
                         if (err) throw err
                     }
                 )
