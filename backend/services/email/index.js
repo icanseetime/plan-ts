@@ -104,7 +104,7 @@ async function mailInvite(recipient, managerName, role, link) {
             attachments: [
                 {
                     filename: 'banner.png',
-                    path: './services/email/banner.png',
+                    path: `${process.env.SERVED_PATH}/services/email/banner.png`,
                     cid: 'banner@plan-ts'
                 }
             ]
@@ -213,7 +213,7 @@ async function mailPasswordRequest(recipient, firstName, lastName, link) {
             attachments: [
                 {
                     filename: 'banner.png',
-                    path: './services/email/banner.png',
+                    path: `${process.env.SERVED_PATH}/services/email/banner.png`,
                     cid: 'banner@plan-ts'
                 }
             ]
