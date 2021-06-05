@@ -172,16 +172,6 @@ export default function EditPlant(props) {
                     console.log('Error | ', err)
                 })
         }
-        // axios
-        //     .put(`/api/plants/${plant._id}`, data, { headers })
-        //     .then((res) => {
-        //         alert('Successfully updated ', props.plant.name)
-        //         props.onClick()
-        //         window.location.reload()
-        //     })
-        //     .catch((err) => {
-        //         console.log('Error | ', err)
-        //     })
     }
 
     //// RENDER ////
