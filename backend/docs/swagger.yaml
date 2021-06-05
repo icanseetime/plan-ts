@@ -2,8 +2,6 @@ openapi: 3.0.0
 servers:
     - description: Plan-ts API
       url: https://plan-ts.herokuapp.com/api
-    - description: Development testing
-      url: http://localhost:5000/api
 info:
     description: Plant care system
     version: '1.0.0'
