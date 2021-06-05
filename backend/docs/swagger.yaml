@@ -15,9 +15,9 @@ info:
         url: 'https://creativecommons.org/licenses/by-nd/3.0/'
 tags:
     - name: managers
-      description: Only available to users with manager role
+      description: Only available for users with manager role
     - name: gardeners
-      description: Available to all authenticated users (managers, gardeners)
+      description: Available for all authenticated users (managers, gardeners)
     - name: self
       description: Only available for the user that is authenticated with the same ID
     - name: all
@@ -41,7 +41,7 @@ paths:
             tags:
                 - all
                 - plants
-            description: Get a list of plants in the system, sorted alphabetically by name. List can be filtered by using queries. No query will return a list of all the plants.
+            description: Get a list of plants in the system, sorted alphabetically by name. List can be filtered by using queries. Not including a query will return a list of all the plants.
             operationId: listPlants
             responses:
                 '200':
@@ -72,13 +72,13 @@ paths:
                 '404':
                     description: Could not find any plants based on query
                 '500':
-                    description: Something went wrong on the server. Will include error message from server
+                    description: Server error
         post:
             summary: Add new plant
             tags:
                 - managers
                 - plants
-            description: Create a new plant and add it to the database.
+            description: Adds a new plant to the database.
             operationId: createPlant
             security:
                 - bearerAuth: []
@@ -251,7 +251,7 @@ paths:
             tags:
                 - gardeners
                 - plants
-            description: Counts the number of tasks due (not the number of plants)
+            description: Counts the number of tasks due (not the number of plants).
             operationId: noOfNotifications
             security:
                 - bearerAuth: []
@@ -294,7 +294,7 @@ paths:
             tags:
                 - all
                 - plants
-            description: Search for plant by name, or parts of the name
+            description: Search for plant by name, or parts of the name.
             operationId: searchPlants
             parameters:
                 - in: query
@@ -426,7 +426,7 @@ paths:
             tags:
                 - plants
                 - managers
-            description: Update plant details
+            description: Update details of a plant. If a new picture is included, the route will delete the old one from the database.
             operationId: updatePlant
             security:
                 - bearerAuth: []
@@ -486,7 +486,7 @@ paths:
             tags:
                 - plants
                 - managers
-            description: Delete specific plant by its ID
+            description: Delete specific plant by its ID. Will also delete any related picture from the picture database.
             parameters:
                 - name: id
                   in: path
@@ -512,7 +512,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
-                    description: Could not find plant.
+                    description: Could not find the plant
                     content:
                         application/json:
                             schema:
@@ -522,7 +522,7 @@ paths:
                                         type: string
                                         example: 'There is no plant with this ID in the database.'
                 '500':
-                    description: Something went wrong on the server. Will include server error message.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -537,7 +537,7 @@ paths:
             tags:
                 - gardeners
                 - plants
-            description: Get notes connected to specific plant by its ID
+            description: Get notes connected to specific plant by its ID.
             operationId: plantNotes
             security:
                 - bearerAuth: []
@@ -587,7 +587,7 @@ paths:
             tags:
                 - gardeners
                 - plants
-            description: Get history connected to specific plant by its ID
+            description: Get history connected to specific plant by its ID.
             operationId: plantHistory
             security:
                 - bearerAuth: []
@@ -652,7 +652,7 @@ paths:
             tags:
                 - plants
                 - gardeners
-            description: Adds a new "water" log to the history array and updates the due date for when the plant next needs watering
+            description: Adds a new "water" log to the history array and updates the due date for when the plant next needs watering.
             operationId: waterPlant
             security:
                 - bearerAuth: []
@@ -727,7 +727,7 @@ paths:
             tags:
                 - plants
                 - gardeners
-            description: Adds a new "fertilize" log to the history array and updates the due date for when the plant next needs fertilizing
+            description: Adds a new "fertilize" log to the history array and updates the due date for when the plant next needs fertilizing.
             operationId: fertilizePlant
             security:
                 - bearerAuth: []
@@ -802,7 +802,7 @@ paths:
             tags:
                 - plants
                 - gardeners
-            description: Adds a new "move" log to the history array and updates the location of the plant
+            description: Adds a new "move" log to the history array and updates the location of the plant.
             operationId: movePlant
             security:
                 - bearerAuth: []
@@ -892,7 +892,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: Successful query, returns a list of users.
+                    description: Successful query, returns a list of users
                     content:
                         application/json:
                             schema:
@@ -916,7 +916,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
-                    description: No users found.
+                    description: No users found
                     content:
                         application/json:
                             schema:
@@ -926,7 +926,7 @@ paths:
                                         type: string
                                         example: 'Could not find any users.'
                 '500':
-                    description: Something went wrong on the server. Will include server error message.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -964,7 +964,7 @@ paths:
 
             responses:
                 '201':
-                    description: 'Successful user registration'
+                    description: Successful user registration
                     content:
                         application/json:
                             schema:
@@ -994,7 +994,7 @@ paths:
                                             __v:
                                                 type: number
                 '409':
-                    description: No invite connected to e-mail.
+                    description: No invite connected to e-mail
                     content:
                         application/json:
                             schema:
@@ -1004,7 +1004,7 @@ paths:
                                         type: string
                                         example: "Invite doesn't exist or was previously deleted, therefore user can not be registered at this time."
                 '500':
-                    description: Server error.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -1089,7 +1089,7 @@ paths:
             tags:
                 - users
                 - self
-            description: Users can update their own profile details, except for their role
+            description: Users can update their own profile details, except for their role.
             operationId: updateSelf
             parameters:
                 - name: id
@@ -1102,7 +1102,7 @@ paths:
             security:
                 - bearerAuth: []
             requestBody:
-                description: Only include properties of the user that should be updated. The key name of nested properties, like first name should be written `name.first`
+                description: Only include properties of the user that should be updated. The key name of nested properties, like first name should be written `name.first`.
                 required: true
                 content:
                     application/json:
@@ -1183,7 +1183,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: 'Successfully deleted the user.'
+                    description: Successfully deleted the user
                     content:
                         application/json:
                             schema:
@@ -1195,7 +1195,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '500':
-                    description: Server error.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -1224,7 +1224,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: Successful query, returns the user object.
+                    description: Successful query
                     content:
                         application/json:
                             schema:
@@ -1246,7 +1246,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
-                    description: Could not find the user.
+                    description: Could not find the user
                     content:
                         application/json:
                             schema:
@@ -1256,7 +1256,7 @@ paths:
                                         type: string
                                         example: 'User not found.'
                 '500':
-                    description: Something went wrong on the server. Will include server error message.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -1284,7 +1284,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: 'Successfully deleted the user.'
+                    description: Successfully deleted the user
                     content:
                         application/json:
                             schema:
@@ -1296,7 +1296,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
-                    description: Could not find user.
+                    description: Could not find user
                     content:
                         application/json:
                             schema:
@@ -1306,7 +1306,7 @@ paths:
                                         type: string
                                         example: 'There is no user with this ID in the database.'
                 '500':
-                    description: Something went wrong on the server. Will include server error message.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -1450,13 +1450,13 @@ paths:
                 - users
                 - invites
                 - managers
-            description: List all user invites, can be filtered by query
+            description: List all user invites, can be filtered by query.
             operationId: listInvites
             security:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: Successful query, returns list of invites
+                    description: Successful query
                     content:
                         application/json:
                             schema:
@@ -1512,7 +1512,7 @@ paths:
                 - users
                 - invites
                 - managers
-            description: Create an invite for a new user.
+            description: Create an invite for a new user. The route will also send the invite email to the user.
             operationId: inviteUser
             security:
                 - bearerAuth: []
@@ -1532,7 +1532,7 @@ paths:
                                     $ref: '#/components/schemas/Invite/properties/invited_by'
             responses:
                 '201':
-                    description: Successfully created new invite, returns the invite and a success message.
+                    description: Successfully created new invite, returns the invite and a success message
                     content:
                         application/json:
                             schema:
@@ -1562,7 +1562,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '409':
-                    description: Either an invite connected to the provided e-mail already exists in the database or a user with the provided e-mail already exists in the database. Error message will provide more information.
+                    description: Either an invite connected to the provided e-mail already exists in the database or a user with the provided e-mail already exists in the database. Error message will provide more information
                     content:
                         application/json:
                             schema:
@@ -1600,7 +1600,7 @@ paths:
                       example: 6086c0b2e00c2a888c26af05
             responses:
                 '200':
-                    description: Successful query, returns the invite object.
+                    description: Successful query
                     content:
                         application/json:
                             schema:
@@ -1627,7 +1627,7 @@ paths:
                                     __v:
                                         type: number
                 '404':
-                    description: Could not find the invite.
+                    description: Could not find the invite
                     content:
                         application/json:
                             schema:
@@ -1637,7 +1637,7 @@ paths:
                                         type: string
                                         example: 'No invite with this ID.'
                 '500':
-                    description: Something went wrong on the server. Will include server error message.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -1652,7 +1652,7 @@ paths:
                 - users
                 - invites
                 - managers
-            description: Delete specific invite by ID
+            description: Delete specific invite by ID.
             parameters:
                 - name: id
                   in: path
@@ -1666,7 +1666,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: 'Successfully deleted invite.'
+                    description: Successfully deleted invite
                     content:
                         application/json:
                             schema:
@@ -1678,7 +1678,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '500':
-                    description: Something went wrong on the server. Will include server error message.
+                    description: Server error
                     content:
                         application/json:
                             schema:
@@ -1709,7 +1709,7 @@ paths:
                                     $ref: '#/components/schemas/User/properties/password'
             responses:
                 '200':
-                    description: Successful login, returns JWT.
+                    description: Successful login, returns a JWT
                     content:
                         application/json:
                             schema:
@@ -1719,7 +1719,7 @@ paths:
                                         type: string
                                         example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
                 '500':
-                    description: Something went wrong on the server or the login was unsuccessful. Will include server error message.
+                    description: Something went wrong on the server or the login was unsuccessful
                     content:
                         application/json:
                             schema:
@@ -1835,7 +1835,7 @@ paths:
             tags:
                 - locations
                 - all
-            description: Get a list of all locations objects in the database
+            description: Lists all locations in the database.
             operationId: listLocations
             responses:
                 '200':
@@ -1871,7 +1871,7 @@ paths:
             tags:
                 - locations
                 - managers
-            description: Add new location
+            description: Adds new location.
             operationId: createLocation
             security:
                 - bearerAuth: []
@@ -1894,7 +1894,7 @@ paths:
                                     $ref: '#/components/schemas/Location/properties/mazemap_embed'
             responses:
                 '201':
-                    description: 'Successful location creation'
+                    description: Successful location creation
                     content:
                         application/json:
                             schema:
@@ -1939,7 +1939,7 @@ paths:
             tags:
                 - locations
                 - all
-            description: Get specific location object by ID
+            description: Get specific location object by ID.
             operationId: getLocation
             parameters:
                 - name: id
@@ -1982,7 +1982,7 @@ paths:
             tags:
                 - locations
                 - all
-            description: Get a list of all unique building numbers and names
+            description: Get a list of all unique building numbers and names.
             operationId: listBuildings
             responses:
                 '200':
@@ -2022,7 +2022,7 @@ paths:
             tags:
                 - locations
                 - all
-            description: Get a list of all unique floors in a building
+            description: Get a list of all unique floors in a building.
             operationId: listFloors
             parameters:
                 - name: building
@@ -2067,7 +2067,7 @@ paths:
             tags:
                 - locations
                 - all
-            description: Get a list of all rooms on a floor in a specific building
+            description: Get a list of all rooms on a floor in a specific building.
             operationId: listRooms
             parameters:
                 - name: building
@@ -2119,7 +2119,7 @@ paths:
             tags:
                 - feedback
                 - managers
-            description: Get a list of all feedback objects in the database
+            description: Get a list of all feedback objects in the database.
             operationId: listFeedback
             security:
                 - bearerAuth: []
@@ -2181,7 +2181,7 @@ paths:
             tags:
                 - feedback
                 - all
-            description: Create new feedback and save to database
+            description: Create new feedback and save to database.
             operationId: createFeedback
             requestBody:
                 description: Info about the feedback
@@ -2199,7 +2199,7 @@ paths:
                                     $ref: '#/components/schemas/Feedback/properties/message_body'
             responses:
                 '201':
-                    description: Successfully created new feedback, returns the feedback and a success message.
+                    description: Successfully created new feedback, returns the feedback and a success message
                     content:
                         application/json:
                             schema:
@@ -2240,7 +2240,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: Successful query, returns the feedback object.
+                    description: Successful query
                     content:
                         application/json:
                             schema:
@@ -2270,7 +2270,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
-                    description: Could not find the feedback.
+                    description: Could not find the feedback
                     content:
                         application/json:
                             schema:
@@ -2308,7 +2308,7 @@ paths:
                 - bearerAuth: []
             responses:
                 '200':
-                    description: 'Successfully deleted feedback.'
+                    description: Successfully deleted feedback
                     content:
                         application/json:
                             schema:
@@ -2320,7 +2320,7 @@ paths:
                 '401':
                     $ref: '#/components/responses/UnauthorizedError'
                 '404':
-                    description: 'Could not find feedback'
+                    description: Could not find feedback
                     content:
                         application/json:
                             schema:
@@ -2345,7 +2345,7 @@ paths:
             tags:
                 - pictures
                 - managers
-            description: Upload pictures of plants
+            description: Upload pictures of plants.
             operationId: uploadFile
             security:
                 - bearerAuth: []
@@ -2390,7 +2390,7 @@ paths:
             tags:
                 - pictures
                 - managers
-            description: Delete existing picture by filename
+            description: Delete existing picture by filename.
             operationId: deleteFile
             security:
                 - bearerAuth: []
